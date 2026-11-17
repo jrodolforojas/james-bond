@@ -10,5 +10,8 @@
   "nextDestination": "NEXT DESTINATION",
   "readCard": "READ CARD ▸",
   "ejector": "EJECTOR SEAT",
-  "ejectorLabel": "Ejector seat: skip this mini-game. One use for the whole mission."
+  "ejectorLabel": "Ejector seat: skip this mini-game. One use for the whole mission.",
+  "sound": "SOUND",
+  "soundOn": "Sound on",
+  "soundOff": "Sound off"
 }

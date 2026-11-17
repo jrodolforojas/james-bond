@@ -139,3 +139,30 @@
     animation: none;
   }
 }
+
+.sound-toggle {
+  position: absolute;
+  top: calc(6px + env(safe-area-inset-top));
+  left: 8px;
+  z-index: 20;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #fff;
+  mix-blend-mode: difference;
+  opacity: 0.55;
+  cursor: pointer;
+}
+
+.sound-toggle[aria-pressed="true"] {
+  opacity: 1;
+}
+
+.sound-toggle svg {
+  width: 20px;
+  height: 20px;
+}

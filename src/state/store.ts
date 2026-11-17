@@ -25,6 +25,7 @@ interface MissionState {
   finishedAt: number | null;
   seenCards: CardId[];
   ejectorUsed: boolean;
+  soundOn: boolean;
   setStep: (step: Step) => void;
   markCardSeen: (card: CardId) => void;
   acceptMission: () => void;
@@ -32,6 +33,7 @@ interface MissionState {
   chooseGadget: (gadget: GadgetId) => void;
   completeStop: (stop: StopId) => void;
   spendEjectorSeat: () => void;
+  setSoundOn: (on: boolean) => void;
   finishMission: () => void;
   reset: () => void;
 }
@@ -92,14 +94,16 @@ export const useMission = create<MissionState>()(
           return { completed: [...state.completed, stop] };
         }),
       spendEjectorSeat: () => set({ ejectorUsed: true }),
+      soundOn: false,
+      setSoundOn: (soundOn) => set({ soundOn }),
       finishMission: () => set((state) => ({ finishedAt: state.finishedAt ?? Date.now() })),
-      reset: () => set({ ...initialMission }),
+      reset: () => set((state) => ({ ...initialMission, soundOn: state.soundOn })),
     }),
     {
       name: 'exp007:v1',
       version: 1,
       storage: createJSONStorage(() => safeStorage),
-      partialize: ({ step, era, gadget, completed, startedAt, finishedAt, seenCards, ejectorUsed }) => ({
+      partialize: ({
         step,
         era,
         gadget,
@@ -108,6 +112,17 @@ export const useMission = create<MissionState>()(
         finishedAt,
         seenCards,
         ejectorUsed,
+        soundOn,
+      }) => ({
+        step,
+        era,
+        gadget,
+        completed,
+        startedAt,
+        finishedAt,
+        seenCards,
+        ejectorUsed,
+        soundOn,
       }),
     },
   ),

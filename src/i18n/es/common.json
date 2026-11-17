@@ -10,5 +10,8 @@
   "nextDestination": "SIGUIENTE DESTINO",
   "readCard": "LEER CARTA ▸",
   "ejector": "ASIENTO EYECTABLE",
-  "ejectorLabel": "Asiento eyectable: saltar este minijuego. Un solo uso en toda la misión."
+  "ejectorLabel": "Asiento eyectable: saltar este minijuego. Un solo uso en toda la misión.",
+  "sound": "SONIDO",
+  "soundOn": "Sonido activado",
+  "soundOff": "Sonido desactivado"
 }
