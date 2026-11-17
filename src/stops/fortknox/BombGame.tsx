@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { type PointerEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BowlerHat } from '../../art/FortKnoxScene';
+import { playCue } from '../../audio/audio';
 import { prefersReducedMotion } from '../../motion';
 import { EjectorSeat } from '../../perks/EjectorSeat';
 import '../../perks/perks.css';
@@ -91,6 +92,13 @@ export function BombGame({
   const shownMs = displayMs ?? bomb.remainingMs;
   const running = started && bomb.status === 'running';
 
+  const secondsLeft = Math.ceil(bomb.remainingMs / 1000);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: tick once per displayed second
+  useEffect(() => {
+    if (running) playCue('tick');
+  }, [secondsLeft, running]);
+
   useGSAP(
     () => {
       if (prefersReducedMotion()) {
@@ -131,13 +139,18 @@ export function BombGame({
     const thrown = hatThrow.current;
     hatThrow.current = null;
     setHatDirection(null);
-    if (thrown?.dodged) return flashLabel('dodged');
+    if (thrown?.dodged) {
+      playCue('click');
+      return flashLabel('dodged');
+    }
     setBomb((state) => hitByHat(state));
+    playCue('hit');
     flashLabel('hit');
     gsap.fromTo(panelRef.current, { x: -6 }, { x: 0, duration: 0.3, ease: 'elastic.out(1, 0.3)' });
   });
 
   const launchHat = contextSafe(() => {
+    playCue('whoosh');
     const direction: Direction = Math.random() < 0.5 ? 'up' : 'down';
     hatThrow.current = { direction, dodged: false, failed: false };
     setHatDirection(direction);
@@ -196,6 +209,7 @@ export function BombGame({
   });
 
   const finishExploded = contextSafe((state: BombState) => {
+    playCue('static');
     gsap.delayedCall(0.3, () => onExploded(state.cut));
   });
 
@@ -215,7 +229,9 @@ export function BombGame({
     if (selected !== wire) return setSelected(wire);
     setSelected(null);
     setBomb((state) => cutWire(state, wire));
+    playCue('snap');
     if (wire === CORRECT_WIRE) return;
+    playCue('buzz');
     flashLabel('wrong');
     gsap.fromTo('[data-penalty]', { opacity: 1, y: 0 }, { opacity: 0, y: -20, duration: 0.9 });
     gsap.fromTo('[data-timer]', { x: -5 }, { x: 0, duration: 0.4, ease: 'elastic.out(1, 0.3)' });
@@ -237,6 +253,7 @@ export function BombGame({
         ease: 'power2.out',
         onComplete: () => {
           setBomb((state) => cutWire(state, wire, true));
+          playCue('snap');
           gsap.to('[data-laser]', { opacity: 0, duration: 0.3 });
         },
       },

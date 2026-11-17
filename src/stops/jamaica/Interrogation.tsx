@@ -7,6 +7,8 @@ import type { CardId } from '../../dossier/cards';
 import { prefersReducedMotion } from '../../motion';
 import { EjectorSeat } from '../../perks/EjectorSeat';
 import '../../perks/perks.css';
+import { playCue } from '../../audio/audio';
+import { useAmbience } from '../../audio/useAmbience';
 import { answer, hintFor, QUESTION_COUNT, type Run, startRun } from './rules';
 
 const REVEAL_SECONDS = 0.9;
@@ -42,6 +44,7 @@ export function Interrogation({
   const [hintsLeft, setHintsLeft] = useState(hints);
   const [hidden, setHidden] = useState<{ index: number; options: number[] }>({ index: -1, options: [] });
   const question = run.questions[run.index];
+  useAmbience('waves');
 
   useEffect(() => {
     if (run.status === 'passed') onPassed();
@@ -61,6 +64,7 @@ export function Interrogation({
   const choose = contextSafe((option: number) => {
     if (picked !== null) return;
     setPicked(option);
+    playCue(option === question?.correct ? 'correct' : 'wrong');
     gsap.delayedCall(REVEAL_SECONDS, () => {
       setPicked(null);
       setRun((current) => answer(current, option));

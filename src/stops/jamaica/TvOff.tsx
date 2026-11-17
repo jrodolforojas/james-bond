@@ -2,6 +2,7 @@ import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { playCue } from '../../audio/audio';
 import { prefersReducedMotion } from '../../motion';
 
 interface TvOffProps {
@@ -19,12 +20,14 @@ export function TvOff({ onDone }: TvOffProps) {
         gsap.delayedCall(0.6, onDone);
         return;
       }
+      playCue('static');
       gsap
         .timeline({ onComplete: onDone })
         .to('[data-screen]', { x: 6, duration: 0.05, yoyo: true, repeat: 5 })
         .to('[data-screen]', { scaleY: 0.03, duration: 0.35, ease: 'power3.in' }, '+=0.2')
         .to('[data-screen]', { scaleX: 0, duration: 0.2, ease: 'power2.in' })
         .fromTo('[data-dot]', { opacity: 1, scale: 1.4 }, { opacity: 0, scale: 0.2, duration: 0.4 }, '<0.1')
+        .add(() => playCue('tone'))
         .to({}, { duration: 1 });
     },
     { scope },

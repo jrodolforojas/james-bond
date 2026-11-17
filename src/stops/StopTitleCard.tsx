@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { prefersReducedMotion } from '../motion';
 import { STOP_COLORS, type StopId, stopNumber } from './catalog';
 import './stops.css';
+import { playCue } from '../audio/audio';
 
 const HOLD_SECONDS = 1.6;
 
@@ -20,6 +21,7 @@ export function StopTitleCard({ stop, onDone }: StopTitleCardProps) {
 
   useGSAP(
     () => {
+      if (stop !== 'scotland') playCue('thud');
       if (prefersReducedMotion()) {
         gsap.delayedCall(1, onDone);
         return;

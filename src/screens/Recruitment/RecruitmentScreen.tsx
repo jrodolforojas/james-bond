@@ -10,6 +10,7 @@ import { prefersReducedMotion } from '../../motion';
 import { ERAS, type EraId, useMission } from '../../state/store';
 import { ERA_COLORS } from './eras';
 import './recruitment.css';
+import { playCue } from '../../audio/audio';
 
 const LOCKED_INDEX = ERAS.length;
 const LOCKED_COLOR = '#3a3a3d';
@@ -54,6 +55,7 @@ export function RecruitmentScreen() {
         gsap.set(body, { fill: '#f4eee1' });
         return;
       }
+      playCue('whoosh');
       gsap
         .timeline()
         .set(body, { fill: '#1c1c1e' })
@@ -73,6 +75,7 @@ export function RecruitmentScreen() {
     const era: EraId | undefined = ERAS[active];
     if (!era || assigning) return;
     setAssigning(true);
+    playCue('stamp');
     const stamp = scope.current?.querySelector(`[data-index="${active}"] [data-stamp]`);
     const finish = () => {
       chooseEra(era);

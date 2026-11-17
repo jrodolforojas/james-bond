@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { JamaicaScene } from '../../art/JamaicaScene';
+import { useAmbience } from '../../audio/useAmbience';
 import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { prefersReducedMotion } from '../../motion';
 
@@ -13,6 +14,7 @@ interface JamaicaOpeningProps {
 export function JamaicaOpening({ onFace }: JamaicaOpeningProps) {
   const { t } = useTranslation('jamaica');
   const scope = useRef<HTMLElement>(null);
+  useAmbience('waves');
 
   useGSAP(
     () => {

@@ -19,6 +19,7 @@ import { ScotlandOpening } from './ScotlandOpening';
 import { Shootout } from './Shootout';
 import { TrapSetup } from './TrapSetup';
 import './scotland.css';
+import { useAmbience } from '../../audio/useAmbience';
 
 type Phase =
   | { name: 'title' }
@@ -34,6 +35,7 @@ const STOP = 'scotland';
 function BurningHouse() {
   const { t } = useTranslation('scotland');
   const scope = useRef<HTMLDivElement>(null);
+  useAmbience('fire');
 
   useGSAP(
     () => {

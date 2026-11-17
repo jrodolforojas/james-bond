@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Briefcase, PlayerSilhouette } from '../../art/MontenegroScene';
+import { playCue } from '../../audio/audio';
 import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { prefersReducedMotion } from '../../motion';
 import { EjectorSeat } from '../../perks/EjectorSeat';
@@ -104,6 +105,7 @@ export function PokerTable({ onFound, onEject }: PokerTableProps) {
       );
       scheduleRound(table).forEach((event) => {
         if (event.kind === 'glint') {
+          timeline.call(() => playCue('ping'), [], event.at);
           timeline.fromTo(
             '[data-glint]',
             { opacity: 0 },
@@ -116,6 +118,7 @@ export function PokerTable({ onFound, onEject }: PokerTableProps) {
         const gesture = table.seats[event.seat]?.gesture;
         if (!seat || !gesture) return;
         timeline.call(() => playGesture(seat, gesture), [], event.at);
+        if (gesture === 'chips') timeline.call(() => playCue('chips'), [], event.at);
       });
       timeline.to({}, { duration: ROUND_SECONDS }, 0);
     },
@@ -125,7 +128,11 @@ export function PokerTable({ onFound, onEject }: PokerTableProps) {
   const accuse = () => {
     if (picked === null) return;
     const result = judge(table, picked);
-    if (result === 'correct') return onFound();
+    if (result === 'correct') {
+      playCue('correct');
+      return onFound();
+    }
+    playCue('wrong');
     setChips((current) => Math.max(current - 1, 0));
     setVerdict(result);
     setPhase('feedback');

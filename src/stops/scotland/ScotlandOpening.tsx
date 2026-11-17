@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScotlandHouse } from '../../art/ScotlandHouse';
+import { useAmbience } from '../../audio/useAmbience';
 import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { prefersReducedMotion } from '../../motion';
 
@@ -13,6 +14,7 @@ interface ScotlandOpeningProps {
 export function ScotlandOpening({ onPrepare }: ScotlandOpeningProps) {
   const { t } = useTranslation('scotland');
   const scope = useRef<HTMLElement>(null);
+  useAmbience('wind');
 
   useGSAP(
     () => {

@@ -3,6 +3,8 @@ import { gsap } from 'gsap';
 import { type PointerEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { VehicleSilhouette } from '../../art/VehicleSilhouette';
+import { playCue } from '../../audio/audio';
+import { useAmbience } from '../../audio/useAmbience';
 import { prefersReducedMotion } from '../../motion';
 import { EjectorSeat } from '../../perks/EjectorSeat';
 import '../../perks/perks.css';
@@ -59,6 +61,7 @@ export function Shootout({
   const maxLives = useRef(gallery.current.lives);
   const [hud, setHud] = useState<Hud>({ wave: 0, lives: gallery.current.lives, status: 'running' });
   const [supportUsed, setSupportUsed] = useState(false);
+  useAmbience('wind');
 
   const { contextSafe } = useGSAP({ scope });
 
@@ -72,7 +75,12 @@ export function Shootout({
   const sync = (next: Gallery) => {
     const previous = gallery.current;
     gallery.current = next;
-    if (next.lives < previous.lives) flash();
+    if (next.lives < previous.lives) {
+      playCue('hit');
+      flash();
+    }
+    const sprung = next.enemies.filter((e) => e.state === 'trapped').length;
+    if (sprung > previous.enemies.filter((e) => e.state === 'trapped').length) playCue('ignite');
     if (next.lives === previous.lives && next.wave === previous.wave && next.status === previous.status)
       return;
     setHud({ wave: next.wave, lives: next.lives, status: next.status });
@@ -121,6 +129,7 @@ export function Shootout({
   }, [hud.status, onWon, onLost]);
 
   const fireAt = (x: number, y: number) => {
+    playCue('shot');
     shot.current = { x, y, at: clock.current };
     sync(shoot(gallery.current, x, y).gallery);
   };
@@ -128,7 +137,10 @@ export function Shootout({
   const summonDb5 = contextSafe(() => {
     if (supportUsed) return;
     setSupportUsed(true);
-    const strike = () => sync(callSupport(gallery.current));
+    const strike = () => {
+      playCue('shot');
+      sync(callSupport(gallery.current));
+    };
     if (prefersReducedMotion()) return strike();
     gsap
       .timeline()

@@ -7,6 +7,7 @@ import { transition } from '../../flow/navigate';
 import { prefersReducedMotion } from '../../motion';
 import { useMission } from '../../state/store';
 import './arrival.css';
+import { playCue } from '../../audio/audio';
 
 const TYPE_SECONDS_PER_CHAR = 0.035;
 
@@ -17,7 +18,9 @@ function typeInto(timeline: gsap.core.Timeline, element: HTMLElement, text: stri
     duration: text.length * TYPE_SECONDS_PER_CHAR,
     ease: 'none',
     onUpdate: () => {
-      element.textContent = text.slice(0, Math.round(counter.chars));
+      const shown = Math.round(counter.chars);
+      if (shown !== element.textContent?.length && shown % 2 === 0) playCue('key');
+      element.textContent = text.slice(0, shown);
     },
   });
 }
@@ -68,6 +71,7 @@ export function ArrivalScreen() {
           value.classList.remove('is-glitching');
           void value.offsetWidth;
           value.classList.add('is-glitching');
+          playCue('static');
         })
         .to(reveal, { opacity: 1, y: 0, duration: 0.5, stagger: 0.25, ease: 'power2.out' }, '+=0.9');
     },
@@ -78,6 +82,7 @@ export function ArrivalScreen() {
 
   const accept = contextSafe(() => {
     const folder = scope.current?.querySelector<HTMLElement>('[data-folder]');
+    playCue('whoosh');
     if (!folder || prefersReducedMotion()) return transition(acceptMission);
     gsap
       .timeline({ onComplete: () => transition(acceptMission) })

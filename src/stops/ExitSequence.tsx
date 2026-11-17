@@ -7,6 +7,7 @@ import type { CardId } from '../dossier/cards';
 import { Dossier, type DossierHandle } from '../dossier/Dossier';
 import { prefersReducedMotion } from '../motion';
 import './stops.css';
+import { playCue } from '../audio/audio';
 
 const EMBERS = [18, 46, 80, 120, 150, 176];
 const LATE = ['[data-exit-stamp]', '[data-exit-card]', '[data-exit-continue]'];
@@ -26,6 +27,7 @@ function burnTimeline(scope: HTMLElement | null, timeline: gsap.core.Timeline) {
   const paper = scope?.querySelector<HTMLElement>('[data-exit-burn]');
   timeline
     .from('[data-exit-paper]', { opacity: 0, y: 20, duration: 0.4 })
+    .add(() => playCue('ignite'))
     .to('[data-exit-edge]', { opacity: 1, duration: 0.15 })
     .to(burn, {
       value: 100,
@@ -40,6 +42,7 @@ function burnTimeline(scope: HTMLElement | null, timeline: gsap.core.Timeline) {
       '<',
     )
     .to('[data-exit-edge]', { opacity: 0, duration: 0.2 })
+    .add(() => playCue('stamp'))
     .fromTo(
       '[data-exit-stamp]',
       { opacity: 0, scale: 1.6 },

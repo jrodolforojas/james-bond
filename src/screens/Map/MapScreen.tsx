@@ -18,6 +18,7 @@ import {
 } from '../../stops/catalog';
 import { LANDMASSES, MAP_VIEWBOX, PINS, ROUTE_CURVES } from './geo';
 import './map.css';
+import { playCue } from '../../audio/audio';
 
 type PinState = 'done' | 'next' | 'locked';
 
@@ -68,6 +69,7 @@ export function MapScreen() {
     const board = boardRef.current;
     const zoom = scope.current?.querySelector<HTMLElement>('[data-zoom]');
     const go = () => navigate({ screen: 'stop', stop });
+    playCue('click');
     if (!board || !zoom || prefersReducedMotion()) return go();
     const rect = board.getBoundingClientRect();
     const host = scope.current?.getBoundingClientRect() ?? rect;
