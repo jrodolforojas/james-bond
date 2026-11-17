@@ -4,3 +4,4 @@ dist/
 *.tsbuildinfo
 art/audio/kenney/*
 !art/audio/kenney/.gitkeep
+.vercel
