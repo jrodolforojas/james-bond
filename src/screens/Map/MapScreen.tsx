@@ -2,6 +2,9 @@ import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { type CSSProperties, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { MoneypennyRadio } from '../../components/MoneypennyRadio';
+import { unreadCount } from '../../dossier/cards';
+import { Dossier } from '../../dossier/Dossier';
 import { navigate } from '../../flow/navigate';
 import { prefersReducedMotion } from '../../motion';
 import { useMission } from '../../state/store';
@@ -35,6 +38,11 @@ function pinState(stop: StopId, completed: readonly StopId[], next: StopId | und
 export function MapScreen() {
   const { t } = useTranslation('map');
   const completed = useMission((state) => state.completed);
+  const era = useMission((state) => state.era);
+  const step = useMission((state) => state.step);
+  const finishedAt = useMission((state) => state.finishedAt);
+  const seenCards = useMission((state) => state.seenCards);
+  const unread = unreadCount({ era, completed, step, finishedAt }, seenCards);
   const next = nextStop(completed);
   const scope = useRef<HTMLElement>(null);
   const boardRef = useRef<HTMLDivElement>(null);
@@ -66,7 +74,10 @@ export function MapScreen() {
     const pin = PINS[stop];
     const left = rect.left - host.left + (pin.x / MAP_VIEWBOX.width) * rect.width;
     const top =
-      rect.top - host.top + (pin.y / MAP_VIEWBOX.height) * rect.height + (scope.current?.scrollTop ?? 0);
+      rect.top -
+      host.top +
+      ((pin.y - MAP_VIEWBOX.top) / MAP_VIEWBOX.height) * rect.height +
+      (scope.current?.scrollTop ?? 0);
     gsap
       .timeline({ onComplete: go })
       .set(zoom, { display: 'block', left, top, scale: 0.2, background: STOP_COLORS[stop].background })
@@ -86,13 +97,17 @@ export function MapScreen() {
       </header>
 
       <div className="map__board" ref={boardRef}>
-        <svg viewBox={`0 0 ${MAP_VIEWBOX.width} ${MAP_VIEWBOX.height}`} role="img" aria-label={t('mapLabel')}>
+        <svg
+          viewBox={`0 ${MAP_VIEWBOX.top} ${MAP_VIEWBOX.width} ${MAP_VIEWBOX.height}`}
+          role="img"
+          aria-label={t('mapLabel')}
+        >
           <g stroke="#26262a" strokeWidth="1">
             {[60, 120, 180, 240].map((y) => (
               <line key={`h${y}`} x1="0" y1={y} x2={MAP_VIEWBOX.width} y2={y} />
             ))}
             {[57, 114, 171, 228, 285].map((x) => (
-              <line key={`v${x}`} x1={x} y1="0" x2={x} y2={MAP_VIEWBOX.height} />
+              <line key={`v${x}`} x1={x} y1="0" x2={x} y2={MAP_VIEWBOX.top + MAP_VIEWBOX.height} />
             ))}
           </g>
           <g fill="#1e1e22">
@@ -159,6 +174,14 @@ export function MapScreen() {
         </svg>
       </div>
 
+      {next && (
+        <div className="map__radio">
+          <MoneypennyRadio>
+            {`"${t(`moneypenny.${next}`)}${unread > 0 ? ` ${t('moneypenny.unread')}` : ''}"`}
+          </MoneypennyRadio>
+        </div>
+      )}
+
       <ol className="stops">
         {STOP_ORDER.map((stop, index) => {
           const state = pinState(stop, completed, next);
@@ -183,6 +206,8 @@ export function MapScreen() {
           );
         })}
       </ol>
+
+      <Dossier />
 
       <div className="map__zoom" data-zoom aria-hidden="true" />
     </main>

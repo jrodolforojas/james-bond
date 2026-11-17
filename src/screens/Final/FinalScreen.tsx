@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { NEW_007_NAME } from '../../config';
+import { Dossier } from '../../dossier/Dossier';
 import { transition } from '../../flow/navigate';
 import { prefersReducedMotion } from '../../motion';
 import { useMission } from '../../state/store';
@@ -105,6 +106,8 @@ export function FinalScreen() {
       >
         {t('restart')}
       </button>
+
+      <Dossier />
     </main>
   );
 }

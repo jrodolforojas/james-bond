@@ -1,0 +1,301 @@
+.dossier-tab {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  flex-shrink: 0;
+  width: calc(100% + 2 * var(--gutter));
+  margin: auto calc(-1 * var(--gutter)) calc(-1 * var(--space-5));
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0 var(--gutter);
+  border: none;
+  border-top: 1px solid var(--manila-dark);
+  background: var(--manila);
+  color: var(--paper-ink);
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+}
+
+.dossier-tab__count {
+  flex: 1;
+  text-align: left;
+}
+
+.dossier-tab__badge {
+  padding: 2px 8px;
+  background: var(--stamp);
+  color: var(--bone);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+}
+
+.dossier {
+  width: 100%;
+  max-width: var(--column);
+  height: 100dvh;
+  max-height: 100dvh;
+  margin: 0 auto;
+  padding: 0;
+  border: none;
+  background: var(--manila);
+  color: var(--paper-ink);
+  overflow: hidden;
+}
+
+.dossier::backdrop {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.dossier__inner {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: 20px 18px calc(18px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+}
+
+.dossier__grain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.dossier__bar {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+}
+
+.dossier__icon-btn {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 10px;
+  border: 1px solid var(--paper-ink);
+  background: transparent;
+  color: var(--paper-ink);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+}
+
+.dossier__title {
+  position: relative;
+  font-size: 36px;
+}
+
+.dossier__subtitle {
+  position: relative;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--paper-ink-muted);
+}
+
+.dossier__list {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dossier__row {
+  width: 100%;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 10px 14px;
+  border: none;
+  border-left: 6px solid var(--card-color);
+  background: var(--paper);
+  color: var(--paper-ink);
+  text-align: left;
+  cursor: pointer;
+  box-shadow:
+    0 1px 0 #c9b48a,
+    0 6px 14px rgba(43, 33, 24, 0.18);
+}
+
+.dossier__row.is-locked {
+  background: #e7d6ac;
+}
+
+.dossier__row-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dossier__row-number {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--paper-ink-muted);
+}
+
+.dossier__row-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  line-height: 1.15;
+}
+
+.dossier__row-tag {
+  font-family: var(--font-stamp);
+  font-size: 11px;
+  color: var(--stamp);
+}
+
+.card {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: 26px 20px 20px;
+  background: var(--paper);
+  border-radius: var(--radius-card);
+  box-shadow:
+    0 1px 0 #c9b48a,
+    0 14px 30px rgba(43, 33, 24, 0.35);
+  touch-action: pan-y;
+}
+
+.card__clip {
+  position: absolute;
+  left: 22px;
+  top: -18px;
+  width: 22px;
+}
+
+.card__meta {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--paper-ink-muted);
+  padding-right: 96px;
+}
+
+.card__title {
+  font-size: 32px;
+  line-height: 1.04;
+  padding-right: 96px;
+}
+
+.card__polaroid {
+  position: absolute;
+  right: 16px;
+  top: 30px;
+  width: 84px;
+  height: 100px;
+  padding: 6px 6px 20px;
+  background: #fffdf6;
+  transform: rotate(5deg);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+.card__polaroid span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--card-color);
+}
+
+.card__items {
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.card__items li {
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #b9a57e;
+}
+
+.card__items li:last-child {
+  border-bottom: none;
+}
+
+.card__quote {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.card__bars {
+  margin-top: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card__bars span {
+  height: 12px;
+  background: #000;
+}
+
+.card__hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--paper-ink-muted);
+}
+
+.card__stamp {
+  margin-top: auto;
+  align-self: flex-end;
+  padding: 4px 12px;
+  border: 3px solid var(--stamp);
+  outline: 1px solid var(--stamp);
+  outline-offset: 3px;
+  font-family: var(--font-stamp);
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  color: var(--stamp);
+  transform: rotate(-6deg);
+}
+
+.dossier__nav {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+}
+
+.dossier__nav button {
+  min-height: 44px;
+  padding: 0 4px;
+  border: none;
+  background: transparent;
+  color: var(--paper-ink);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+}
+
+.dossier__nav button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}

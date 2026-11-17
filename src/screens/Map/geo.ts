@@ -1,6 +1,6 @@
 import type { StopId } from '../../stops/catalog';
 
-export const MAP_VIEWBOX = { width: 342, height: 300 };
+export const MAP_VIEWBOX = { width: 342, top: 24, height: 248 };
 
 export const PINS: Record<StopId, { x: number; y: number; labelX: number; labelY: number }> = {
   london: { x: 263, y: 74, labelX: 272, labelY: 78 },
