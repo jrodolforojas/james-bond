@@ -45,12 +45,16 @@
   border-radius: var(--radius-card);
   overflow: hidden;
   scroll-snap-align: center;
-  transition: opacity 0.3s;
-  opacity: 0.5;
+  transition:
+    transform 0.3s,
+    border-color 0.3s;
+  transform: scale(0.94);
+  border-color: var(--graphite-line);
 }
 
 .era-card.is-active {
-  opacity: 1;
+  transform: none;
+  border-color: var(--era);
 }
 
 .era-card__stage {

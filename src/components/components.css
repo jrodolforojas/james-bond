@@ -103,8 +103,10 @@
 
 .lang-switch {
   margin: 0;
-  padding: 0;
+  padding: 0 2px;
   border: 0;
+  background: rgba(11, 11, 12, 0.6);
+  border-radius: 22px;
   position: absolute;
   top: calc(6px + env(safe-area-inset-top));
   right: 8px;
@@ -121,10 +123,8 @@
   border: none;
   font-size: 11px;
   letter-spacing: 0.2em;
-  opacity: 0.55;
+  color: var(--bone);
   cursor: pointer;
-  mix-blend-mode: difference;
-  color: #fff;
 }
 
 .lang-switch button[aria-pressed="true"] {
@@ -151,15 +151,14 @@
   place-items: center;
   padding: 0;
   border: none;
-  background: transparent;
-  color: #fff;
-  mix-blend-mode: difference;
-  opacity: 0.55;
+  background: rgba(11, 11, 12, 0.6);
+  border-radius: 50%;
+  color: var(--bone);
   cursor: pointer;
 }
 
 .sound-toggle[aria-pressed="true"] {
-  opacity: 1;
+  color: var(--manila);
 }
 
 .sound-toggle svg {

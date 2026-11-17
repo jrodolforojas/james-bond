@@ -106,6 +106,7 @@
 
 .bomb__panel {
   position: relative;
+  overflow: hidden;
   aspect-ratio: 350 / 330;
   background: #1e1708;
   border: 1px solid var(--fortknox-old-gold);
