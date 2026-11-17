@@ -37,4 +37,8 @@ describe('dossier cards', () => {
     expect(unreadCount(mission, [])).toBe(2);
     expect(unreadCount(mission, ['eras'])).toBe(1);
   });
+
+  it('unlocks every card in demo mode', () => {
+    expect(unlockedIds(fresh, true)).toHaveLength(CARDS.length);
+  });
 });

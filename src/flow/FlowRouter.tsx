@@ -9,7 +9,7 @@ import { LondonStop } from '../stops/london/LondonStop';
 import { MontenegroStop } from '../stops/montenegro/MontenegroStop';
 import { ScotlandStop } from '../stops/scotland/ScotlandStop';
 
-export function FlowRouter() {
+function Screen() {
   const step = useMission((state) => state.step);
   if (step.screen === 'arrival') return <ArrivalScreen />;
   if (step.screen === 'recruitment') return <RecruitmentScreen />;
@@ -21,4 +21,9 @@ export function FlowRouter() {
   if (step.stop === 'scotland') return <ScotlandStop />;
   if (step.stop === 'jamaica') return <JamaicaStop />;
   return <MapScreen />;
+}
+
+export function FlowRouter() {
+  const visit = useMission((state) => state.visit);
+  return <Screen key={visit} />;
 }

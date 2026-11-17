@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist, type StateStorage } from 'zustand/middleware';
+import { DEMO } from '../config';
 import type { CardId } from '../dossier/cards';
 import type { StopId } from '../stops/catalog';
 
@@ -18,6 +19,7 @@ export type Step =
 
 interface MissionState {
   step: Step;
+  visit: number;
   era: EraId | null;
   gadget: GadgetId | null;
   completed: StopId[];
@@ -40,6 +42,7 @@ interface MissionState {
 
 const initialMission = {
   step: { screen: 'arrival' } as Step,
+  visit: 0,
   era: null,
   gadget: null,
   completed: [],
@@ -79,7 +82,7 @@ export const useMission = create<MissionState>()(
   persist(
     (set) => ({
       ...initialMission,
-      setStep: (step) => set({ step }),
+      setStep: (step) => set((state) => ({ step, visit: state.visit + 1 })),
       markCardSeen: (card) =>
         set((state) => {
           if (state.seenCards.includes(card)) return state;
@@ -94,13 +97,13 @@ export const useMission = create<MissionState>()(
           return { completed: [...state.completed, stop] };
         }),
       spendEjectorSeat: () => set({ ejectorUsed: true }),
-      soundOn: false,
+      soundOn: DEMO,
       setSoundOn: (soundOn) => set({ soundOn }),
       finishMission: () => set((state) => ({ finishedAt: state.finishedAt ?? Date.now() })),
       reset: () => set((state) => ({ ...initialMission, soundOn: state.soundOn })),
     }),
     {
-      name: 'exp007:v1',
+      name: DEMO ? 'exp007:demo' : 'exp007:v1',
       version: 1,
       storage: createJSONStorage(() => safeStorage),
       partialize: ({

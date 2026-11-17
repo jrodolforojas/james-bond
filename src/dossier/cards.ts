@@ -1,3 +1,4 @@
+import { DEMO } from '../config';
 import type { EraId, Step } from '../state/store';
 import type { StopId } from '../stops/catalog';
 
@@ -29,14 +30,15 @@ export interface UnlockInputs {
   finishedAt: number | null;
 }
 
-export function isUnlocked(card: DossierCard, mission: UnlockInputs): boolean {
+export function isUnlocked(card: DossierCard, mission: UnlockInputs, demo = DEMO): boolean {
+  if (demo) return true;
   if (card.source.kind === 'recruitment') return mission.era !== null;
   if (card.source.kind === 'stop') return mission.completed.includes(card.source.stop);
   return mission.finishedAt !== null || mission.step.screen === 'final';
 }
 
-export function unlockedIds(mission: UnlockInputs): CardId[] {
-  return CARDS.filter((card) => isUnlocked(card, mission)).map((card) => card.id);
+export function unlockedIds(mission: UnlockInputs, demo = DEMO): CardId[] {
+  return CARDS.filter((card) => isUnlocked(card, mission, demo)).map((card) => card.id);
 }
 
 export function unreadCount(mission: UnlockInputs, seen: readonly CardId[]): number {

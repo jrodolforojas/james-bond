@@ -4,6 +4,7 @@ import { useUiSounds } from './audio/useUiSounds';
 import { LanguageSwitch } from './components/LanguageSwitch';
 import { LegalFooter } from './components/LegalFooter';
 import { SoundToggle } from './components/SoundToggle';
+import { DemoPanel } from './demo/DemoPanel';
 import { FlowRouter } from './flow/FlowRouter';
 import { useMission } from './state/store';
 
@@ -31,6 +32,7 @@ export function App() {
         <LanguageSwitch />
         <FlowRouter />
         <LegalFooter />
+        <DemoPanel />
       </div>
     </div>
   );
