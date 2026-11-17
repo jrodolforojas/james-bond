@@ -1,0 +1,71 @@
+{
+  "eyebrow": "PARADA 5 · JAMAICA · DR. NO (1962)",
+  "titleStart": "Donde todo ",
+  "titleEm": "empezó",
+  "theme": "TEMA: EL ORIGEN",
+  "sceneLabel": "Playa con palmera, la isla Crab Key al fondo y el Dr. No en silueta con manos metálicas",
+  "opening": "Última copia. Y él no se la va a dar así nomás. Quiere comprobar que usted es quien dice ser.",
+  "face": "ENFRENTAR AL DR. NO",
+  "progress": "INTERROGATORIO · {{n}} / {{total}}",
+  "progressLabel": "Pregunta {{n}} de {{total}}",
+  "drNo": "DR. NO",
+  "drNoLine": "Si es usted quien dice ser, esto lo sabe de memoria.",
+  "answers": "Respuestas",
+  "correct": "CORRECTO",
+  "false": "FALSO",
+  "rule": "Las preguntas salen del expediente. Dos errores y es un impostor.",
+  "questions": {
+    "doubleO": {
+      "prompt": "¿Qué significa el \"00\"?",
+      "options": [
+        "Licencia para matar",
+        "Rango de comandante",
+        "Agente número cero",
+        "Acceso a todos los gadgets"
+      ]
+    },
+    "betrayal": {
+      "prompt": "¿Quién traicionó a Bond en Casino Royale?",
+      "options": ["Moneypenny", "M", "Vesper Lynd", "Le Chiffre"]
+    },
+    "clock": {
+      "prompt": "¿En qué número se detuvo el reloj de la bomba?",
+      "options": ["0:00", "0:07", "0:10", "0:30"]
+    },
+    "whiteCat": {
+      "prompt": "¿Cuál es el villano del gato blanco?",
+      "options": ["Goldfinger", "Jaws", "Le Chiffre", "Blofeld"]
+    },
+    "childhood": {
+      "prompt": "¿Dónde creció Bond?",
+      "options": ["En Skyfall, Escocia", "En Chelsea, Londres", "En Goldeneye, Jamaica", "En Montenegro"]
+    },
+    "martini": {
+      "prompt": "¿Cómo toma Bond el martini?",
+      "options": ["Revuelto, no agitado", "Agitado, no revuelto", "Con hielo y limón", "No toma martini"]
+    },
+    "firstNovel": {
+      "prompt": "¿En qué año publicó Fleming Casino Royale?",
+      "options": ["1962", "1964", "1953", "2006"]
+    },
+    "films": {
+      "prompt": "¿Cuántas películas oficiales hay?",
+      "options": ["7", "12", "60", "25"]
+    },
+    "scottish": {
+      "prompt": "¿De dónde es Bond por parte de padre?",
+      "options": ["Escocia", "Inglaterra", "Irlanda", "Jamaica"]
+    },
+    "firstActor": {
+      "prompt": "¿Quién fue el primer actor en interpretar a Bond?",
+      "options": ["Roger Moore", "Sean Connery", "Daniel Craig", "Timothy Dalton"]
+    }
+  },
+  "impostor": "Usted no es 007. Usted es el impostor.",
+  "readDossier": "LEER EXPEDIENTE",
+  "retry": "REINTENTAR",
+  "clean": "Limpio. Todo limpio… Espere. Hay un archivo más. Y este no lo escribió SPECTRE.",
+  "openFile": "ABRIR ARCHIVO",
+  "card": "Donde nació todo",
+  "tvLabel": "La señal se corta como un televisor viejo"
+}
