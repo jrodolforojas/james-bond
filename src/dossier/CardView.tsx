@@ -1,5 +1,6 @@
 import { type CSSProperties, forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useArchivePhoto } from '../agent/useArchivePhoto';
 import { NEW_007_NAME } from '../config';
 import { ageOn, countryName, formatDate, REVEAL } from '../reveal';
 import type { CardSource, DossierCard } from './cards';
@@ -43,6 +44,7 @@ export const CardView = forwardRef<HTMLElement, CardViewProps>(function CardView
   const { t, i18n } = useTranslation('dossier');
   const place = t(`places.${sourcePlace(card.source)}` as 'places.final');
   const revealed = card.id === 'agent' && REVEAL !== null;
+  const photoUrl = useArchivePhoto(revealed && unlocked ? REVEAL?.photo?.src : null);
   const itemsKey = (revealed ? 'cards.agent.itemsRevealed' : `cards.${card.id}.items`) as 'cards.agent.items';
   const items = t(itemsKey, {
     returnObjects: true,
@@ -71,7 +73,7 @@ export const CardView = forwardRef<HTMLElement, CardViewProps>(function CardView
         />
       </svg>
       <div className="card__polaroid" aria-hidden="true">
-        <span />
+        {photoUrl ? <img src={photoUrl} alt="" /> : <span />}
       </div>
       <span className="card__meta">
         {t('cardNumber', { n: String(number).padStart(2, '0') })}

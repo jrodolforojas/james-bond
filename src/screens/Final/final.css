@@ -155,7 +155,7 @@
 .final__name {
   position: absolute;
   left: 50%;
-  top: 86px;
+  top: 288px;
   translate: -50% 0;
   width: max-content;
   max-width: calc(100% - 40px);
@@ -178,4 +178,24 @@
   position: relative;
   margin-top: var(--space-3);
   color: var(--manila);
+}
+
+.final__photo {
+  position: absolute;
+  left: 50%;
+  top: 40px;
+  width: 210px;
+  margin: 0;
+  padding: 10px 10px 36px;
+  translate: -50% 0;
+  background: #fffdf6;
+  box-shadow: 0 14px 30px rgb(0 0 0 / 0.5);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.final__photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
 }

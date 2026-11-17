@@ -32,5 +32,6 @@
   "age": "AGE:",
   "country": "COUNTRY:",
   "clearanceRevealed": "CLEARANCE: Confirmed — Amazon MGM Studios, {{date}}",
-  "moneypennyRevealed": "The wait is over. Welcome, 007."
+  "moneypennyRevealed": "The wait is over. Welcome, 007.",
+  "photoAlt": "Archive photo of {{name}}"
 }

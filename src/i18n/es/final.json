@@ -32,5 +32,6 @@
   "age": "EDAD:",
   "country": "PAÍS:",
   "clearanceRevealed": "AUTORIZACIÓN: Confirmada — Amazon MGM Studios, {{date}}",
-  "moneypennyRevealed": "La espera terminó. Bienvenido, 007."
+  "moneypennyRevealed": "La espera terminó. Bienvenido, 007.",
+  "photoAlt": "Foto de archivo de {{name}}"
 }

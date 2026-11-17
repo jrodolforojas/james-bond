@@ -13,5 +13,7 @@
   "ejectorLabel": "Ejector seat: skip this mini-game. One use for the whole mission.",
   "sound": "SOUND",
   "soundOn": "Sound on",
-  "soundOff": "Sound off"
+  "soundOff": "Sound off",
+  "photoCredit": "Photo of {{name}}:",
+  "photoModified": "Cropped and toned. Via Wikimedia Commons."
 }

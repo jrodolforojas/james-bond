@@ -29,14 +29,13 @@ async function decode(file: File): Promise<ImageBitmap | HTMLImageElement> {
   return image;
 }
 
-export async function processPhoto(file: File): Promise<HTMLCanvasElement> {
-  const source = await decode(file);
+function toArchivePhoto(source: CanvasImageSource, width: number, height: number): HTMLCanvasElement {
   const canvas = document.createElement('canvas');
   canvas.width = PHOTO_SIZE;
   canvas.height = PHOTO_SIZE;
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
   if (!ctx) return canvas;
-  const { sx, sy, size } = coverCrop(source.width, source.height);
+  const { sx, sy, size } = coverCrop(width, height);
   ctx.drawImage(source, sx, sy, size, size, 0, 0, PHOTO_SIZE, PHOTO_SIZE);
   const pixels = ctx.getImageData(0, 0, PHOTO_SIZE, PHOTO_SIZE);
   const data = pixels.data;
@@ -49,4 +48,16 @@ export async function processPhoto(file: File): Promise<HTMLCanvasElement> {
   }
   ctx.putImageData(pixels, 0, 0);
   return canvas;
+}
+
+export async function processPhoto(file: File): Promise<HTMLCanvasElement> {
+  const source = await decode(file);
+  return toArchivePhoto(source, source.width, source.height);
+}
+
+export async function loadArchivePhoto(url: string): Promise<HTMLCanvasElement> {
+  const image = new Image();
+  image.src = url;
+  await image.decode();
+  return toArchivePhoto(image, image.naturalWidth, image.naturalHeight);
 }

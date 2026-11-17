@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AgentSheet, type AgentSheetHandle } from '../../agent/AgentSheet';
+import { useArchivePhoto } from '../../agent/useArchivePhoto';
 import { trackEvent } from '../../analytics/track';
 import { playCue } from '../../audio/audio';
 import { useMusic } from '../../audio/useAmbience';
@@ -39,6 +40,7 @@ export function FinalScreen() {
   const shareSheet = useRef<ShareSheetHandle>(null);
   const agentSheet = useRef<AgentSheetHandle>(null);
   const [isRevealed, setIsRevealed] = useState(false);
+  const photoUrl = useArchivePhoto(REVEAL?.photo?.src);
   const { contextSafe } = useGSAP({ scope });
 
   const revealed = contextSafe(() => {
@@ -48,6 +50,12 @@ export function FinalScreen() {
       '[data-final-stamp]',
       { opacity: 0, scale: 1.6 },
       { opacity: 0.92, scale: 1, duration: 0.18, ease: 'power4.in' },
+    );
+    gsap.to('[data-figure]', { opacity: 0, duration: 0.8, ease: 'sine.in' });
+    gsap.fromTo(
+      '[data-final-photo]',
+      { opacity: 0, scale: 1.12, rotate: -4 },
+      { opacity: 1, scale: 1, rotate: 3, duration: 0.9, delay: 0.2, ease: 'power3.out' },
     );
     gsap.to('[data-final-name]', { opacity: 1, duration: 1.2, delay: 0.4, ease: 'sine.out' });
     gsap.to('[data-fact]', { opacity: 1, duration: 0.5, stagger: 0.3, delay: 0.6 });
@@ -109,6 +117,11 @@ export function FinalScreen() {
           <path d="M68 96 L80 132 L92 96 Z" fill="#000" />
         </g>
       </svg>
+      {photoUrl && (
+        <figure className="final__photo" data-final-photo aria-hidden={!isRevealed}>
+          <img src={photoUrl} alt={t('photoAlt', { name: NEW_007_NAME })} />
+        </figure>
+      )}
       {NEW_007_NAME && (
         <p className="final__name" data-final-name aria-hidden="true">
           {NEW_007_NAME}
