@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist, type StateStorage } from 'zustand/middleware';
+import type { CardId } from '../dossier/cards';
 import type { StopId } from '../stops/catalog';
 
 export const ERAS = ['connery', 'moore', 'dalton', 'brosnan', 'craig'] as const;
@@ -18,7 +19,9 @@ interface MissionState {
   completed: StopId[];
   startedAt: number | null;
   finishedAt: number | null;
+  seenCards: CardId[];
   setStep: (step: Step) => void;
+  markCardSeen: (card: CardId) => void;
   acceptMission: () => void;
   chooseEra: (era: EraId) => void;
   completeStop: (stop: StopId) => void;
@@ -32,6 +35,7 @@ const initialMission = {
   completed: [],
   startedAt: null,
   finishedAt: null,
+  seenCards: [] as CardId[],
 };
 
 const memoryFallback = new Map<string, string>();
@@ -65,6 +69,11 @@ export const useMission = create<MissionState>()(
     (set) => ({
       ...initialMission,
       setStep: (step) => set({ step }),
+      markCardSeen: (card) =>
+        set((state) => {
+          if (state.seenCards.includes(card)) return state;
+          return { seenCards: [...state.seenCards, card] };
+        }),
       acceptMission: () => set({ startedAt: Date.now(), step: { screen: 'recruitment' } }),
       chooseEra: (era) => set({ era }),
       completeStop: (stop) =>
@@ -79,12 +88,13 @@ export const useMission = create<MissionState>()(
       name: 'exp007:v1',
       version: 1,
       storage: createJSONStorage(() => safeStorage),
-      partialize: ({ step, era, completed, startedAt, finishedAt }) => ({
+      partialize: ({ step, era, completed, startedAt, finishedAt, seenCards }) => ({
         step,
         era,
         completed,
         startedAt,
         finishedAt,
+        seenCards,
       }),
     },
   ),
