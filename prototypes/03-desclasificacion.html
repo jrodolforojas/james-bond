@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prototipo 3 — Desclasificación</title>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Courier+Prime:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+:root { --paper: #F5F5F5; --ink: #0B0B0C; --stamp: #C62828; --muted: #B8B8BE; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { background: #000; font-family: 'Courier Prime', monospace; color: var(--paper); display: grid; place-items: center; }
+.stage { position: relative; width: min(100vw, 430px); height: min(100dvh, 932px); background: #000; overflow: hidden; display: flex; flex-direction: column; justify-content: center; padding: 20px; gap: 24px; }
+.page { position: relative; background: var(--paper); color: var(--ink); padding: 22px 20px 72px; display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+.page h1 { margin: 0 0 6px; font-family: 'Bodoni Moda', serif; font-weight: 600; font-size: 28px; }
+.row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; }
+.name { position: relative; display: inline-flex; flex-wrap: wrap; font-weight: 700; font-size: 20px; letter-spacing: .04em; min-height: 26px; }
+.ch { position: relative; display: inline-block; white-space: pre; }
+.ch__ink { position: absolute; inset: -2px -1px; background: #000; transform-origin: right center; }
+.bar { position: absolute; left: 0; top: -2px; height: calc(100% + 4px); width: 14ch; background: #000; clip-path: polygon(0 6%, 18% 0, 47% 5%, 72% 0, 100% 7%, 99% 94%, 70% 100%, 42% 95%, 15% 100%, 1% 92%); }
+.stamp { position: absolute; right: 14px; bottom: 14px; border: 3px solid var(--stamp); outline: 1px solid var(--stamp); outline-offset: 3px; padding: 4px 10px; font-family: 'Special Elite', monospace; color: var(--stamp); font-size: 20px; letter-spacing: .06em; transform: rotate(-8deg); opacity: 0; }
+.debris { position: absolute; width: 4px; height: 4px; background: #000; pointer-events: none; }
+.controls { display: flex; flex-direction: column; gap: 12px; font-size: 12px; color: var(--muted); }
+.controls__row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+label { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 180px; }
+input { min-height: 44px; padding: 0 12px; background: #111113; color: var(--paper); border: 1px solid #3A3A3D; font-family: inherit; font-size: 14px; text-transform: uppercase; }
+button { min-height: 44px; padding: 0 14px; background: transparent; color: var(--paper); border: 1px solid #4A4A4E; font-family: inherit; letter-spacing: .15em; cursor: pointer; }
+button[aria-pressed="true"] { background: var(--paper); color: var(--ink); }
+.primary { background: var(--paper); color: var(--ink); border-color: var(--paper); flex: 1; }
+</style>
+</head>
+<body>
+<main class="stage" id="stage">
+  <article class="page" id="page" aria-live="polite">
+    <h1 data-i18n="agent"></h1>
+    <div class="row"><span data-i18n="identity"></span><span class="name" id="name"><span class="bar" id="bar"></span></span></div>
+    <div class="row" data-i18n="status"></div>
+    <div class="row" data-i18n="clearance"></div>
+    <div class="stamp" id="stamp" data-i18n="stamp"></div>
+  </article>
+
+  <div class="controls">
+    <div class="controls__row" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="es" aria-pressed="true">ES</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      <span id="mode" style="margin-left: auto"></span>
+    </div>
+    <div class="controls__row">
+      <label><span data-i18n="nameLabel"></span><input id="nameInput" value="Nombre Apellido" autocomplete="off"></label>
+    </div>
+    <div class="controls__row">
+      <button type="button" class="primary" id="reveal" data-i18n="reveal"></button>
+      <button type="button" id="reset" data-i18n="reset"></button>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script>
+const MESSAGES = {
+  es: {
+    agent: 'AGENTE 007',
+    identity: 'IDENTIDAD:',
+    status: 'ESTADO: En reclutamiento',
+    clearance: 'AUTORIZACIÓN: Pendiente — Amazon MGM Studios',
+    stamp: 'DESCLASIFICADO',
+    nameLabel: 'Nombre del nuevo 007 (variable de configuración)',
+    reveal: 'DESCLASIFICAR',
+    reset: 'REINICIAR',
+    hidden: 'Identidad censurada',
+    full: 'MODO: completo',
+    reduced: 'MODO: movimiento reducido',
+  },
+  en: {
+    agent: 'AGENT 007',
+    identity: 'IDENTITY:',
+    status: 'STATUS: Recruiting',
+    clearance: 'CLEARANCE: Pending — Amazon MGM Studios',
+    stamp: 'DECLASSIFIED',
+    nameLabel: 'Name of the new 007 (config variable)',
+    reveal: 'DECLASSIFY',
+    reset: 'RESET',
+    hidden: 'Identity redacted',
+    full: 'MODE: full',
+    reduced: 'MODE: reduced motion',
+  },
+};
+const LETTER_STAGGER = 0.12;
+const DEBRIS_PER_LETTER = 4;
+
+const stage = document.getElementById('stage');
+const page = document.getElementById('page');
+const nameEl = document.getElementById('name');
+const bar = document.getElementById('bar');
+const stamp = document.getElementById('stamp');
+const nameInput = document.getElementById('nameInput');
+
+let lang = 'es';
+let timeline = null;
+
+function t(key) {
+  return MESSAGES[lang][key];
+}
+
+function prefersReducedMotion() {
+  if (new URLSearchParams(location.search).has('rm')) return true;
+  return matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function applyLanguage(next) {
+  lang = next;
+  document.documentElement.lang = next;
+  document.querySelectorAll('[data-i18n]').forEach((el) => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-lang]').forEach((btn) => btn.setAttribute('aria-pressed', String(btn.dataset.lang === next)));
+  document.getElementById('mode').textContent = prefersReducedMotion() ? t('reduced') : t('full');
+  reset();
+}
+
+function raggedClip() {
+  const j = () => (Math.random() * 10).toFixed(1);
+  return `polygon(0 ${j()}%, 100% ${j()}%, 100% ${100 - j()}%, 0 ${100 - j()}%)`;
+}
+
+function buildLetters(text) {
+  nameEl.querySelectorAll('.ch').forEach((el) => el.remove());
+  const inks = [...text].map((char) => {
+    const ch = document.createElement('span');
+    ch.className = 'ch';
+    ch.setAttribute('aria-hidden', 'true');
+    ch.textContent = char;
+    const ink = document.createElement('span');
+    ink.className = 'ch__ink';
+    ink.style.clipPath = raggedClip();
+    ch.append(ink);
+    nameEl.append(ch);
+    return ink;
+  });
+  const chars = [...nameEl.querySelectorAll('.ch')];
+  gsap.set(chars, { visibility: 'hidden' });
+  return { chars, inks };
+}
+
+function lettersWidth(chars) {
+  const first = chars[0].getBoundingClientRect();
+  const last = chars[chars.length - 1].getBoundingClientRect();
+  return Math.min(last.right - first.left, nameEl.parentElement.clientWidth);
+}
+
+function spawnDebris(ink) {
+  const box = ink.getBoundingClientRect();
+  const origin = page.getBoundingClientRect();
+  for (let i = 0; i < DEBRIS_PER_LETTER; i++) {
+    const bit = document.createElement('span');
+    bit.className = 'debris';
+    page.append(bit);
+    gsap.fromTo(bit,
+      { x: box.left - origin.left + Math.random() * box.width, y: box.top - origin.top + Math.random() * box.height, rotation: 0, opacity: 1 },
+      { y: `+=${30 + Math.random() * 40}`, x: `+=${(Math.random() - 0.5) * 20}`, rotation: Math.random() * 180, opacity: 0, duration: 0.7, ease: 'power2.in', onComplete: () => bit.remove() });
+  }
+}
+
+function reset() {
+  if (timeline) timeline.kill();
+  page.querySelectorAll('.debris').forEach((el) => el.remove());
+  nameEl.querySelectorAll('.ch').forEach((el) => el.remove());
+  nameEl.setAttribute('aria-label', t('hidden'));
+  gsap.set(bar, { display: 'block', width: '14ch', opacity: 1 });
+  gsap.set(stamp, { opacity: 0, scale: 1 });
+  gsap.set(stage, { x: 0 });
+}
+
+function fullTimeline({ chars, inks }) {
+  const tl = gsap.timeline()
+    .to(page, { x: 3, duration: 0.05, yoyo: true, repeat: 3 })
+    .to(bar, { width: lettersWidth(chars), duration: 0.45, ease: 'power2.inOut' })
+    .set(chars, { visibility: 'visible' })
+    .set(bar, { display: 'none' });
+  inks.forEach((ink, i) => {
+    tl.add(() => spawnDebris(ink), `erase+=${i * LETTER_STAGGER}`);
+    tl.to(ink, { scaleX: 0, duration: 0.18, ease: 'power1.in' }, `erase+=${i * LETTER_STAGGER}`);
+  });
+  return tl
+    .fromTo(stamp, { opacity: 0, scale: 1.6 }, { opacity: 0.92, scale: 1, duration: 0.16, ease: 'power4.in' }, '+=0.35')
+    .to(stage, { x: 5, duration: 0.04, yoyo: true, repeat: 3 });
+}
+
+function reducedTimeline({ chars, inks }) {
+  gsap.set(inks, { opacity: 0 });
+  return gsap.timeline()
+    .to(bar, { opacity: 0, duration: 0.3 })
+    .set(bar, { display: 'none' })
+    .set(chars, { visibility: 'visible', opacity: 0 })
+    .to(chars, { opacity: 1, duration: 0.3 })
+    .to(stamp, { opacity: 0.92, duration: 0.3 }, '+=0.2');
+}
+
+function reveal() {
+  reset();
+  const text = nameInput.value.trim().toUpperCase();
+  if (!text) return;
+  const letters = buildLetters(text);
+  nameEl.setAttribute('aria-label', text);
+  timeline = prefersReducedMotion() ? reducedTimeline(letters) : fullTimeline(letters);
+}
+
+document.querySelectorAll('[data-lang]').forEach((btn) => btn.addEventListener('click', () => applyLanguage(btn.dataset.lang)));
+document.getElementById('reveal').addEventListener('click', reveal);
+document.getElementById('reset').addEventListener('click', reset);
+applyLanguage('es');
+</script>
+</body>
+</html>
