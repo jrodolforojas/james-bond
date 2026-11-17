@@ -132,7 +132,7 @@ Para que el flujo no se pueda romper, este se modela como un enum de pasos con t
 
 - **Siluetas** (opción A): SVG optimizados con SVGO e importados como componentes con `vite-plugin-svgr`. Fuentes de las fotos de referencia documentadas en `art/CREDITS.md`.
 - **Fuentes:** auto-alojadas con `@fontsource` (Bodoni Moda, Courier Prime y Special Elite). Funcionan sin conexión al grabar y están disponibles para el canvas.
-- **Audio:** ver la pregunta abierta al final.
+- **Audio:** ver ADR-11.
 
 ---
 
@@ -187,11 +187,22 @@ james-bond/
 
 ---
 
-## Pregunta abierta: audio
+## ADR-11 · Audio: efectos CC0 con Web Audio
 
-El storyboard anota efectos de sonido (teclas, sellos, fuego y viento, tic-tac). El brief prohíbe la música oficial, pero no dice nada sobre efectos.
+**Decisión:** efectos de sonido con licencia CC0, reproducidos con un `AudioManager` propio sobre Web Audio API. Sin música.
 
-1. **Sin audio.** Lo más simple; el sonido se agrega en la edición del video.
-2. **Efectos CC0** (por ejemplo, de Freesound con licencia CC0) con Web Audio, silenciados por defecto y con un botón para activarlos.
+- **Encendido:** silenciado por defecto, con un botón de sonido siempre visible. El toque en "Aceptar misión" desbloquea el audio en iOS. Con `?demo=1` el sonido arranca activado para grabar.
+- **Fuentes, solo CC0:**
+  - [Kenney](https://kenney.nl/assets) (interfaz, impactos).
+  - [Freesound](https://freesound.org) filtrado por licencia CC0.
+  - Sonidos sintetizados en el propio código (tic-tac, estática, pitidos).
+  - Cada archivo se registra en `art/audio/CREDITS.md` con URL, autor y licencia. No se usa la licencia de Pixabay ni bancos "royalty-free", porque no son CC0.
+- **Formato y peso:** MP3 mono a 96 kbps, cargados por parada. Presupuesto total < 500 kB.
+- **Dirección:** respeta el storyboard. En Escocia solo suenan fuego y viento; el cierre de Jamaica pasa por estática → silencio → un tono grave.
 
-Mi recomendación es la 1: se graba para video y el sonido se controla mejor en la edición.
+| Alternativa | Por qué no |
+|---|---|
+| Howler.js | ≈ 10 kB; resuelve el desbloqueo en iOS, pero Web Audio directo alcanza para efectos cortos sin bucles complejos |
+| Sin audio (sonido en la edición) | Descartada por decisión del proyecto: la web también se usa fuera del video |
+
+Estructura: `src/audio/` (`AudioManager.ts`, `cues.ts` con el mapa evento → sonido) y `public/audio/<parada>/*.mp3`.
