@@ -6,6 +6,7 @@ import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { Stamp } from '../../components/Stamp';
 import { navigate } from '../../flow/navigate';
 import { prefersReducedMotion } from '../../motion';
+import { usePerks } from '../../perks/usePerks';
 import { useMission } from '../../state/store';
 import { EVIDENCE_NUMBER, nextStop } from '../catalog';
 import { ExitSequence } from '../ExitSequence';
@@ -14,7 +15,7 @@ import { StopTitleCard } from '../StopTitleCard';
 import { GoldToNight } from '../scotland/GoldToNight';
 import { BombGame } from './BombGame';
 import { FortKnoxOpening } from './FortKnoxOpening';
-import { formatClock, isLateDefuse, shuffleWires, type Wire } from './rules';
+import { FREEZE_AT_MS, formatClock, isLateDefuse, shuffleWires, type Wire } from './rules';
 import './fortknox.css';
 
 type Phase =
@@ -77,6 +78,7 @@ export function FortKnoxStop() {
   const { t } = useTranslation('fortknox');
   const [phase, setPhase] = useState<Phase>({ name: 'title' });
   const [wireOrder] = useState(shuffleWires);
+  const perks = usePerks();
   const completeStop = useMission((state) => state.completeStop);
   const leave = () => {
     completeStop(STOP);
@@ -114,6 +116,12 @@ export function FortKnoxStop() {
     <BombGame
       key={phase.attempt}
       order={wireOrder}
+      bonusMs={perks.bombBonusMs}
+      laserCuts={phase.attempt === 1 ? perks.laserCuts : 0}
+      onEject={() => {
+        completeStop(STOP);
+        setPhase({ name: 'won', frozenMs: FREEZE_AT_MS });
+      }}
       previouslyCut={phase.cut}
       onDefused={(frozenMs) => {
         completeStop(STOP);

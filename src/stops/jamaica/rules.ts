@@ -49,11 +49,18 @@ export interface Run {
   questions: Question[];
   index: number;
   wrong: number;
+  maxWrong: number;
   status: RunStatus;
 }
 
-export function startRun(unlocked: readonly CardId[]): Run {
-  return { questions: pickQuestions(unlocked), index: 0, wrong: 0, status: 'asking' };
+export function startRun(unlocked: readonly CardId[], maxWrong = MAX_WRONG): Run {
+  return { questions: pickQuestions(unlocked), index: 0, wrong: 0, maxWrong, status: 'asking' };
+}
+
+export function hintFor(question: Question, random: () => number = Math.random): number[] {
+  const wrong = Array.from({ length: OPTION_COUNT }, (_, i) => i).filter((i) => i !== question.correct);
+  const keep = wrong[Math.floor(random() * wrong.length)];
+  return wrong.filter((i) => i !== keep);
 }
 
 export function answer(run: Run, option: number): Run {
@@ -61,7 +68,7 @@ export function answer(run: Run, option: number): Run {
   const question = run.questions[run.index];
   if (!question) return run;
   const wrong = run.wrong + (option === question.correct ? 0 : 1);
-  if (wrong >= MAX_WRONG) return { ...run, wrong, status: 'impostor' };
+  if (wrong >= run.maxWrong) return { ...run, wrong, status: 'impostor' };
   const index = run.index + 1;
   if (index >= run.questions.length) return { ...run, wrong, index, status: 'passed' };
   return { ...run, wrong, index };

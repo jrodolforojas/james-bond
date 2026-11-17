@@ -7,6 +7,7 @@ import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { Stamp } from '../../components/Stamp';
 import { navigate } from '../../flow/navigate';
 import { prefersReducedMotion } from '../../motion';
+import { usePerks } from '../../perks/usePerks';
 import { useMission } from '../../state/store';
 import { EVIDENCE_NUMBER, nextStop } from '../catalog';
 import { ExitSequence } from '../ExitSequence';
@@ -82,6 +83,7 @@ export function ScotlandStop() {
   const [phase, setPhase] = useState<Phase>({ name: 'title' });
   const [traps, setTraps] = useState<Lane[]>([]);
   const completeStop = useMission((state) => state.completeStop);
+  const perks = usePerks();
   const attempt = phase.name === 'game' ? phase.attempt : 0;
 
   const won = useCallback(() => {
@@ -125,5 +127,16 @@ export function ScotlandStop() {
       />
     );
   }
-  return <Shootout key={phase.attempt} traps={traps} onWon={won} onLost={lost} />;
+  return (
+    <Shootout
+      key={phase.attempt}
+      traps={traps}
+      lives={perks.shootoutLives}
+      hitRadius={perks.shootoutHitRadius}
+      db5Support={perks.db5Support}
+      onEject={won}
+      onWon={won}
+      onLost={lost}
+    />
+  );
 }

@@ -13,7 +13,7 @@
   "answers": "Respuestas",
   "correct": "CORRECTO",
   "false": "FALSO",
-  "rule": "Las preguntas salen del expediente. Dos errores y es un impostor.",
+  "rule": "Las preguntas salen del expediente. Con {{count}} errores, es un impostor.",
   "questions": {
     "doubleO": {
       "prompt": "¿Qué significa el \"00\"?",
@@ -67,5 +67,7 @@
   "clean": "Limpio. Todo limpio… Espere. Hay un archivo más. Y este no lo escribió SPECTRE.",
   "openFile": "ABRIR ARCHIVO",
   "card": "Donde nació todo",
-  "tvLabel": "La señal se corta como un televisor viejo"
+  "tvLabel": "La señal se corta como un televisor viejo",
+  "hint": "PISTA ×{{n}}",
+  "hintLabel": "Usar una pista: descarta dos respuestas falsas"
 }

@@ -37,6 +37,10 @@ export function MontenegroStop() {
   const { t } = useTranslation(['montenegro', 'common']);
   const [phase, setPhase] = useState<Phase>('title');
   const completeStop = useMission((state) => state.completeStop);
+  const found = () => {
+    completeStop(STOP);
+    setPhase('found');
+  };
 
   if (phase === 'title') return <StopTitleCard stop={STOP} onDone={() => setPhase('opening')} />;
   if (phase === 'opening') return <MontenegroOpening onSit={() => setPhase('game')} />;
@@ -54,12 +58,5 @@ export function MontenegroStop() {
       />
     );
   }
-  return (
-    <PokerTable
-      onFound={() => {
-        completeStop(STOP);
-        setPhase('found');
-      }}
-    />
-  );
+  return <PokerTable onFound={found} onEject={found} />;
 }

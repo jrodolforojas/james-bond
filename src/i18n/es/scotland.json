@@ -35,5 +35,7 @@
   "silence": "Aquí no hay música. Solo fuego y viento.",
   "burningLabel": "La casa de piedra arde en la noche",
   "card": "El origen",
-  "transitionLabel": "Una brasa sube y se convierte en el sol del Caribe"
+  "transitionLabel": "Una brasa sube y se convierte en el sol del Caribe",
+  "db5": "APOYO DB5",
+  "db5Label": "Llamar al DB5: una ráfaga despeja a los atacantes a la vista. Un solo uso."
 }

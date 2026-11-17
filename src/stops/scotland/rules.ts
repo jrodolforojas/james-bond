@@ -130,3 +130,14 @@ export function shoot(gallery: Gallery, x: number, y: number): { gallery: Galler
   const enemies = gallery.enemies.map((enemy) => (enemy.id === target.id ? down : enemy));
   return { gallery: settle({ ...gallery, enemies }), hit: down };
 }
+
+export const SUPPORT_WAVE = WAVE_SIZES.length - 1;
+
+export function callSupport(gallery: Gallery): Gallery {
+  if (gallery.status !== 'running' || gallery.wave !== SUPPORT_WAVE) return gallery;
+  const enemies = gallery.enemies.map((enemy): Enemy => {
+    if (enemy.state !== 'up') return enemy;
+    return { ...enemy, state: 'down', changedAt: gallery.waveTime };
+  });
+  return settle({ ...gallery, enemies });
+}

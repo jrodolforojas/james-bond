@@ -39,11 +39,12 @@ export function tick(state: BombState, elapsedMs: number): BombState {
   return withTime(state, state.remainingMs - elapsedMs);
 }
 
-export function cutWire(state: BombState, wire: Wire): BombState {
+export function cutWire(state: BombState, wire: Wire, free = false): BombState {
   if (state.status !== 'running') return state;
   if (state.cut.includes(wire)) return state;
   const cut = [...state.cut, wire];
   if (wire === CORRECT_WIRE) return { ...state, cut, status: 'defused' };
+  if (free) return { ...state, cut };
   return withTime({ ...state, cut }, state.remainingMs - WRONG_CUT_PENALTY_MS);
 }
 

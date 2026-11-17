@@ -42,5 +42,7 @@
   "retry": "REINTENTAR",
   "next": "SIGUIENTE DESTINO",
   "card": "La galería de villanos",
-  "nightLabel": "El dorado se apaga y todo se vuelve azul noche. Empieza a nevar."
+  "nightLabel": "El dorado se apaga y todo se vuelve azul noche. Empieza a nevar.",
+  "laser": "RELOJ LÁSER ×{{n}}",
+  "laserLabel": "Cortar el cable elegido con el reloj láser, sin penalización"
 }

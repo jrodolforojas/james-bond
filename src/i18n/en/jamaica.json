@@ -13,7 +13,7 @@
   "answers": "Answers",
   "correct": "CORRECT",
   "false": "FALSE",
-  "rule": "The questions come from the dossier. Two mistakes and you're an impostor.",
+  "rule": "The questions come from the dossier. {{count}} mistakes and you're an impostor.",
   "questions": {
     "doubleO": {
       "prompt": "What does the \"00\" mean?",
@@ -67,5 +67,7 @@
   "clean": "Clean. All clean… Wait. There's one more file. And SPECTRE didn't write this one.",
   "openFile": "OPEN FILE",
   "card": "Where it all began",
-  "tvLabel": "The signal cuts out like an old television"
+  "tvLabel": "The signal cuts out like an old television",
+  "hint": "HINT ×{{n}}",
+  "hintLabel": "Use a hint: rules out two wrong answers"
 }

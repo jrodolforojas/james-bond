@@ -5,12 +5,17 @@ import { useTranslation } from 'react-i18next';
 import { DrNoBust } from '../../art/JamaicaScene';
 import type { CardId } from '../../dossier/cards';
 import { prefersReducedMotion } from '../../motion';
-import { answer, QUESTION_COUNT, type Run, startRun } from './rules';
+import { EjectorSeat } from '../../perks/EjectorSeat';
+import '../../perks/perks.css';
+import { answer, hintFor, QUESTION_COUNT, type Run, startRun } from './rules';
 
 const REVEAL_SECONDS = 0.9;
 
 interface InterrogationProps {
   unlocked: readonly CardId[];
+  maxWrong: number;
+  hints: number;
+  onEject?: () => void;
   onPassed: () => void;
   onImpostor: () => void;
 }
@@ -22,11 +27,20 @@ function optionState(option: number, picked: number | null, correct: number): ''
   return '';
 }
 
-export function Interrogation({ unlocked, onPassed, onImpostor }: InterrogationProps) {
+export function Interrogation({
+  unlocked,
+  maxWrong,
+  hints,
+  onEject,
+  onPassed,
+  onImpostor,
+}: InterrogationProps) {
   const { t } = useTranslation('jamaica');
   const scope = useRef<HTMLElement>(null);
-  const [run, setRun] = useState<Run>(() => startRun(unlocked));
+  const [run, setRun] = useState<Run>(() => startRun(unlocked, maxWrong));
   const [picked, setPicked] = useState<number | null>(null);
+  const [hintsLeft, setHintsLeft] = useState(hints);
+  const [hidden, setHidden] = useState<{ index: number; options: number[] }>({ index: -1, options: [] });
   const question = run.questions[run.index];
 
   useEffect(() => {
@@ -53,7 +67,14 @@ export function Interrogation({ unlocked, onPassed, onImpostor }: InterrogationP
     });
   });
 
+  const revealHint = () => {
+    if (!question || hintsLeft <= 0 || picked !== null || hidden.index === run.index) return;
+    setHintsLeft((count) => count - 1);
+    setHidden({ index: run.index, options: hintFor(question) });
+  };
+
   if (!question) return null;
+  const ruledOut = hidden.index === run.index ? hidden.options : [];
   const options = t(`questions.${question.id}.options`, { returnObjects: true }) as readonly string[];
 
   return (
@@ -93,7 +114,8 @@ export function Interrogation({ unlocked, onPassed, onImpostor }: InterrogationP
                 key={option}
                 type="button"
                 className={`trivia__option ${state}`}
-                disabled={picked !== null}
+                disabled={picked !== null || ruledOut.includes(index)}
+                style={ruledOut.includes(index) ? { opacity: 0.25 } : undefined}
                 aria-pressed={picked === index}
                 onClick={() => choose(index)}
               >
@@ -108,7 +130,25 @@ export function Interrogation({ unlocked, onPassed, onImpostor }: InterrogationP
         </fieldset>
       </div>
 
-      <p className="trivia__rule">{t('rule')}</p>
+      {(hints > 0 || onEject) && (
+        <div className="perk-bar">
+          {hints > 0 && (
+            <button
+              type="button"
+              className="perk-btn"
+              style={{ color: 'var(--jamaica-turquoise)' }}
+              aria-label={t('hintLabel')}
+              disabled={hintsLeft <= 0 || picked !== null || hidden.index === run.index}
+              onClick={revealHint}
+            >
+              {t('hint', { n: hintsLeft })}
+            </button>
+          )}
+          {onEject && <EjectorSeat onEject={onEject} />}
+        </div>
+      )}
+
+      <p className="trivia__rule">{t('rule', { count: maxWrong })}</p>
     </main>
   );
 }

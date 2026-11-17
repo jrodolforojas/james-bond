@@ -294,3 +294,33 @@
   max-width: 100%;
   height: min(30dvh, 240px);
 }
+
+.shootout__db5 {
+  position: absolute;
+  left: 0;
+  bottom: 6%;
+  width: 46%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.shootout__db5 .vehicle {
+  position: static;
+  width: 100%;
+}
+
+.shootout__db5-blast {
+  position: absolute;
+  right: 8%;
+  bottom: 4%;
+  width: 40%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(242, 102, 42, 0.95), transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.shootout__perks {
+  padding: 0 var(--gutter);
+}

@@ -4,6 +4,8 @@ import { type PointerEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BowlerHat } from '../../art/FortKnoxScene';
 import { prefersReducedMotion } from '../../motion';
+import { EjectorSeat } from '../../perks/EjectorSeat';
+import '../../perks/perks.css';
 import {
   activeClue,
   type BombState,
@@ -57,6 +59,8 @@ interface BombGameProps {
   bonusMs?: number;
   order?: readonly Wire[];
   previouslyCut?: readonly Wire[];
+  laserCuts?: number;
+  onEject?: () => void;
   onDefused: (frozenMs: number) => void;
   onExploded: (cut: Wire[]) => void;
 }
@@ -65,6 +69,8 @@ export function BombGame({
   bonusMs = 0,
   order = WIRES,
   previouslyCut = [],
+  laserCuts = 0,
+  onEject,
   onDefused,
   onExploded,
 }: BombGameProps) {
@@ -79,6 +85,7 @@ export function BombGame({
   const [selected, setSelected] = useState<Wire | null>(null);
   const [hatDirection, setHatDirection] = useState<Direction | null>(null);
   const [displayMs, setDisplayMs] = useState<number | null>(null);
+  const [lasers, setLasers] = useState(laserCuts);
   const clues = t('clues', { returnObjects: true });
   const clueIndex = activeClue(bomb);
   const shownMs = displayMs ?? bomb.remainingMs;
@@ -214,6 +221,28 @@ export function BombGame({
     gsap.fromTo('[data-timer]', { x: -5 }, { x: 0, duration: 0.4, ease: 'elastic.out(1, 0.3)' });
   });
 
+  const fireLaser = contextSafe(() => {
+    if (!running || !selected || lasers <= 0) return;
+    const wire = selected;
+    const row = order.indexOf(wire);
+    const geometry = ROWS[row] ?? ROWS[0];
+    setSelected(null);
+    setLasers((count) => count - 1);
+    gsap.fromTo(
+      '[data-laser]',
+      { attr: { x2: 350, y2: 330 }, opacity: 1 },
+      {
+        attr: { x2: 60, y2: geometry.y + 8 },
+        duration: 0.25,
+        ease: 'power2.out',
+        onComplete: () => {
+          setBomb((state) => cutWire(state, wire, true));
+          gsap.to('[data-laser]', { opacity: 0, duration: 0.3 });
+        },
+      },
+    );
+  });
+
   const onPointerDown = (event: PointerEvent) => {
     swipeStart.current = event.clientY;
   };
@@ -297,6 +326,7 @@ export function BombGame({
               </g>
             );
           })}
+          <line x1="350" y1="330" x2="350" y2="330" stroke="#e0534a" strokeWidth="3" opacity="0" data-laser />
         </svg>
 
         {order.map((wire, row) => {
@@ -387,6 +417,23 @@ export function BombGame({
           ↓
         </button>
       </div>
+
+      {(laserCuts > 0 || onEject) && (
+        <div className="perk-bar">
+          {laserCuts > 0 && (
+            <button
+              type="button"
+              className="perk-btn"
+              aria-label={t('laserLabel')}
+              disabled={!running || !selected || lasers <= 0}
+              onClick={fireLaser}
+            >
+              {t('laser', { n: lasers })}
+            </button>
+          )}
+          {onEject && <EjectorSeat onEject={onEject} />}
+        </div>
+      )}
     </main>
   );
 }

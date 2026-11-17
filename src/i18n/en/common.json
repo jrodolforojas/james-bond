@@ -8,5 +8,7 @@
   "cardUnlocked": "CARD UNLOCKED",
   "stop": "STOP {{n}}",
   "nextDestination": "NEXT DESTINATION",
-  "readCard": "READ CARD ▸"
+  "readCard": "READ CARD ▸",
+  "ejector": "EJECTOR SEAT",
+  "ejectorLabel": "Ejector seat: skip this mini-game. One use for the whole mission."
 }

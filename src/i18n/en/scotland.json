@@ -35,5 +35,7 @@
   "silence": "No music here. Only fire and wind.",
   "burningLabel": "The stone house burns in the night",
   "card": "The origin",
-  "transitionLabel": "An ember rises and becomes the Caribbean sun"
+  "transitionLabel": "An ember rises and becomes the Caribbean sun",
+  "db5": "DB5 SUPPORT",
+  "db5Label": "Call the DB5: one burst clears the attackers in sight. One use."
 }

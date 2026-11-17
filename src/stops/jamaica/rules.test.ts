@@ -1,6 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import { CARD_IDS } from '../../dossier/cards';
-import { answer, MAX_WRONG, OPTION_COUNT, pickQuestions, QUESTION_COUNT, QUESTIONS, startRun } from './rules';
+import {
+  answer,
+  hintFor,
+  MAX_WRONG,
+  OPTION_COUNT,
+  pickQuestions,
+  QUESTION_COUNT,
+  QUESTIONS,
+  startRun,
+} from './rules';
 
 const ALL_CARDS = [...CARD_IDS];
 
@@ -61,5 +70,21 @@ describe('Jamaica interrogation', () => {
   it('ignores answers once the run is over', () => {
     const over = answerAll(startRun(ALL_CARDS), false);
     expect(answer(over, 0)).toBe(over);
+  });
+
+  it('lets Moore survive a second mistake', () => {
+    const run = startRun(ALL_CARDS, 3);
+    const twoWrong = run.questions
+      .slice(0, 2)
+      .reduce((state, q) => answer(state, (q.correct + 1) % OPTION_COUNT), run);
+    expect(twoWrong.status).toBe('asking');
+  });
+
+  it('a hint rules out exactly two wrong answers', () => {
+    QUESTIONS.forEach((question) => {
+      const hidden = hintFor(question, () => 0.5);
+      expect(hidden).toHaveLength(2);
+      expect(hidden).not.toContain(question.correct);
+    });
   });
 });

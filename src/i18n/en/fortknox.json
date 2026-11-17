@@ -42,5 +42,7 @@
   "retry": "RETRY",
   "next": "NEXT DESTINATION",
   "card": "The rogues' gallery",
-  "nightLabel": "The gold fades and everything turns night blue. It starts to snow."
+  "nightLabel": "The gold fades and everything turns night blue. It starts to snow.",
+  "laser": "LASER WATCH ×{{n}}",
+  "laserLabel": "Cut the selected wire with the laser watch, no penalty"
 }

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  callSupport,
   createGallery,
   ENEMY_Y,
   type Gallery,
@@ -102,5 +103,16 @@ describe('Scotland shootout', () => {
     const gallery = runUntil(createGallery([], { random: alwaysDoor, lives: 1 }), (g) => g.status === 'lost');
     expect(gallery.status).toBe('lost');
     expect(gallery.lives).toBe(0);
+  });
+
+  it('the DB5 only answers the call in the final wave and drops everyone in sight', () => {
+    const firstWave = runUntil(createGallery([], { random: alwaysDoor }), (g) =>
+      g.enemies.some((e) => e.state === 'up'),
+    );
+    expect(callSupport(firstWave)).toBe(firstWave);
+    const finalWave = { ...firstWave, wave: WAVE_SIZES.length - 1 };
+    const helped = callSupport(finalWave);
+    expect(helped.enemies.some((e) => e.state === 'up')).toBe(false);
+    expect(helped.enemies.filter((e) => e.state === 'down')).toHaveLength(1);
   });
 });

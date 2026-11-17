@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { Briefcase, PlayerSilhouette } from '../../art/MontenegroScene';
 import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { prefersReducedMotion } from '../../motion';
+import { EjectorSeat } from '../../perks/EjectorSeat';
+import '../../perks/perks.css';
 import {
   createTable,
   type Gesture,
@@ -70,9 +72,10 @@ function playGesture(seat: Element, gesture: Gesture) {
 
 interface PokerTableProps {
   onFound: () => void;
+  onEject?: () => void;
 }
 
-export function PokerTable({ onFound }: PokerTableProps) {
+export function PokerTable({ onFound, onEject }: PokerTableProps) {
   const { t } = useTranslation('montenegro');
   const scope = useRef<HTMLElement>(null);
   const [table] = useState(() => createTable());
@@ -211,6 +214,11 @@ export function PokerTable({ onFound }: PokerTableProps) {
         >
           {picked === null ? t('pickSomeone') : t('point', { who: seatName(picked) })}
         </button>
+      )}
+      {onEject && (
+        <div className="perk-bar">
+          <EjectorSeat onEject={onEject} />
+        </div>
       )}
     </main>
   );

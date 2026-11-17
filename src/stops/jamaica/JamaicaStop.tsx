@@ -6,6 +6,7 @@ import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { unlockedIds } from '../../dossier/cards';
 import { Dossier, type DossierHandle } from '../../dossier/Dossier';
 import { prefersReducedMotion } from '../../motion';
+import { usePerks } from '../../perks/usePerks';
 import { useMission } from '../../state/store';
 import { EVIDENCE_NUMBER } from '../catalog';
 import { ExitSequence } from '../ExitSequence';
@@ -68,6 +69,7 @@ export function JamaicaStop() {
   const completed = useMission((state) => state.completed);
   const step = useMission((state) => state.step);
   const finishedAt = useMission((state) => state.finishedAt);
+  const perks = usePerks();
   const attempt = phase.name === 'game' ? phase.attempt : 0;
 
   const passed = useCallback(() => {
@@ -106,6 +108,9 @@ export function JamaicaStop() {
     <Interrogation
       key={phase.attempt}
       unlocked={unlockedIds({ era, completed, step, finishedAt })}
+      maxWrong={perks.triviaMaxWrong}
+      hints={phase.attempt === 1 ? perks.triviaHints : 0}
+      onEject={passed}
       onPassed={passed}
       onImpostor={impostor}
     />

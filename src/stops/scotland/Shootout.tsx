@@ -2,9 +2,13 @@ import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { type PointerEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { VehicleSilhouette } from '../../art/VehicleSilhouette';
 import { prefersReducedMotion } from '../../motion';
+import { EjectorSeat } from '../../perks/EjectorSeat';
+import '../../perks/perks.css';
 import { drawGallery, type Shot } from './drawGallery';
 import {
+  callSupport,
   createGallery,
   ENEMY_Y,
   type Gallery,
@@ -13,6 +17,7 @@ import {
   LANES,
   type Lane,
   nextWave,
+  SUPPORT_WAVE,
   shoot,
   tick,
   WAVE_SIZES,
@@ -24,6 +29,8 @@ interface ShootoutProps {
   traps: readonly Lane[];
   lives?: number;
   hitRadius?: number;
+  db5Support?: boolean;
+  onEject?: () => void;
   onWon: () => void;
   onLost: () => void;
 }
@@ -34,7 +41,15 @@ interface Hud {
   status: GalleryStatus;
 }
 
-export function Shootout({ traps, lives, hitRadius, onWon, onLost }: ShootoutProps) {
+export function Shootout({
+  traps,
+  lives,
+  hitRadius,
+  db5Support = false,
+  onEject,
+  onWon,
+  onLost,
+}: ShootoutProps) {
   const { t } = useTranslation('scotland');
   const scope = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -43,6 +58,7 @@ export function Shootout({ traps, lives, hitRadius, onWon, onLost }: ShootoutPro
   const clock = useRef(0);
   const maxLives = useRef(gallery.current.lives);
   const [hud, setHud] = useState<Hud>({ wave: 0, lives: gallery.current.lives, status: 'running' });
+  const [supportUsed, setSupportUsed] = useState(false);
 
   const { contextSafe } = useGSAP({ scope });
 
@@ -109,6 +125,24 @@ export function Shootout({ traps, lives, hitRadius, onWon, onLost }: ShootoutPro
     sync(shoot(gallery.current, x, y).gallery);
   };
 
+  const summonDb5 = contextSafe(() => {
+    if (supportUsed) return;
+    setSupportUsed(true);
+    const strike = () => sync(callSupport(gallery.current));
+    if (prefersReducedMotion()) return strike();
+    gsap
+      .timeline()
+      .fromTo(
+        '[data-db5]',
+        { xPercent: -120, opacity: 1 },
+        { xPercent: 260, duration: 1.4, ease: 'power1.inOut' },
+      )
+      .add(strike, 0.6)
+      .fromTo('[data-db5-blast]', { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1.4, duration: 0.25 }, 1.2)
+      .to('[data-db5-blast]', { opacity: 0, duration: 0.5 })
+      .set('[data-db5]', { opacity: 0 }, 1.3);
+  });
+
   const onPointerDown = (event: PointerEvent<HTMLCanvasElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
     fireAt((event.clientX - rect.left) / rect.width, (event.clientY - rect.top) / rect.height);
@@ -148,6 +182,11 @@ export function Shootout({ traps, lives, hitRadius, onWon, onLost }: ShootoutPro
           ))}
         </fieldset>
 
+        <div className="shootout__db5" data-db5 aria-hidden="true">
+          <VehicleSilhouette era="connery" rim="#d4a017" />
+        </div>
+        <div className="shootout__db5-blast" data-db5-blast aria-hidden="true" />
+
         {hud.status === 'between' && (
           <div className="shootout__overlay">
             <p className="stamp" style={{ color: 'var(--scotland-fire)' }}>
@@ -159,6 +198,24 @@ export function Shootout({ traps, lives, hitRadius, onWon, onLost }: ShootoutPro
           </div>
         )}
       </div>
+
+      {(db5Support || onEject) && (
+        <div className="perk-bar shootout__perks">
+          {db5Support && (
+            <button
+              type="button"
+              className="perk-btn"
+              style={{ color: 'var(--fortknox-gold)' }}
+              aria-label={t('db5Label')}
+              disabled={supportUsed || hud.status !== 'running' || hud.wave !== SUPPORT_WAVE}
+              onClick={summonDb5}
+            >
+              {t('db5')}
+            </button>
+          )}
+          {onEject && <EjectorSeat onEject={onEject} />}
+        </div>
+      )}
 
       <p className="shootout__hint">{t('shootHint')}</p>
     </main>

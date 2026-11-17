@@ -50,6 +50,12 @@ describe('bomb rules', () => {
     expect(bomb.status).toBe('running');
   });
 
+  it('a laser cut on a wrong wire costs no time', () => {
+    const bomb = cutWire(createBomb(), 'red', true);
+    expect(bomb.remainingMs).toBe(START_MS);
+    expect(bomb.cut).toEqual(['red']);
+  });
+
   it('explodes if a wrong cut drains the clock', () => {
     const almostOut = tick(createBomb(), 26_000);
     expect(cutWire(almostOut, 'red').status).toBe('exploded');
