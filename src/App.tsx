@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { setSoundEnabled } from './audio/audio';
+import { useUiSounds } from './audio/useUiSounds';
 import { LanguageSwitch } from './components/LanguageSwitch';
 import { LegalFooter } from './components/LegalFooter';
 import { SoundToggle } from './components/SoundToggle';
@@ -22,6 +23,7 @@ function useUnlockSavedSound() {
 
 export function App() {
   useUnlockSavedSound();
+  useUiSounds();
   return (
     <div className="app">
       <div className="column">

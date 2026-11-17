@@ -11,6 +11,7 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import { playCue } from '../audio/audio';
 import { prefersReducedMotion } from '../motion';
 import { useMission } from '../state/store';
 import { CardView } from './CardView';
@@ -77,6 +78,7 @@ export const Dossier = forwardRef<DossierHandle, DossierProps>(function Dossier(
     const index = CARDS.findIndex((entry) => entry.id === card);
     setView(index >= 0 ? { kind: 'card', index } : { kind: 'index' });
     dialog.showModal();
+    playCue('paper');
     if (prefersReducedMotion()) return;
     gsap.fromTo(dialog, { yPercent: 100 }, { yPercent: 0, duration: 0.45, ease: 'power3.out' });
   });
@@ -86,6 +88,7 @@ export const Dossier = forwardRef<DossierHandle, DossierProps>(function Dossier(
   const close = contextSafe(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
+    playCue('paper');
     if (prefersReducedMotion()) return dialog.close();
     gsap.to(dialog, { yPercent: 100, duration: 0.3, ease: 'power2.in', onComplete: () => dialog.close() });
   });

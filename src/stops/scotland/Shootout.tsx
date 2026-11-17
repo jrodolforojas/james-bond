@@ -188,7 +188,7 @@ export function Shootout({
         <fieldset className="lane-buttons">
           <legend className="sr-only">{t('laneButtons')}</legend>
           {LANES.map((lane) => (
-            <button key={lane} type="button" onClick={() => fireAt(LANE_X[lane], ENEMY_Y)}>
+            <button key={lane} type="button" data-sfx="none" onClick={() => fireAt(LANE_X[lane], ENEMY_Y)}>
               {t('shootLane', { lane: t(`lanes.${lane}`) })}
             </button>
           ))}

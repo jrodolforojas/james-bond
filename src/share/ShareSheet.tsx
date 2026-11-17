@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { forwardRef, type SyntheticEvent, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { VEHICLE_PATHS } from '../art/VehicleSilhouette';
+import { playCue } from '../audio/audio';
 import { prefersReducedMotion } from '../motion';
 import { ERA_COLORS } from '../screens/Recruitment/eras';
 import { useMission } from '../state/store';
@@ -89,6 +90,7 @@ export const ShareSheet = forwardRef<ShareSheetHandle>(function ShareSheet(_, re
     if (!dialog) return;
     setIsOpen(true);
     dialog.showModal();
+    playCue('paper');
     if (prefersReducedMotion()) return;
     gsap.fromTo(dialog, { yPercent: 100 }, { yPercent: 0, duration: 0.45, ease: 'power3.out' });
   });
@@ -98,6 +100,7 @@ export const ShareSheet = forwardRef<ShareSheetHandle>(function ShareSheet(_, re
   const close = contextSafe(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
+    playCue('paper');
     const done = () => {
       dialog.close();
       setIsOpen(false);

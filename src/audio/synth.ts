@@ -77,6 +77,17 @@ export const SYNTHS = {
   },
   wrong: (ctx, out) => tone(ctx, out, { type: 'sawtooth', freq: 180, to: 90, peak: 0.2, decay: 0.4 }),
   tone: (ctx, out) => tone(ctx, out, { type: 'sine', freq: 55, peak: 0.5, decay: 3 }),
+  select: (ctx, out) => {
+    tone(ctx, out, { type: 'sine', freq: 880, peak: 0.12, decay: 0.06 });
+    setTimeout(() => tone(ctx, out, { type: 'sine', freq: 1320, peak: 0.1, decay: 0.08 }), 45);
+  },
+  paper: (ctx, out) => {
+    noiseBurst(ctx, out, { type: 'bandpass', freq: 1800, q: 0.5, peak: 0.18, decay: 0.12 });
+    setTimeout(
+      () => noiseBurst(ctx, out, { type: 'bandpass', freq: 2600, q: 0.6, peak: 0.12, decay: 0.18 }),
+      70,
+    );
+  },
   ignite: (ctx, out) => noiseBurst(ctx, out, { type: 'lowpass', freq: 1500, peak: 0.5, decay: 0.9 }),
 } satisfies Record<string, Synth>;
 
