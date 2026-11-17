@@ -1,0 +1,141 @@
+.radio {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 14px 16px;
+  background: #111113;
+  border: 1px solid var(--graphite-line);
+  color: var(--bone);
+}
+
+.radio__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--bone-muted);
+}
+
+.radio__led {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--stamp-bright);
+  animation: radio-led 1.6s ease-in-out infinite;
+}
+
+.radio__wave {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 14px;
+}
+
+.radio__wave span {
+  width: 2px;
+  height: 100%;
+  background: var(--manila);
+  transform-origin: center;
+  animation: radio-wave 0.9s ease-in-out infinite;
+}
+
+.radio__wave span:nth-child(2) {
+  animation-delay: -0.2s;
+}
+.radio__wave span:nth-child(3) {
+  animation-delay: -0.5s;
+}
+.radio__wave span:nth-child(4) {
+  animation-delay: -0.1s;
+}
+.radio__wave span:nth-child(5) {
+  animation-delay: -0.7s;
+}
+
+.radio__text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  font-style: italic;
+}
+
+@keyframes radio-led {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes radio-wave {
+  0%,
+  100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.stamp {
+  display: inline-block;
+  padding: 6px 14px;
+  border: 5px double currentColor;
+  font-family: var(--font-stamp);
+  font-size: 24px;
+  line-height: 1.15;
+  text-align: center;
+  letter-spacing: 0.04em;
+  transform: rotate(-7deg);
+  color: var(--stamp-bright);
+}
+
+.legal {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 6px var(--gutter) calc(6px + env(safe-area-inset-bottom));
+  font-size: 10px;
+  line-height: 1.4;
+  text-align: center;
+  color: #8e897f;
+  background: #000;
+}
+
+.lang-switch {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  position: absolute;
+  top: calc(6px + env(safe-area-inset-top));
+  right: 8px;
+  z-index: 20;
+  display: flex;
+  gap: 2px;
+}
+
+.lang-switch button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 6px;
+  background: transparent;
+  border: none;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  opacity: 0.55;
+  cursor: pointer;
+  mix-blend-mode: difference;
+  color: #fff;
+}
+
+.lang-switch button[aria-pressed="true"] {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radio__led,
+  .radio__wave span {
+    animation: none;
+  }
+}

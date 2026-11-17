@@ -1,0 +1,16 @@
+{
+  "eyebrow": "OPERATIONS MAP",
+  "evidence": "Evidence:",
+  "mapLabel": "Map with the mission route",
+  "done": "DONE",
+  "locked": "LOCKED",
+  "go": "GO",
+  "ocean": "ATLANTIC",
+  "stops": {
+    "london": { "place": "LONDON", "name": "London", "subtitle": "The briefing" },
+    "montenegro": { "place": "MONTENEGRO", "name": "Montenegro", "subtitle": "The tell" },
+    "fortknox": { "place": "FORT KNOX", "name": "Fort Knox", "subtitle": "Stop the clock" },
+    "scotland": { "place": "SCOTLAND", "name": "Scotland", "subtitle": "Skyfall" },
+    "jamaica": { "place": "JAMAICA", "name": "Jamaica", "subtitle": "Where it all began" }
+  }
+}

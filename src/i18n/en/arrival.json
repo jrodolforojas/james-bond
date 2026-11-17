@@ -1,0 +1,13 @@
+{
+  "channel": "CHANNEL 7 · ENCRYPTED",
+  "lines": [
+    "TRANSMISSION INTERCEPTED — 03:47 GMT",
+    "ORIGIN: UNKNOWN",
+    "CONTENTS: PERSONNEL FILE — AGENT 007"
+  ],
+  "statusLabel": "STATUS:",
+  "statusValue": "COMPROMISED",
+  "message": "We have a problem. Someone published everything about him: who he is, where he comes from, who he has faced. And something worse: who comes next. We need someone to clean this up. Will you accept the mission?",
+  "accept": "ACCEPT MISSION",
+  "folder": "FILE 007 · TOP SECRET"
+}

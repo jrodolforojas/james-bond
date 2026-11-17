@@ -1,0 +1,13 @@
+{
+  "channel": "CANAL 7 · CIFRADO",
+  "lines": [
+    "TRANSMISIÓN INTERCEPTADA — 03:47 GMT",
+    "ORIGEN: DESCONOCIDO",
+    "CONTENIDO: EXPEDIENTE PERSONAL — AGENTE 007"
+  ],
+  "statusLabel": "ESTADO:",
+  "statusValue": "COMPROMETIDO",
+  "message": "Tenemos un problema. Alguien publicó todo sobre él: quién es, de dónde viene, a quién ha enfrentado. Y algo peor: quién viene después. Necesitamos a alguien que limpie esto. ¿Acepta la misión?",
+  "accept": "ACEPTAR MISIÓN",
+  "folder": "EXP. 007 · TOP SECRET"
+}

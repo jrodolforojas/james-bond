@@ -1,0 +1,55 @@
+{
+  "eyebrow": "STEP 1 · RECRUITMENT",
+  "titleStart": "Choose your ",
+  "titleEm": "era",
+  "carousel": "Available eras",
+  "moneypenny": "Q insists you bring it back in one piece. None of your predecessors managed it.",
+  "perk": "ADVANTAGE",
+  "assign": "ASSIGN VEHICLE",
+  "assigned": "ASSIGNED",
+  "era": "ERA {{n}}",
+  "lockedName": "007 #7",
+  "lockedLine": "Locked until the end",
+  "eras": {
+    "connery": {
+      "years": "1962–1971",
+      "actor": "Sean Connery",
+      "vehicle": "Aston Martin DB5",
+      "film": "Goldfinger",
+      "line": "The one who invented it all.",
+      "perk": "Ejector seat: skip one mini-game."
+    },
+    "moore": {
+      "years": "1973–1985",
+      "actor": "Roger Moore",
+      "vehicle": "Lotus Esprit submarine car",
+      "film": "The Spy Who Loved Me",
+      "line": "The one with the humor and the raised eyebrow.",
+      "perk": "Water route: reach Jamaica sooner."
+    },
+    "dalton": {
+      "years": "1987–1989",
+      "actor": "Timothy Dalton",
+      "vehicle": "Aston Martin V8",
+      "film": "The Living Daylights",
+      "line": "The darkest one, the most faithful to the books.",
+      "perk": "+10 s on timed challenges."
+    },
+    "brosnan": {
+      "years": "1995–2002",
+      "actor": "Pierce Brosnan",
+      "vehicle": "Remote-controlled BMW 750iL",
+      "film": "Tomorrow Never Dies",
+      "line": "The 90s one: gadgets and technology.",
+      "perk": "Extra hint in the trivia."
+    },
+    "craig": {
+      "years": "2006–2021",
+      "actor": "Daniel Craig",
+      "vehicle": "Aston Martin DBS",
+      "film": "Casino Royale",
+      "line": "The one who broke him and made him human.",
+      "perk": "More health in the shootout."
+    }
+  }
+}

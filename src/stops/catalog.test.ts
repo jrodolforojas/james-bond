@@ -1,0 +1,21 @@
+import { describe, expect, it } from 'vitest';
+import { evidenceCount, nextStop, stopNumber } from './catalog';
+
+describe('stop catalog', () => {
+  it('starts with the first playable stop', () => {
+    expect(nextStop([])).toBe('fortknox');
+  });
+
+  it('has no next stop once every playable stop is completed', () => {
+    expect(nextStop(['fortknox'])).toBeUndefined();
+  });
+
+  it('numbers stops in mission order', () => {
+    expect(stopNumber('london')).toBe(1);
+    expect(stopNumber('fortknox')).toBe(3);
+  });
+
+  it('counts only stops that hold evidence', () => {
+    expect(evidenceCount(['london', 'fortknox'])).toBe(1);
+  });
+});

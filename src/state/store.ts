@@ -1,0 +1,91 @@
+import { create } from 'zustand';
+import { createJSONStorage, persist, type StateStorage } from 'zustand/middleware';
+import type { StopId } from '../stops/catalog';
+
+export const ERAS = ['connery', 'moore', 'dalton', 'brosnan', 'craig'] as const;
+export type EraId = (typeof ERAS)[number];
+
+export type Step =
+  | { screen: 'arrival' }
+  | { screen: 'recruitment' }
+  | { screen: 'map' }
+  | { screen: 'stop'; stop: StopId }
+  | { screen: 'final' };
+
+interface MissionState {
+  step: Step;
+  era: EraId | null;
+  completed: StopId[];
+  startedAt: number | null;
+  finishedAt: number | null;
+  setStep: (step: Step) => void;
+  acceptMission: () => void;
+  chooseEra: (era: EraId) => void;
+  completeStop: (stop: StopId) => void;
+  finishMission: () => void;
+  reset: () => void;
+}
+
+const initialMission = {
+  step: { screen: 'arrival' } as Step,
+  era: null,
+  completed: [],
+  startedAt: null,
+  finishedAt: null,
+};
+
+const memoryFallback = new Map<string, string>();
+
+const safeStorage: StateStorage = {
+  getItem: (key) => {
+    try {
+      return window.localStorage.getItem(key);
+    } catch {
+      return memoryFallback.get(key) ?? null;
+    }
+  },
+  setItem: (key, value) => {
+    try {
+      window.localStorage.setItem(key, value);
+    } catch {
+      memoryFallback.set(key, value);
+    }
+  },
+  removeItem: (key) => {
+    try {
+      window.localStorage.removeItem(key);
+    } catch {
+      memoryFallback.delete(key);
+    }
+  },
+};
+
+export const useMission = create<MissionState>()(
+  persist(
+    (set) => ({
+      ...initialMission,
+      setStep: (step) => set({ step }),
+      acceptMission: () => set({ startedAt: Date.now(), step: { screen: 'recruitment' } }),
+      chooseEra: (era) => set({ era }),
+      completeStop: (stop) =>
+        set((state) => {
+          if (state.completed.includes(stop)) return state;
+          return { completed: [...state.completed, stop] };
+        }),
+      finishMission: () => set((state) => ({ finishedAt: state.finishedAt ?? Date.now() })),
+      reset: () => set({ ...initialMission }),
+    }),
+    {
+      name: 'exp007:v1',
+      version: 1,
+      storage: createJSONStorage(() => safeStorage),
+      partialize: ({ step, era, completed, startedAt, finishedAt }) => ({
+        step,
+        era,
+        completed,
+        startedAt,
+        finishedAt,
+      }),
+    },
+  ),
+);
