@@ -2,6 +2,7 @@ import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useMusic } from '../../audio/useAmbience';
 import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { transition } from '../../flow/navigate';
 import { prefersReducedMotion } from '../../motion';
@@ -29,6 +30,7 @@ export function ArrivalScreen() {
   const { t, i18n } = useTranslation('arrival');
   const acceptMission = useMission((state) => state.acceptMission);
   const scope = useRef<HTMLElement>(null);
+  useMusic();
   const lines = t('lines', { returnObjects: true });
   const transcript = [...lines, `${t('statusLabel')} ${t('statusValue')}`].join('. ');
 
@@ -82,7 +84,6 @@ export function ArrivalScreen() {
 
   const accept = contextSafe(() => {
     const folder = scope.current?.querySelector<HTMLElement>('[data-folder]');
-    playCue('whoosh');
     if (!folder || prefersReducedMotion()) return transition(acceptMission);
     gsap
       .timeline({ onComplete: () => transition(acceptMission) })

@@ -1,4 +1,5 @@
 import { CUE_FILES } from './manifest';
+import { startMotif } from './motif';
 import { type AmbienceName, type CueName, SYNTHS, startAmbience } from './synth';
 
 const MASTER_LEVEL = 0.8;
@@ -8,6 +9,9 @@ let master: GainNode | null = null;
 let enabled = false;
 const buffers = new Map<CueName, AudioBuffer>();
 const ambiences = new Map<AmbienceName, () => void>();
+let stopMusicNow: (() => void) | null = null;
+let musicWanted = false;
+const wantedAmbiences = new Set<AmbienceName>();
 
 function ensureContext(): AudioContext | null {
   if (context) return context;
@@ -43,12 +47,18 @@ export function setSoundEnabled(on: boolean) {
       stop();
     });
     ambiences.clear();
+    stopMusicNow?.();
+    stopMusicNow = null;
     return;
   }
   const ctx = ensureContext();
   if (!ctx) return;
   void ctx.resume();
   if (buffers.size === 0) void preload(ctx);
+  if (musicWanted) startMusic();
+  wantedAmbiences.forEach((name) => {
+    startAmbient(name);
+  });
 }
 
 export function playCue(cue: CueName) {
@@ -62,11 +72,25 @@ export function playCue(cue: CueName) {
 }
 
 export function startAmbient(name: AmbienceName) {
+  wantedAmbiences.add(name);
   if (!enabled || !context || !master || ambiences.has(name)) return;
   ambiences.set(name, startAmbience(context, master, name));
 }
 
 export function stopAmbient(name: AmbienceName) {
+  wantedAmbiences.delete(name);
   ambiences.get(name)?.();
   ambiences.delete(name);
+}
+
+export function startMusic() {
+  musicWanted = true;
+  if (!enabled || !context || !master || stopMusicNow) return;
+  stopMusicNow = startMotif(context, master);
+}
+
+export function stopMusic() {
+  musicWanted = false;
+  stopMusicNow?.();
+  stopMusicNow = null;
 }

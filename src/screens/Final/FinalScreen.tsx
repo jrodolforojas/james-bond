@@ -2,6 +2,7 @@ import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useMusic } from '../../audio/useAmbience';
 import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { NEW_007_NAME } from '../../config';
 import { Dossier } from '../../dossier/Dossier';
@@ -29,6 +30,7 @@ export function FinalScreen() {
   const finishMission = useMission((state) => state.finishMission);
   const reset = useMission((state) => state.reset);
   const scope = useRef<HTMLElement>(null);
+  useMusic();
   const shareSheet = useRef<ShareSheetHandle>(null);
 
   useEffect(() => {
