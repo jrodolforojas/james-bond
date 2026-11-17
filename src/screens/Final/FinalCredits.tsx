@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { SocialLinks } from '../../components/SocialLinks';
+import { MakerCredit } from '../../components/MakerCredit';
 import { licenseUrl, REVEAL } from '../../reveal';
 
 function PhotoCredit() {
@@ -28,11 +28,9 @@ function PhotoCredit() {
 }
 
 export function FinalCredits() {
-  const { t } = useTranslation();
   return (
     <footer className="final__credits">
-      <p className="final__maker">{t('madeBy')}</p>
-      <SocialLinks />
+      <MakerCredit />
       <PhotoCredit />
     </footer>
   );

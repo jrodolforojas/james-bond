@@ -166,6 +166,21 @@
   height: 20px;
 }
 
+.maker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.maker__line {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--bone-muted);
+}
+
 .socials {
   display: flex;
   justify-content: center;

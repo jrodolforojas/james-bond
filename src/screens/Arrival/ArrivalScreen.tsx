@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMusic } from '../../audio/useAmbience';
+import { MakerCredit } from '../../components/MakerCredit';
 import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { transition } from '../../flow/navigate';
 import { prefersReducedMotion } from '../../motion';
@@ -119,6 +120,9 @@ export function ArrivalScreen() {
       <button type="button" className="btn btn--outline arrival__accept" data-reveal onClick={accept}>
         {t('accept')}
       </button>
+      <div className="arrival__maker" data-reveal>
+        <MakerCredit />
+      </div>
 
       <div className="folder" data-folder aria-hidden="true">
         <div className="folder__back" />

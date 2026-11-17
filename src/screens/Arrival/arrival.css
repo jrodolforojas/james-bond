@@ -73,6 +73,12 @@
   color: var(--manila);
 }
 
+.arrival__maker {
+  position: relative;
+  margin-top: auto;
+  padding-top: var(--space-5);
+}
+
 .folder {
   position: absolute;
   inset: 0;
