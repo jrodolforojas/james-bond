@@ -4,6 +4,7 @@ import { MapScreen } from '../screens/Map/MapScreen';
 import { RecruitmentScreen } from '../screens/Recruitment/RecruitmentScreen';
 import { useMission } from '../state/store';
 import { FortKnoxStop } from '../stops/fortknox/FortKnoxStop';
+import { LondonStop } from '../stops/london/LondonStop';
 
 export function FlowRouter() {
   const step = useMission((state) => state.step);
@@ -11,6 +12,7 @@ export function FlowRouter() {
   if (step.screen === 'recruitment') return <RecruitmentScreen />;
   if (step.screen === 'map') return <MapScreen />;
   if (step.screen === 'final') return <FinalScreen />;
+  if (step.stop === 'london') return <LondonStop />;
   if (step.stop === 'fortknox') return <FortKnoxStop />;
   return <MapScreen />;
 }
