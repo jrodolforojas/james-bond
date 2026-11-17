@@ -3,9 +3,11 @@ import { startMotif } from './motif';
 import { type AmbienceName, type CueName, SYNTHS, startAmbience } from './synth';
 
 const MASTER_LEVEL = 0.8;
+const SFX_LEVEL = 0.6;
 
 let context: AudioContext | null = null;
 let master: GainNode | null = null;
+let sfx: GainNode | null = null;
 let enabled = false;
 const buffers = new Map<CueName, AudioBuffer>();
 const ambiences = new Map<AmbienceName, () => void>();
@@ -23,6 +25,9 @@ function ensureContext(): AudioContext | null {
   master = context.createGain();
   master.gain.value = MASTER_LEVEL;
   master.connect(context.destination);
+  sfx = context.createGain();
+  sfx.gain.value = SFX_LEVEL;
+  sfx.connect(master);
   return context;
 }
 
@@ -62,12 +67,12 @@ export function setSoundEnabled(on: boolean) {
 }
 
 export function playCue(cue: CueName) {
-  if (!enabled || !context || !master) return;
+  if (!enabled || !context || !sfx) return;
   const buffer = buffers.get(cue);
-  if (!buffer) return SYNTHS[cue](context, master);
+  if (!buffer) return SYNTHS[cue](context, sfx);
   const source = context.createBufferSource();
   source.buffer = buffer;
-  source.connect(master);
+  source.connect(sfx);
   source.start();
 }
 
