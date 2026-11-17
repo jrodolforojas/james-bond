@@ -26,5 +26,7 @@
       "kicker": "STORE",
       "label": "Equípese como agente"
     }
-  }
+  },
+  "statusRevealed": "ESTADO: Desclasificado",
+  "declassified": "DESCLASIFICADO"
 }

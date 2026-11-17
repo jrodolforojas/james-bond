@@ -26,5 +26,7 @@
       "kicker": "STORE",
       "label": "Gear up like an agent"
     }
-  }
+  },
+  "statusRevealed": "STATUS: Declassified",
+  "declassified": "DECLASSIFIED"
 }

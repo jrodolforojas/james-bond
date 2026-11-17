@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { VehicleSilhouette } from '../../art/VehicleSilhouette';
 import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { Stamp } from '../../components/Stamp';
+import { NEW_007_NAME } from '../../config';
 import { navigate } from '../../flow/navigate';
 import { prefersReducedMotion } from '../../motion';
 import { ERAS, type EraId, useMission } from '../../state/store';
@@ -152,10 +153,14 @@ export function RecruitmentScreen() {
           <div className="era-card__stage" />
           <div className="era-card__body">
             <h2 className="display era-card__vehicle">{t('lockedName')}</h2>
-            <span aria-hidden="true">
-              <span className="redacted">██████████</span>
-            </span>
-            <p className="era-card__line">{t('lockedLine')}</p>
+            {NEW_007_NAME ? (
+              <span className="era-card__revealed">{NEW_007_NAME}</span>
+            ) : (
+              <span aria-hidden="true">
+                <span className="redacted">██████████</span>
+              </span>
+            )}
+            <p className="era-card__line">{NEW_007_NAME ? t('revealedLine') : t('lockedLine')}</p>
           </div>
         </li>
       </ul>

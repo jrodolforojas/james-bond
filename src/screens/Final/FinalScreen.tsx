@@ -1,7 +1,8 @@
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { playCue } from '../../audio/audio';
 import { useMusic } from '../../audio/useAmbience';
 import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { NEW_007_NAME } from '../../config';
@@ -10,6 +11,7 @@ import { transition } from '../../flow/navigate';
 import { prefersReducedMotion } from '../../motion';
 import { ShareSheet, type ShareSheetHandle } from '../../share/ShareSheet';
 import { useMission } from '../../state/store';
+import { DeclassifiedName } from './DeclassifiedName';
 import './final.css';
 
 const CTAS = [
@@ -32,6 +34,20 @@ export function FinalScreen() {
   const scope = useRef<HTMLElement>(null);
   useMusic();
   const shareSheet = useRef<ShareSheetHandle>(null);
+  const [isRevealed, setIsRevealed] = useState(false);
+  const { contextSafe } = useGSAP({ scope });
+
+  const revealed = contextSafe(() => {
+    setIsRevealed(true);
+    playCue('stamp');
+    gsap.fromTo(
+      '[data-final-stamp]',
+      { opacity: 0, scale: 1.6 },
+      { opacity: 0.92, scale: 1, duration: 0.18, ease: 'power4.in' },
+    );
+    gsap.to('[data-final-name]', { opacity: 1, duration: 1.2, delay: 0.4, ease: 'sine.out' });
+    playCue('tone');
+  });
 
   useEffect(() => {
     finishMission();
@@ -88,21 +104,31 @@ export function FinalScreen() {
           <path d="M68 96 L80 132 L92 96 Z" fill="#000" />
         </g>
       </svg>
+      {NEW_007_NAME && (
+        <p className="final__name" data-final-name aria-hidden="true">
+          {NEW_007_NAME}
+        </p>
+      )}
 
       <article className="final__page" data-page>
         <h1 className="display final__agent">{t('agent')}</h1>
         <p style={{ margin: 0 }}>
           {t('identity')}{' '}
           {NEW_007_NAME ? (
-            <strong>{NEW_007_NAME}</strong>
+            <DeclassifiedName name={NEW_007_NAME} onRevealed={revealed} />
           ) : (
             <span className="redacted" role="img" aria-label={t('hiddenIdentity')}>
               ██████████████
             </span>
           )}
         </p>
-        <p style={{ margin: 0 }}>{t('status')}</p>
+        <p style={{ margin: 0 }}>{isRevealed ? t('statusRevealed') : t('status')}</p>
         <p style={{ margin: 0 }}>{t('clearance')}</p>
+        {NEW_007_NAME && (
+          <span className="stamp final__stamp" data-final-stamp aria-hidden="true">
+            {t('declassified')}
+          </span>
+        )}
       </article>
 
       <div className="final__radio" data-final-reveal>
