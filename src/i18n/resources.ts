@@ -5,6 +5,7 @@ import enFinal from './en/final.json';
 import enFortknox from './en/fortknox.json';
 import enLondon from './en/london.json';
 import enMap from './en/map.json';
+import enMontenegro from './en/montenegro.json';
 import enRecruitment from './en/recruitment.json';
 import esArrival from './es/arrival.json';
 import esCommon from './es/common.json';
@@ -13,6 +14,7 @@ import esFinal from './es/final.json';
 import esFortknox from './es/fortknox.json';
 import esLondon from './es/london.json';
 import esMap from './es/map.json';
+import esMontenegro from './es/montenegro.json';
 import esRecruitment from './es/recruitment.json';
 
 export const resources = {
@@ -25,6 +27,7 @@ export const resources = {
     final: esFinal,
     dossier: esDossier,
     london: esLondon,
+    montenegro: esMontenegro,
   },
   en: {
     common: enCommon,
@@ -35,6 +38,7 @@ export const resources = {
     final: enFinal,
     dossier: enDossier,
     london: enLondon,
+    montenegro: enMontenegro,
   },
 } as const;
 
