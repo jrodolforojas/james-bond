@@ -147,15 +147,16 @@
   color: var(--stamp);
   position: absolute;
   right: 12px;
-  top: 16px;
+  top: -30px;
   font-size: 16px;
+  background: var(--final-white);
   opacity: 0;
 }
 
 .final__name {
   position: absolute;
   left: 50%;
-  top: 288px;
+  top: 256px;
   translate: -50% 0;
   width: max-content;
   max-width: calc(100% - 40px);
