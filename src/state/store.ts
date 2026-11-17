@@ -125,7 +125,6 @@ export const useMission = create<MissionState>()(
           trackEvent('mission_completed', {
             minutes: Math.round(duration / 60_000),
             rank: rankFor(duration, state.ejectorUsed),
-            era: state.era ?? 'none',
           });
           return { finishedAt };
         }),
