@@ -1,0 +1,179 @@
+.recruitment {
+  padding: 52px 0 var(--space-5);
+  background: var(--ink);
+  color: var(--bone);
+}
+
+.recruitment__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0 var(--gutter);
+}
+
+.recruitment__head .eyebrow {
+  color: var(--bone-muted);
+}
+
+.recruitment__title {
+  font-size: 40px;
+}
+
+.carousel {
+  display: flex;
+  gap: 14px;
+  margin-top: 20px;
+  padding: 0 calc((100% - 290px) / 2);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  list-style: none;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.era-card {
+  position: relative;
+  flex: 0 0 290px;
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+  background: #141416;
+  border: 1px solid var(--era, var(--graphite-line));
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  scroll-snap-align: center;
+  transition: opacity 0.3s;
+  opacity: 0.5;
+}
+
+.era-card.is-active {
+  opacity: 1;
+}
+
+.era-card__stage {
+  position: relative;
+  height: 168px;
+  background: #000;
+  overflow: hidden;
+}
+
+.era-card__sweep {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45%;
+  height: 100%;
+  transform: translateX(-200%) skewX(-18deg);
+  background: linear-gradient(90deg, transparent, var(--era), transparent);
+  opacity: 0.45;
+}
+
+.vehicle {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 22px;
+  width: calc(100% - 28px);
+}
+
+.era-card__years {
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--era);
+}
+
+.era-card__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 18px 16px;
+}
+
+.era-card__meta {
+  font-size: 12px;
+  color: var(--bone-muted);
+}
+
+.era-card__vehicle {
+  font-size: 26px;
+  line-height: 1.1;
+}
+
+.era-card__line {
+  margin: 0;
+  font-size: 13px;
+  font-style: italic;
+  color: #d8d2c4;
+}
+
+.era-card__perk {
+  margin-top: auto;
+  padding-top: var(--space-3);
+  border-top: 1px dashed #3a3a3d;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: 13px;
+}
+
+.era-card__perk-label {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--era);
+}
+
+.era-card__stamp {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  translate: -50% -50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.era-card--locked .era-card__body {
+  justify-content: center;
+}
+
+.redacted {
+  background: var(--redaction);
+  color: var(--redaction);
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: 18px;
+}
+
+.dots span {
+  width: 6px;
+  height: 4px;
+  background: #4a4a4e;
+  transition:
+    width 0.3s,
+    background 0.3s;
+}
+
+.dots span.is-active {
+  width: 22px;
+  background: var(--era);
+}
+
+.recruitment__radio {
+  margin: var(--space-5) var(--gutter) 0;
+}
+
+.recruitment__assign {
+  margin: var(--space-5) var(--gutter) 0;
+  background: var(--manila);
+  color: var(--ink);
+}

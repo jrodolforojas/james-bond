@@ -1,0 +1,48 @@
+.final {
+  padding: 40px var(--gutter) var(--space-4);
+  background: var(--final-black);
+  color: var(--final-white);
+}
+
+.final__silhouette {
+  position: absolute;
+  left: 0;
+  top: 20px;
+  width: 100%;
+  height: 420px;
+  pointer-events: none;
+}
+
+.final__page {
+  position: relative;
+  margin-top: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 18px;
+  background: var(--final-white);
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.final__agent {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.final__radio {
+  position: relative;
+  margin-top: var(--space-4);
+}
+
+.final__radio .radio {
+  background: transparent;
+  border-color: #3a3a3d;
+}
+
+.final__restart {
+  position: relative;
+  margin-top: var(--space-5);
+  background: var(--final-white);
+  color: #000;
+}

@@ -1,0 +1,125 @@
+.map {
+  padding: 52px var(--gutter) var(--space-5);
+  gap: 18px;
+  background: var(--ink);
+  color: var(--bone);
+}
+
+.map .eyebrow {
+  color: var(--bone-muted);
+}
+
+.map__title {
+  font-size: 34px;
+  margin-top: var(--space-2);
+}
+
+.map__title em {
+  color: var(--stamp-bright);
+}
+
+.map__board {
+  position: relative;
+  aspect-ratio: 342 / 300;
+  background: #121214;
+  border: 1px solid var(--graphite-line);
+}
+
+.map__board svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.map__label {
+  font-family: var(--font-report);
+  font-size: 10px;
+  fill: #d8d2c4;
+}
+
+.map__pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pin-pulse 1.6s ease-out infinite;
+}
+
+.stops {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.stops button {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0 14px;
+  background: transparent;
+  border: 1px dashed var(--graphite-line);
+  color: #8e897f;
+  font-size: 13px;
+  text-align: left;
+  cursor: not-allowed;
+}
+
+.stops__name {
+  flex: 1;
+}
+
+.stops button.is-done {
+  border-style: solid;
+}
+
+.stops button.is-done .stops__name {
+  text-decoration: line-through;
+}
+
+.stops button.is-next {
+  min-height: 56px;
+  border: 1px solid var(--stop-color);
+  background: color-mix(in srgb, var(--stop-color) 12%, transparent);
+  color: var(--bone);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.stops__tag {
+  font-family: var(--font-stamp);
+  font-size: 11px;
+  color: var(--stamp-bright);
+}
+
+.map__zoom {
+  position: absolute;
+  z-index: 40;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border-radius: 50%;
+  pointer-events: none;
+  display: none;
+}
+
+@keyframes pin-pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map__pulse {
+    animation: none;
+  }
+}
