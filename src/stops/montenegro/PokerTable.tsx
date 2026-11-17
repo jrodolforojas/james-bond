@@ -2,6 +2,7 @@ import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { trackEvent } from '../../analytics/track';
 import { Briefcase, PlayerSilhouette } from '../../art/MontenegroScene';
 import { playCue } from '../../audio/audio';
 import { MoneypennyRadio } from '../../components/MoneypennyRadio';
@@ -133,6 +134,7 @@ export function PokerTable({ onFound, onEject }: PokerTableProps) {
       return onFound();
     }
     playCue('wrong');
+    trackEvent('minigame_failed', { stop: 'montenegro', verdict: result });
     setChips((current) => Math.max(current - 1, 0));
     setVerdict(result);
     setPhase('feedback');

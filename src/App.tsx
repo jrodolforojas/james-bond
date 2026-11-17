@@ -1,9 +1,12 @@
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { useEffect } from 'react';
 import { setSoundEnabled } from './audio/audio';
 import { useUiSounds } from './audio/useUiSounds';
 import { LanguageSwitch } from './components/LanguageSwitch';
 import { LegalFooter } from './components/LegalFooter';
 import { SoundToggle } from './components/SoundToggle';
+import { DEMO } from './config';
 import { DemoPanel } from './demo/DemoPanel';
 import { FlowRouter } from './flow/FlowRouter';
 import { useMission } from './state/store';
@@ -34,6 +37,8 @@ export function App() {
         <LegalFooter />
         <DemoPanel />
       </div>
+      {!DEMO && <Analytics />}
+      {!DEMO && <SpeedInsights />}
     </div>
   );
 }

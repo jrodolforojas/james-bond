@@ -2,6 +2,7 @@ import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { forwardRef, type SyntheticEvent, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { trackEvent } from '../analytics/track';
 import { VEHICLE_PATHS } from '../art/VehicleSilhouette';
 import { playCue } from '../audio/audio';
 import { prefersReducedMotion } from '../motion';
@@ -90,6 +91,7 @@ export const ShareSheet = forwardRef<ShareSheetHandle>(function ShareSheet(_, re
     if (!dialog) return;
     setIsOpen(true);
     dialog.showModal();
+    trackEvent('share_card_opened', { kind: 'mission' });
     playCue('paper');
     if (prefersReducedMotion()) return;
     gsap.fromTo(dialog, { yPercent: 100 }, { yPercent: 0, duration: 0.45, ease: 'power3.out' });
@@ -121,6 +123,7 @@ export const ShareSheet = forwardRef<ShareSheetHandle>(function ShareSheet(_, re
     if (!file) return;
     try {
       await navigator.share({ files: [file], text: t('shareText') });
+      trackEvent('share_card_shared', { kind: 'mission', method: 'share' });
     } catch {
       return;
     }
@@ -149,6 +152,7 @@ export const ShareSheet = forwardRef<ShareSheetHandle>(function ShareSheet(_, re
             href={image?.url}
             download={`${t('fileName')}.png`}
             aria-disabled={!image}
+            onClick={() => trackEvent('share_card_shared', { kind: 'mission', method: 'download' })}
           >
             {t('download')}
           </a>

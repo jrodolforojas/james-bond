@@ -2,6 +2,7 @@ import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { trackEvent } from '../analytics/track';
 import { prefersReducedMotion } from '../motion';
 import { STOP_COLORS, type StopId, stopNumber } from './catalog';
 import './stops.css';
@@ -21,6 +22,7 @@ export function StopTitleCard({ stop, onDone }: StopTitleCardProps) {
 
   useGSAP(
     () => {
+      trackEvent('stop_started', { stop });
       if (stop !== 'scotland') playCue('thud');
       if (prefersReducedMotion()) {
         gsap.delayedCall(1, onDone);

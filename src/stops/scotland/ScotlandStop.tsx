@@ -2,6 +2,7 @@ import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { trackEvent } from '../../analytics/track';
 import { ScotlandHouse } from '../../art/ScotlandHouse';
 import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { Stamp } from '../../components/Stamp';
@@ -93,7 +94,10 @@ export function ScotlandStop() {
     setPhase({ name: 'won' });
   }, [completeStop]);
 
-  const lost = useCallback(() => setPhase({ name: 'lost', attempt }), [attempt]);
+  const lost = useCallback(() => {
+    trackEvent('minigame_failed', { stop: 'scotland' });
+    setPhase({ name: 'lost', attempt });
+  }, [attempt]);
 
   if (phase.name === 'title') {
     return <StopTitleCard stop={STOP} onDone={() => setPhase({ name: 'opening' })} />;

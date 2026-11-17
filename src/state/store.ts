@@ -1,7 +1,9 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist, type StateStorage } from 'zustand/middleware';
+import { trackEvent } from '../analytics/track';
 import { DEMO } from '../config';
 import type { CardId } from '../dossier/cards';
+import { missionDurationMs, rankFor } from '../share/rank';
 import type { StopId } from '../stops/catalog';
 
 export const ERAS = ['connery', 'moore', 'dalton', 'brosnan', 'craig'] as const;
@@ -88,18 +90,45 @@ export const useMission = create<MissionState>()(
           if (state.seenCards.includes(card)) return state;
           return { seenCards: [...state.seenCards, card] };
         }),
-      acceptMission: () => set({ startedAt: Date.now(), step: { screen: 'recruitment' } }),
-      chooseEra: (era) => set({ era }),
-      chooseGadget: (gadget) => set({ gadget }),
+      acceptMission: () => {
+        trackEvent('mission_started');
+        set({ startedAt: Date.now(), step: { screen: 'recruitment' } });
+      },
+      chooseEra: (era) => {
+        trackEvent('era_chosen', { era });
+        set({ era });
+      },
+      chooseGadget: (gadget) => {
+        trackEvent('gadget_chosen', { gadget });
+        set({ gadget });
+      },
       completeStop: (stop) =>
         set((state) => {
           if (state.completed.includes(stop)) return state;
+          trackEvent('stop_completed', { stop });
           return { completed: [...state.completed, stop] };
         }),
-      spendEjectorSeat: () => set({ ejectorUsed: true }),
+      spendEjectorSeat: () => {
+        trackEvent('perk_used', { perk: 'ejectorSeat' });
+        set({ ejectorUsed: true });
+      },
       soundOn: DEMO,
-      setSoundOn: (soundOn) => set({ soundOn }),
-      finishMission: () => set((state) => ({ finishedAt: state.finishedAt ?? Date.now() })),
+      setSoundOn: (soundOn) => {
+        trackEvent('sound_toggled', { on: soundOn });
+        set({ soundOn });
+      },
+      finishMission: () =>
+        set((state) => {
+          if (state.finishedAt) return state;
+          const finishedAt = Date.now();
+          const duration = missionDurationMs(state.startedAt, finishedAt);
+          trackEvent('mission_completed', {
+            minutes: Math.round(duration / 60_000),
+            rank: rankFor(duration, state.ejectorUsed),
+            era: state.era ?? 'none',
+          });
+          return { finishedAt };
+        }),
       reset: () => set((state) => ({ ...initialMission, soundOn: state.soundOn })),
     }),
     {

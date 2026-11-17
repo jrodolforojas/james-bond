@@ -2,6 +2,7 @@ import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { trackEvent } from '../../analytics/track';
 import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { unlockedIds } from '../../dossier/cards';
 import { Dossier, type DossierHandle } from '../../dossier/Dossier';
@@ -77,7 +78,10 @@ export function JamaicaStop() {
     setPhase({ name: 'passed' });
   }, [completeStop]);
 
-  const impostor = useCallback(() => setPhase({ name: 'impostor', attempt }), [attempt]);
+  const impostor = useCallback(() => {
+    trackEvent('minigame_failed', { stop: 'jamaica' });
+    setPhase({ name: 'impostor', attempt });
+  }, [attempt]);
 
   if (phase.name === 'title')
     return <StopTitleCard stop={STOP} onDone={() => setPhase({ name: 'opening' })} />;

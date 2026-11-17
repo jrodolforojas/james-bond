@@ -2,6 +2,7 @@ import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { trackEvent } from '../../analytics/track';
 import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { Stamp } from '../../components/Stamp';
 import { navigate } from '../../flow/navigate';
@@ -127,7 +128,10 @@ export function FortKnoxStop() {
         completeStop(STOP);
         setPhase({ name: 'won', frozenMs });
       }}
-      onExploded={(cut) => setPhase({ name: 'lost', attempt: phase.attempt, cut })}
+      onExploded={(cut) => {
+        trackEvent('minigame_failed', { stop: 'fortknox' });
+        setPhase({ name: 'lost', attempt: phase.attempt, cut });
+      }}
     />
   );
 }
