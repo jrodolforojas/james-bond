@@ -12,18 +12,19 @@ function archiveUrl(src: string): Promise<string> {
 }
 
 export function useArchivePhoto(src: string | null | undefined): string | null {
-  const [url, setUrl] = useState<string | null>(null);
+  const [photo, setPhoto] = useState<{ src: string; url: string } | null>(null);
   useEffect(() => {
     if (!src) return;
     let active = true;
     archiveUrl(src)
       .then((result) => {
-        if (active) setUrl(result);
+        if (active) setPhoto({ src, url: result });
       })
       .catch(() => cache.delete(src));
     return () => {
       active = false;
     };
   }, [src]);
-  return url;
+  if (!src || photo?.src !== src) return null;
+  return photo.url;
 }
