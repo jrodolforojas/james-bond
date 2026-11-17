@@ -1,0 +1,36 @@
+{
+  "eyebrow": "PARADA 1 · LONDRES · MI6",
+  "alert": "ALERTA ROJA",
+  "titleStart": "El ",
+  "titleEm": "briefing",
+  "theme": "TEMA: EL DEBER",
+  "sceneLabel": "Edificio institucional escalonado junto a un río, en silueta, con luces de alarma",
+  "caller": "M · VIDEOLLAMADA",
+  "order": "Si ese expediente se publica completo, 007 deja de existir. No como hombre: como agente. Recupere cada copia. Y no deje rastro.",
+  "toLab": "IR AL LABORATORIO DE Q",
+  "labEyebrow": "LABORATORIO DE Q",
+  "labCount": "ELIJA 1 DE 3",
+  "labTitleStart": "Solo puede llevarse ",
+  "labTitleEm": "uno",
+  "gadgetsLabel": "Gadgets disponibles",
+  "usefulIn": "Sirve en {{place}}",
+  "gadgets": {
+    "laser": { "name": "Reloj con láser", "place": "Fort Knox", "perk": "Un corte de cable gratis." },
+    "tracker": {
+      "name": "Radio con rastreador",
+      "place": "Jamaica",
+      "perk": "Una pista extra en el interrogatorio."
+    },
+    "palm": {
+      "name": "Pistola con lector de palma",
+      "place": "Escocia",
+      "perk": "Más precisión en el tiroteo."
+    }
+  },
+  "qSpeaker": "Q",
+  "qLine": "Por favor, intente traerlo de vuelta. Aunque sea una pieza.",
+  "sign": "FIRMAR RETIRO",
+  "assigned": "EQUIPO ASIGNADO",
+  "card": "¿Quién es Bond?",
+  "departureLabel": "La cámara sale por la ventana del MI6 y sobrevuela Londres"
+}

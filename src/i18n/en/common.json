@@ -6,5 +6,6 @@
   "evidenceDestroyed": "EVIDENCE #{{n}}",
   "evidenceDestroyedLine2": "DESTROYED",
   "cardUnlocked": "CARD UNLOCKED",
-  "stop": "STOP {{n}}"
+  "stop": "STOP {{n}}",
+  "nextDestination": "NEXT DESTINATION"
 }

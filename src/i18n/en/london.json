@@ -1,0 +1,32 @@
+{
+  "eyebrow": "STOP 1 · LONDON · MI6",
+  "alert": "RED ALERT",
+  "titleStart": "The ",
+  "titleEm": "briefing",
+  "theme": "THEME: DUTY",
+  "sceneLabel": "Silhouette of a stepped government building beside a river, with alarm lights",
+  "caller": "M · VIDEO CALL",
+  "order": "If that file is published in full, 007 ceases to exist. Not as a man: as an agent. Recover every copy. And leave no trace.",
+  "toLab": "GO TO Q'S LAB",
+  "labEyebrow": "Q'S LAB",
+  "labCount": "CHOOSE 1 OF 3",
+  "labTitleStart": "You can only take ",
+  "labTitleEm": "one",
+  "gadgetsLabel": "Available gadgets",
+  "usefulIn": "Useful in {{place}}",
+  "gadgets": {
+    "laser": { "name": "Laser watch", "place": "Fort Knox", "perk": "One free wire cut." },
+    "tracker": {
+      "name": "Tracker radio",
+      "place": "Jamaica",
+      "perk": "One extra hint in the interrogation."
+    },
+    "palm": { "name": "Palm-print pistol", "place": "Scotland", "perk": "Better aim in the shootout." }
+  },
+  "qSpeaker": "Q",
+  "qLine": "Please, try to bring it back. Even if it's just one piece.",
+  "sign": "SIGN IT OUT",
+  "assigned": "EQUIPMENT ASSIGNED",
+  "card": "Who is Bond?",
+  "departureLabel": "The camera leaves through the MI6 window and flies over London"
+}
