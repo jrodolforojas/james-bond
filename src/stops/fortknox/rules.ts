@@ -84,3 +84,12 @@ export function formatClock(ms: number): string {
   const seconds = String(totalSeconds % 60).padStart(2, '0');
   return `${minutes}:${seconds}`;
 }
+
+export function shuffleWires(random: () => number = Math.random): Wire[] {
+  const order = [...WIRES];
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [order[i], order[j]] = [order[j] as Wire, order[i] as Wire];
+  }
+  return order;
+}

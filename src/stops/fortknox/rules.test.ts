@@ -11,8 +11,10 @@ import {
   isLateDefuse,
   START_LIVES,
   START_MS,
+  shuffleWires,
   throwHat,
   tick,
+  WIRES,
 } from './rules';
 
 describe('bomb rules', () => {
@@ -107,5 +109,16 @@ describe('bomb rules', () => {
     expect(formatClock(30_000)).toBe('0:30');
     expect(formatClock(6_100)).toBe('0:07');
     expect(formatClock(0)).toBe('0:00');
+  });
+
+  it('shuffles the wires into a full permutation', () => {
+    let seed = 3;
+    const random = () => {
+      seed = (seed * 9301 + 49297) % 233280;
+      return seed / 233280;
+    };
+    const order = shuffleWires(random);
+    expect([...order].sort()).toEqual([...WIRES].sort());
+    expect(order).not.toEqual([...WIRES]);
   });
 });

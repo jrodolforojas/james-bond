@@ -14,7 +14,7 @@ import { StopTitleCard } from '../StopTitleCard';
 import { GoldToNight } from '../scotland/GoldToNight';
 import { BombGame } from './BombGame';
 import { FortKnoxOpening } from './FortKnoxOpening';
-import { formatClock, isLateDefuse, type Wire } from './rules';
+import { formatClock, isLateDefuse, shuffleWires, type Wire } from './rules';
 import './fortknox.css';
 
 type Phase =
@@ -76,6 +76,7 @@ function WonHero({ frozenMs }: { frozenMs: number }) {
 export function FortKnoxStop() {
   const { t } = useTranslation('fortknox');
   const [phase, setPhase] = useState<Phase>({ name: 'title' });
+  const [wireOrder] = useState(shuffleWires);
   const completeStop = useMission((state) => state.completeStop);
   const leave = () => {
     completeStop(STOP);
@@ -112,6 +113,7 @@ export function FortKnoxStop() {
   return (
     <BombGame
       key={phase.attempt}
+      order={wireOrder}
       previouslyCut={phase.cut}
       onDefused={(frozenMs) => {
         completeStop(STOP);

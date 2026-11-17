@@ -31,32 +31,20 @@ const CRITICAL_MS = 5_000;
 const HAT_WARNING_S = 0.8;
 const HAT_FLIGHT_S = 0.7;
 
-const WIRE_GEOMETRY: Record<Wire, { y: number; left: string; right: string; color: string }> = {
-  red: { y: 40, left: 'M20 40 Q80 40 120 130', right: 'M230 130 Q290 60 330 40', color: 'var(--wire-red)' },
-  blue: {
-    y: 100,
-    left: 'M20 100 Q70 110 120 155',
-    right: 'M230 155 Q290 120 330 100',
-    color: 'var(--wire-blue)',
-  },
-  yellow: {
-    y: 170,
-    left: 'M20 170 Q70 170 120 175',
-    right: 'M230 175 Q290 175 330 170',
-    color: 'var(--wire-yellow)',
-  },
-  green: {
-    y: 240,
-    left: 'M20 240 Q80 230 120 195',
-    right: 'M230 195 Q290 230 330 240',
-    color: 'var(--wire-green)',
-  },
-  white: {
-    y: 300,
-    left: 'M20 300 Q90 300 120 212',
-    right: 'M230 212 Q290 290 330 300',
-    color: 'var(--wire-white)',
-  },
+const ROWS = [
+  { y: 40, left: 'M20 40 Q80 40 120 130', right: 'M230 130 Q290 60 330 40' },
+  { y: 100, left: 'M20 100 Q70 110 120 155', right: 'M230 155 Q290 120 330 100' },
+  { y: 170, left: 'M20 170 Q70 170 120 175', right: 'M230 175 Q290 175 330 170' },
+  { y: 240, left: 'M20 240 Q80 230 120 195', right: 'M230 195 Q290 230 330 240' },
+  { y: 300, left: 'M20 300 Q90 300 120 212', right: 'M230 212 Q290 290 330 300' },
+] as const;
+
+const WIRE_COLORS: Record<Wire, string> = {
+  red: 'var(--wire-red)',
+  blue: 'var(--wire-blue)',
+  yellow: 'var(--wire-yellow)',
+  green: 'var(--wire-green)',
+  white: 'var(--wire-white)',
 };
 
 interface HatThrow {
@@ -67,12 +55,19 @@ interface HatThrow {
 
 interface BombGameProps {
   bonusMs?: number;
+  order?: readonly Wire[];
   previouslyCut?: readonly Wire[];
   onDefused: (frozenMs: number) => void;
   onExploded: (cut: Wire[]) => void;
 }
 
-export function BombGame({ bonusMs = 0, previouslyCut = [], onDefused, onExploded }: BombGameProps) {
+export function BombGame({
+  bonusMs = 0,
+  order = WIRES,
+  previouslyCut = [],
+  onDefused,
+  onExploded,
+}: BombGameProps) {
   const { t } = useTranslation('fortknox');
   const scope = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -289,11 +284,11 @@ export function BombGame({ bonusMs = 0, previouslyCut = [], onDefused, onExplode
             <rect x="148" y="164" width="52" height="5" />
             <rect x="148" y="176" width="34" height="5" />
           </g>
-          {WIRES.map((wire) => {
-            const geometry = WIRE_GEOMETRY[wire];
+          {order.map((wire, row) => {
+            const geometry = ROWS[row] ?? ROWS[0];
             const isCut = bomb.cut.includes(wire);
             return (
-              <g key={wire} fill="none" strokeWidth="7" strokeLinecap="round" stroke={geometry.color}>
+              <g key={wire} fill="none" strokeWidth="7" strokeLinecap="round" stroke={WIRE_COLORS[wire]}>
                 {selected === wire && (
                   <path d={geometry.left} stroke="#fff" strokeWidth="16" opacity="0.25" />
                 )}
@@ -304,8 +299,8 @@ export function BombGame({ bonusMs = 0, previouslyCut = [], onDefused, onExplode
           })}
         </svg>
 
-        {WIRES.map((wire) => {
-          const geometry = WIRE_GEOMETRY[wire];
+        {order.map((wire, row) => {
+          const geometry = ROWS[row] ?? ROWS[0];
           const top = ((geometry.y - ROW_HEIGHT / 2) / VIEW.height) * 100;
           const height = (ROW_HEIGHT / VIEW.height) * 100;
           return (
