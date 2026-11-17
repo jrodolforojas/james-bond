@@ -4,6 +4,7 @@ import { MapScreen } from '../screens/Map/MapScreen';
 import { RecruitmentScreen } from '../screens/Recruitment/RecruitmentScreen';
 import { useMission } from '../state/store';
 import { FortKnoxStop } from '../stops/fortknox/FortKnoxStop';
+import { JamaicaStop } from '../stops/jamaica/JamaicaStop';
 import { LondonStop } from '../stops/london/LondonStop';
 import { MontenegroStop } from '../stops/montenegro/MontenegroStop';
 
@@ -16,5 +17,6 @@ export function FlowRouter() {
   if (step.stop === 'london') return <LondonStop />;
   if (step.stop === 'montenegro') return <MontenegroStop />;
   if (step.stop === 'fortknox') return <FortKnoxStop />;
+  if (step.stop === 'jamaica') return <JamaicaStop />;
   return <MapScreen />;
 }
