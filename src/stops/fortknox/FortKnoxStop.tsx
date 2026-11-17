@@ -4,12 +4,14 @@ import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { Stamp } from '../../components/Stamp';
+import { navigate } from '../../flow/navigate';
 import { prefersReducedMotion } from '../../motion';
 import { useMission } from '../../state/store';
-import { EVIDENCE_NUMBER } from '../catalog';
+import { EVIDENCE_NUMBER, nextStop } from '../catalog';
 import { ExitSequence } from '../ExitSequence';
 import { leaveStop } from '../leaveStop';
 import { StopTitleCard } from '../StopTitleCard';
+import { GoldToNight } from '../scotland/GoldToNight';
 import { BombGame } from './BombGame';
 import { FortKnoxOpening } from './FortKnoxOpening';
 import { formatClock, isLateDefuse, type Wire } from './rules';
@@ -20,7 +22,8 @@ type Phase =
   | { name: 'opening' }
   | { name: 'game'; attempt: number; cut: Wire[] }
   | { name: 'won'; frozenMs: number }
-  | { name: 'lost'; attempt: number; cut: Wire[] };
+  | { name: 'lost'; attempt: number; cut: Wire[] }
+  | { name: 'toNight' };
 
 const STOP = 'fortknox';
 
@@ -74,8 +77,17 @@ export function FortKnoxStop() {
   const { t } = useTranslation('fortknox');
   const [phase, setPhase] = useState<Phase>({ name: 'title' });
   const completeStop = useMission((state) => state.completeStop);
-  const leave = () => leaveStop(STOP);
+  const leave = () => {
+    completeStop(STOP);
+    if (nextStop(useMission.getState().completed) === 'scotland') return setPhase({ name: 'toNight' });
+    leaveStop(STOP);
+  };
 
+  if (phase.name === 'toNight') {
+    return (
+      <GoldToNight label={t('nightLabel')} onDone={() => navigate({ screen: 'stop', stop: 'scotland' })} />
+    );
+  }
   if (phase.name === 'title')
     return <StopTitleCard stop={STOP} onDone={() => setPhase({ name: 'opening' })} />;
   if (phase.name === 'opening')

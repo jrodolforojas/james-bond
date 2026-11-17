@@ -7,6 +7,7 @@ import { FortKnoxStop } from '../stops/fortknox/FortKnoxStop';
 import { JamaicaStop } from '../stops/jamaica/JamaicaStop';
 import { LondonStop } from '../stops/london/LondonStop';
 import { MontenegroStop } from '../stops/montenegro/MontenegroStop';
+import { ScotlandStop } from '../stops/scotland/ScotlandStop';
 
 export function FlowRouter() {
   const step = useMission((state) => state.step);
@@ -17,6 +18,7 @@ export function FlowRouter() {
   if (step.stop === 'london') return <LondonStop />;
   if (step.stop === 'montenegro') return <MontenegroStop />;
   if (step.stop === 'fortknox') return <FortKnoxStop />;
+  if (step.stop === 'scotland') return <ScotlandStop />;
   if (step.stop === 'jamaica') return <JamaicaStop />;
   return <MapScreen />;
 }

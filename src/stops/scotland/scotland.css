@@ -1,0 +1,289 @@
+.sco-opening,
+.sco-traps {
+  padding: 52px var(--gutter) var(--space-5);
+  gap: var(--space-3);
+  background: var(--scotland-night);
+  color: var(--bone);
+}
+
+.sco-opening .eyebrow,
+.sco-traps .eyebrow {
+  padding-right: 88px;
+  font-weight: 700;
+  color: #c9d3de;
+}
+
+.sco-opening__title {
+  font-size: 48px;
+}
+
+.sco-opening__silva {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #aeb8c6;
+}
+
+.sco-opening .radio {
+  background: #071022;
+  border-color: #1a2638;
+  opacity: 0.85;
+}
+
+.sco-opening .radio__text {
+  font-size: 13px;
+  color: #aeb8c6;
+}
+
+.sco-house {
+  width: 100%;
+  max-width: 342px;
+}
+
+.sco-opening__go,
+.sco-traps__go {
+  margin-top: auto;
+  background: var(--scotland-fire);
+  color: var(--ink);
+}
+
+.sco-traps__title {
+  font-size: 30px;
+}
+
+.sco-traps__hint {
+  margin: 0;
+  font-size: 12px;
+  color: #c9d3de;
+}
+
+.sco-traps__house {
+  position: relative;
+  width: 100%;
+  max-width: 342px;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.sco-slot {
+  position: absolute;
+  border: 2px dashed #5b6b85;
+  background: rgba(43, 58, 82, 0.6);
+  color: var(--ink);
+  font-size: 9px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sco-slot[aria-pressed="true"] {
+  border: 2px solid var(--bone);
+  background: var(--scotland-fire);
+}
+
+.sco-traps__count {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--scotland-fire);
+}
+
+.shootout {
+  position: relative;
+  padding: 44px 0 var(--space-3);
+  gap: var(--space-2);
+  background: var(--scotland-night);
+  color: var(--bone);
+}
+
+.shootout__hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 calc(var(--gutter) + 88px) 0 var(--gutter);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: #c9d3de;
+}
+
+.shootout__lives {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.shootout__life {
+  width: 16px;
+  height: 8px;
+  background: var(--scotland-fire);
+}
+
+.shootout__life.is-lost {
+  background: transparent;
+  outline: 1px solid var(--scotland-fire);
+  outline-offset: -1px;
+}
+
+.shootout__stage {
+  position: relative;
+  flex: 1;
+  min-height: 420px;
+}
+
+.shootout__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.shootout__flash {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 60px 20px rgba(176, 23, 42, 0.85);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.shootout__hint {
+  margin: 0;
+  padding: 0 var(--gutter);
+  font-size: 11px;
+  text-align: center;
+  color: #aeb8c6;
+}
+
+.shootout__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5);
+  padding: var(--gutter);
+  background: rgba(5, 12, 24, 0.7);
+}
+
+.shootout__overlay .btn {
+  width: 100%;
+  background: var(--scotland-fire);
+  color: var(--ink);
+}
+
+.lane-buttons {
+  position: absolute;
+  left: var(--gutter);
+  bottom: var(--space-3);
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.lane-buttons button {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.lane-buttons button:focus-visible {
+  position: static;
+  width: auto;
+  height: auto;
+  min-height: 44px;
+  padding: 0 10px;
+  clip-path: none;
+  background: var(--bone);
+  color: var(--ink);
+  font-size: 11px;
+}
+
+.sco-close {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.sco-close .eyebrow {
+  align-self: flex-start;
+  color: #8592a6;
+}
+
+.sco-lost {
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5);
+  padding: var(--gutter);
+  background: #050c18;
+  color: var(--bone);
+}
+
+.sco-lost .radio {
+  width: 100%;
+}
+
+.sco-lost__retry {
+  width: 100%;
+  background: var(--scotland-fire);
+  color: var(--ink);
+}
+
+.gold-night {
+  position: relative;
+  background: var(--fortknox-gold);
+  overflow: hidden;
+}
+
+.gold-night__digits {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 40%;
+  text-align: center;
+  font-size: 96px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.gold-night__flake {
+  position: absolute;
+  top: -10px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--bone);
+  opacity: 0;
+}
+
+.gold-night__hill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 22%;
+  background: #071022;
+  clip-path: polygon(0 40%, 40% 10%, 100% 30%, 100% 100%, 0 100%);
+  opacity: 0;
+}
+
+.ember-sun {
+  position: relative;
+  background: var(--scotland-night);
+  overflow: hidden;
+}
+
+.ember-sun canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
