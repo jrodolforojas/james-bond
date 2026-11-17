@@ -97,7 +97,15 @@
         "ESTADO: En reclutamiento",
         "AUTORIZACIÓN: Pendiente — Amazon MGM Studios"
       ],
-      "quote": "Este archivo no lo vamos a destruir. Lo vamos a esperar."
+      "quote": "Este archivo no lo vamos a destruir. Lo vamos a esperar.",
+      "itemsRevealed": [
+        "IDENTIDAD: {{identity}}",
+        "EDAD: {{age}}",
+        "PAÍS: {{country}}",
+        "ESTADO: Desclasificado",
+        "AUTORIZACIÓN: Confirmada — Amazon MGM Studios, {{date}}"
+      ],
+      "quoteRevealed": "La espera terminó. Bienvenido, 007."
     }
   },
   "countShort": "{{unlocked}}/{{total}}",

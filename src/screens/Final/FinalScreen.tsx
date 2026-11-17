@@ -2,6 +2,8 @@ import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { AgentSheet, type AgentSheetHandle } from '../../agent/AgentSheet';
+import { trackEvent } from '../../analytics/track';
 import { playCue } from '../../audio/audio';
 import { useMusic } from '../../audio/useAmbience';
 import { MoneypennyRadio } from '../../components/MoneypennyRadio';
@@ -9,6 +11,7 @@ import { NEW_007_NAME } from '../../config';
 import { Dossier } from '../../dossier/Dossier';
 import { transition } from '../../flow/navigate';
 import { prefersReducedMotion } from '../../motion';
+import { ageOn, countryName, formatDate, REVEAL } from '../../reveal';
 import { ShareSheet, type ShareSheetHandle } from '../../share/ShareSheet';
 import { useMission } from '../../state/store';
 import { DeclassifiedName } from './DeclassifiedName';
@@ -28,12 +31,13 @@ const SMOKE_RIBBONS = [
 ];
 
 export function FinalScreen() {
-  const { t } = useTranslation(['final', 'share']);
+  const { t, i18n } = useTranslation(['final', 'share', 'agent']);
   const finishMission = useMission((state) => state.finishMission);
   const reset = useMission((state) => state.reset);
   const scope = useRef<HTMLElement>(null);
   useMusic();
   const shareSheet = useRef<ShareSheetHandle>(null);
+  const agentSheet = useRef<AgentSheetHandle>(null);
   const [isRevealed, setIsRevealed] = useState(false);
   const { contextSafe } = useGSAP({ scope });
 
@@ -46,6 +50,7 @@ export function FinalScreen() {
       { opacity: 0.92, scale: 1, duration: 0.18, ease: 'power4.in' },
     );
     gsap.to('[data-final-name]', { opacity: 1, duration: 1.2, delay: 0.4, ease: 'sine.out' });
+    gsap.to('[data-fact]', { opacity: 1, duration: 0.5, stagger: 0.3, delay: 0.6 });
     playCue('tone');
   });
 
@@ -122,8 +127,22 @@ export function FinalScreen() {
             </span>
           )}
         </p>
+        {REVEAL && (
+          <>
+            <p className="final__fact" data-fact style={{ margin: 0 }}>
+              {t('age')} {ageOn(REVEAL.birthDate, new Date()) ?? '—'}
+            </p>
+            <p className="final__fact" data-fact style={{ margin: 0 }}>
+              {t('country')} {countryName(REVEAL.country, i18n.language)}
+            </p>
+          </>
+        )}
         <p style={{ margin: 0 }}>{isRevealed ? t('statusRevealed') : t('status')}</p>
-        <p style={{ margin: 0 }}>{t('clearance')}</p>
+        <p style={{ margin: 0 }}>
+          {isRevealed && REVEAL
+            ? t('clearanceRevealed', { date: formatDate(REVEAL.announcedOn, i18n.language) })
+            : t('clearance')}
+        </p>
         {NEW_007_NAME && (
           <span className="stamp final__stamp" data-final-stamp aria-hidden="true">
             {t('declassified')}
@@ -132,7 +151,7 @@ export function FinalScreen() {
       </article>
 
       <div className="final__radio" data-final-reveal>
-        <MoneypennyRadio>{`"${t('moneypenny')}"`}</MoneypennyRadio>
+        <MoneypennyRadio>{`"${isRevealed ? t('moneypennyRevealed') : t('moneypenny')}"`}</MoneypennyRadio>
       </div>
 
       <button
@@ -144,12 +163,26 @@ export function FinalScreen() {
         {t('share:open')}
       </button>
 
+      <button
+        type="button"
+        className="btn btn--outline final__agent-btn"
+        data-final-reveal
+        onClick={() => agentSheet.current?.open()}
+      >
+        {t('agent:open')}
+      </button>
+
       <nav className="final__ctas" data-final-reveal aria-label={t('ctaTitle')}>
         <p className="eyebrow final__ctas-title">{t('ctaTitle')}</p>
         <ul>
           {CTAS.map((cta) => (
             <li key={cta.id}>
-              <a href={cta.href} target="_blank" rel="noopener noreferrer">
+              <a
+                href={cta.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackEvent('cta_clicked', { cta: cta.id })}
+              >
                 <span className="final__cta-kicker">{t(`ctas.${cta.id}.kicker`)}</span>
                 <span className="final__cta-label">{t(`ctas.${cta.id}.label`)}</span>
                 <span className="sr-only">{t('newTab')}</span>
@@ -169,6 +202,7 @@ export function FinalScreen() {
       </button>
 
       <ShareSheet ref={shareSheet} />
+      <AgentSheet ref={agentSheet} />
       <Dossier />
     </main>
   );

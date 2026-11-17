@@ -1,6 +1,7 @@
 import { type CSSProperties, forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NEW_007_NAME } from '../config';
+import { ageOn, countryName, formatDate, REVEAL } from '../reveal';
 import type { CardSource, DossierCard } from './cards';
 
 const CHARS_PER_BAR = 34;
@@ -39,13 +40,18 @@ export const CardView = forwardRef<HTMLElement, CardViewProps>(function CardView
   { card, number, unlocked },
   ref,
 ) {
-  const { t } = useTranslation('dossier');
+  const { t, i18n } = useTranslation('dossier');
   const place = t(`places.${sourcePlace(card.source)}` as 'places.final');
-  const items = t(`cards.${card.id}.items`, {
+  const revealed = card.id === 'agent' && REVEAL !== null;
+  const itemsKey = (revealed ? 'cards.agent.itemsRevealed' : `cards.${card.id}.items`) as 'cards.agent.items';
+  const items = t(itemsKey, {
     returnObjects: true,
     identity: NEW_007_NAME || REDACTED_IDENTITY,
+    age: REVEAL ? (ageOn(REVEAL.birthDate, new Date()) ?? '—') : '',
+    country: REVEAL ? countryName(REVEAL.country, i18n.language) : '',
+    date: REVEAL ? formatDate(REVEAL.announcedOn, i18n.language) : '',
   }) as readonly string[];
-  const quote = t(`cards.${card.id}.quote`);
+  const quote = t((revealed ? 'cards.agent.quoteRevealed' : `cards.${card.id}.quote`) as 'cards.agent.quote');
   const style = { '--card-color': card.color } as CSSProperties;
 
   return (

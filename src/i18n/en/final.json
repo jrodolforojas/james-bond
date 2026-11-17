@@ -28,5 +28,9 @@
     }
   },
   "statusRevealed": "STATUS: Declassified",
-  "declassified": "DECLASSIFIED"
+  "declassified": "DECLASSIFIED",
+  "age": "AGE:",
+  "country": "COUNTRY:",
+  "clearanceRevealed": "CLEARANCE: Confirmed — Amazon MGM Studios, {{date}}",
+  "moneypennyRevealed": "The wait is over. Welcome, 007."
 }

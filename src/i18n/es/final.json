@@ -28,5 +28,9 @@
     }
   },
   "statusRevealed": "ESTADO: Desclasificado",
-  "declassified": "DESCLASIFICADO"
+  "declassified": "DESCLASIFICADO",
+  "age": "EDAD:",
+  "country": "PAÍS:",
+  "clearanceRevealed": "AUTORIZACIÓN: Confirmada — Amazon MGM Studios, {{date}}",
+  "moneypennyRevealed": "La espera terminó. Bienvenido, 007."
 }

@@ -144,9 +144,10 @@
 }
 
 .final__stamp {
+  color: var(--stamp);
   position: absolute;
   right: 12px;
-  bottom: 10px;
+  top: 16px;
   font-size: 16px;
   opacity: 0;
 }
@@ -167,4 +168,14 @@
   text-align: center;
   opacity: 0;
   pointer-events: none;
+}
+
+.final__fact {
+  opacity: 0;
+}
+
+.final__agent-btn {
+  position: relative;
+  margin-top: var(--space-3);
+  color: var(--manila);
 }

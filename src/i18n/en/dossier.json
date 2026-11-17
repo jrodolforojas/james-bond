@@ -93,7 +93,15 @@
     "agent": {
       "title": "007 #7",
       "items": ["IDENTITY: {{identity}}", "STATUS: Recruiting", "CLEARANCE: Pending — Amazon MGM Studios"],
-      "quote": "We're not destroying this file. We're going to wait for it."
+      "quote": "We're not destroying this file. We're going to wait for it.",
+      "itemsRevealed": [
+        "IDENTITY: {{identity}}",
+        "AGE: {{age}}",
+        "COUNTRY: {{country}}",
+        "STATUS: Declassified",
+        "CLEARANCE: Confirmed — Amazon MGM Studios, {{date}}"
+      ],
+      "quoteRevealed": "The wait is over. Welcome, 007."
     }
   },
   "countShort": "{{unlocked}}/{{total}}",

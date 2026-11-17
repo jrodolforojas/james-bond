@@ -11,6 +11,7 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import { trackEvent } from '../analytics/track';
 import { playCue } from '../audio/audio';
 import { prefersReducedMotion } from '../motion';
 import { useMission } from '../state/store';
@@ -78,6 +79,7 @@ export const Dossier = forwardRef<DossierHandle, DossierProps>(function Dossier(
     const index = CARDS.findIndex((entry) => entry.id === card);
     setView(index >= 0 ? { kind: 'card', index } : { kind: 'index' });
     dialog.showModal();
+    trackEvent('dossier_opened', { card: card ?? 'index' });
     playCue('paper');
     if (prefersReducedMotion()) return;
     gsap.fromTo(dialog, { yPercent: 100 }, { yPercent: 0, duration: 0.45, ease: 'power3.out' });
