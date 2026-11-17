@@ -41,5 +41,6 @@
   "fail": "El oro sigue intacto; usted, por poco. Otra vez, con calma.",
   "retry": "REINTENTAR",
   "next": "SIGUIENTE DESTINO",
-  "card": "La galería de villanos"
+  "card": "La galería de villanos",
+  "nightLabel": "El dorado se apaga y todo se vuelve azul noche. Empieza a nevar."
 }

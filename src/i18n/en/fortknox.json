@@ -41,5 +41,6 @@
   "fail": "The gold is intact; you, barely. Again, calmly.",
   "retry": "RETRY",
   "next": "NEXT DESTINATION",
-  "card": "The rogues' gallery"
+  "card": "The rogues' gallery",
+  "nightLabel": "The gold fades and everything turns night blue. It starts to snow."
 }
