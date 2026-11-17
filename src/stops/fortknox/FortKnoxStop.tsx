@@ -4,11 +4,10 @@ import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { Stamp } from '../../components/Stamp';
-import { navigate } from '../../flow/navigate';
 import { prefersReducedMotion } from '../../motion';
-import { useMission } from '../../state/store';
-import { EVIDENCE_NUMBER, nextStop } from '../catalog';
+import { EVIDENCE_NUMBER } from '../catalog';
 import { ExitSequence } from '../ExitSequence';
+import { leaveStop } from '../leaveStop';
 import { StopTitleCard } from '../StopTitleCard';
 import { BombGame } from './BombGame';
 import { FortKnoxOpening } from './FortKnoxOpening';
@@ -73,15 +72,7 @@ function WonHero({ frozenMs }: { frozenMs: number }) {
 export function FortKnoxStop() {
   const { t } = useTranslation('fortknox');
   const [phase, setPhase] = useState<Phase>({ name: 'title' });
-  const completeStop = useMission((state) => state.completeStop);
-  const completed = useMission((state) => state.completed);
-
-  const leave = () => {
-    completeStop(STOP);
-    const upcoming = nextStop([...completed, STOP]);
-    if (upcoming) return navigate({ screen: 'map' });
-    navigate({ screen: 'final' });
-  };
+  const leave = () => leaveStop(STOP);
 
   if (phase.name === 'title')
     return <StopTitleCard stop={STOP} onDone={() => setPhase({ name: 'opening' })} />;

@@ -6,6 +6,9 @@ import type { StopId } from '../stops/catalog';
 export const ERAS = ['connery', 'moore', 'dalton', 'brosnan', 'craig'] as const;
 export type EraId = (typeof ERAS)[number];
 
+export const GADGETS = ['laser', 'tracker', 'palm'] as const;
+export type GadgetId = (typeof GADGETS)[number];
+
 export type Step =
   | { screen: 'arrival' }
   | { screen: 'recruitment' }
@@ -16,6 +19,7 @@ export type Step =
 interface MissionState {
   step: Step;
   era: EraId | null;
+  gadget: GadgetId | null;
   completed: StopId[];
   startedAt: number | null;
   finishedAt: number | null;
@@ -24,6 +28,7 @@ interface MissionState {
   markCardSeen: (card: CardId) => void;
   acceptMission: () => void;
   chooseEra: (era: EraId) => void;
+  chooseGadget: (gadget: GadgetId) => void;
   completeStop: (stop: StopId) => void;
   finishMission: () => void;
   reset: () => void;
@@ -32,6 +37,7 @@ interface MissionState {
 const initialMission = {
   step: { screen: 'arrival' } as Step,
   era: null,
+  gadget: null,
   completed: [],
   startedAt: null,
   finishedAt: null,
@@ -76,6 +82,7 @@ export const useMission = create<MissionState>()(
         }),
       acceptMission: () => set({ startedAt: Date.now(), step: { screen: 'recruitment' } }),
       chooseEra: (era) => set({ era }),
+      chooseGadget: (gadget) => set({ gadget }),
       completeStop: (stop) =>
         set((state) => {
           if (state.completed.includes(stop)) return state;
@@ -88,9 +95,10 @@ export const useMission = create<MissionState>()(
       name: 'exp007:v1',
       version: 1,
       storage: createJSONStorage(() => safeStorage),
-      partialize: ({ step, era, completed, startedAt, finishedAt, seenCards }) => ({
+      partialize: ({ step, era, gadget, completed, startedAt, finishedAt, seenCards }) => ({
         step,
         era,
+        gadget,
         completed,
         startedAt,
         finishedAt,

@@ -1,7 +1,7 @@
 export const STOP_ORDER = ['london', 'montenegro', 'fortknox', 'scotland', 'jamaica'] as const;
 export type StopId = (typeof STOP_ORDER)[number];
 
-export const PLAYABLE_STOPS: ReadonlySet<StopId> = new Set<StopId>(['fortknox']);
+export const PLAYABLE_STOPS: ReadonlySet<StopId> = new Set<StopId>(['london', 'fortknox']);
 
 export const EVIDENCE_NUMBER: Partial<Record<StopId, number>> = {
   montenegro: 1,
