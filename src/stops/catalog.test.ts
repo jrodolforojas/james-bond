@@ -4,11 +4,12 @@ import { evidenceCount, nextStop, stopNumber } from './catalog';
 describe('stop catalog', () => {
   it('starts with the first playable stop', () => {
     expect(nextStop([])).toBe('london');
-    expect(nextStop(['london'])).toBe('fortknox');
+    expect(nextStop(['london'])).toBe('montenegro');
+    expect(nextStop(['london', 'montenegro'])).toBe('fortknox');
   });
 
   it('has no next stop once every playable stop is completed', () => {
-    expect(nextStop(['london', 'fortknox'])).toBeUndefined();
+    expect(nextStop(['london', 'montenegro', 'fortknox'])).toBeUndefined();
   });
 
   it('numbers stops in mission order', () => {
