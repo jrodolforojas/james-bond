@@ -30,7 +30,7 @@ function PhotoCredit() {
 export function FinalCredits() {
   return (
     <footer className="final__credits">
-      <MakerCredit />
+      <MakerCredit placement="final" />
       <PhotoCredit />
     </footer>
   );

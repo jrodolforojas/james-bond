@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { trackEvent } from '../analytics/track';
 
 const SOCIALS = [
   {
@@ -43,7 +44,9 @@ const SOCIALS = [
   },
 ] as const;
 
-export function SocialLinks() {
+export type CreditPlacement = 'arrival' | 'final';
+
+export function SocialLinks({ placement }: { placement: CreditPlacement }) {
   const { t } = useTranslation();
   return (
     <ul className="socials">
@@ -54,6 +57,7 @@ export function SocialLinks() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={t('socialLabel', { network: social.network })}
+            onClick={() => trackEvent('social_clicked', { network: social.network.toLowerCase(), placement })}
           >
             <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
               {social.icon}

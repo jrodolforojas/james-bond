@@ -121,7 +121,7 @@ export function ArrivalScreen() {
         {t('accept')}
       </button>
       <div className="arrival__maker" data-reveal>
-        <MakerCredit />
+        <MakerCredit placement="arrival" />
       </div>
 
       <div className="folder" data-folder aria-hidden="true">
