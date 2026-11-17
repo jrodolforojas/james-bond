@@ -2,3 +2,5 @@
 node_modules/
 dist/
 *.tsbuildinfo
+art/audio/kenney/*
+!art/audio/kenney/.gitkeep
