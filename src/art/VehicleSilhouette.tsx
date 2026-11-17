@@ -6,7 +6,7 @@ const WEDGE = 'M6 98 L14 78 L150 44 L250 36 L330 58 L392 76 L394 102 L6 102 Z';
 const SEDAN =
   'M8 96 Q10 76 40 72 L110 66 Q136 34 176 30 L268 30 Q300 32 318 62 L370 68 Q392 72 394 92 L394 102 L8 102 Z';
 
-const SHAPES: Record<EraId, string> = {
+export const VEHICLE_PATHS: Record<EraId, string> = {
   connery: COUPE,
   moore: WEDGE,
   dalton: COUPE,
@@ -22,7 +22,7 @@ interface VehicleSilhouetteProps {
 export function VehicleSilhouette({ era, rim }: VehicleSilhouetteProps) {
   return (
     <svg viewBox="0 0 400 130" aria-hidden="true" className="vehicle">
-      <path d={SHAPES[era]} fill="#1c1c1e" stroke={rim} strokeWidth="4" data-body />
+      <path d={VEHICLE_PATHS[era]} fill="#1c1c1e" stroke={rim} strokeWidth="4" data-body />
       <circle cx="92" cy="102" r="24" fill="#000" />
       <circle cx="92" cy="102" r="14" fill="#2a2a2e" />
       <circle cx="316" cy="102" r="24" fill="#000" />

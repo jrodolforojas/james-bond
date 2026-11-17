@@ -1,0 +1,29 @@
+{
+  "header": "MI6 · INFORME DE MISIÓN",
+  "titleTop": "Expediente",
+  "titleBottom": "limpio",
+  "era": "ERA",
+  "vehicle": "VEHÍCULO",
+  "gadget": "GADGET",
+  "evidence": "EVIDENCIAS",
+  "evidenceValue": "{{n}}/{{total}} destruidas",
+  "time": "TIEMPO",
+  "rank": "RANGO",
+  "ranks": {
+    "analyst": "Analista",
+    "fieldAgent": "Agente de campo",
+    "doubleO": "Doble cero"
+  },
+  "approved": "APROBADO",
+  "footer": "Fan concept no oficial",
+  "none": "—",
+  "open": "VER MI TARJETA",
+  "sheetTitle": "Tu informe de misión",
+  "preview": "Vista previa de la tarjeta para compartir",
+  "share": "COMPARTIR",
+  "download": "DESCARGAR",
+  "close": "Cerrar",
+  "preparing": "Preparando la tarjeta…",
+  "fileName": "expediente-007",
+  "shareText": "Destruí las 4 copias del expediente 007."
+}

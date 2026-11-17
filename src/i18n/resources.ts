@@ -9,6 +9,7 @@ import enMap from './en/map.json';
 import enMontenegro from './en/montenegro.json';
 import enRecruitment from './en/recruitment.json';
 import enScotland from './en/scotland.json';
+import enShare from './en/share.json';
 import esArrival from './es/arrival.json';
 import esCommon from './es/common.json';
 import esDossier from './es/dossier.json';
@@ -20,6 +21,7 @@ import esMap from './es/map.json';
 import esMontenegro from './es/montenegro.json';
 import esRecruitment from './es/recruitment.json';
 import esScotland from './es/scotland.json';
+import esShare from './es/share.json';
 
 export const resources = {
   es: {
@@ -34,6 +36,7 @@ export const resources = {
     montenegro: esMontenegro,
     jamaica: esJamaica,
     scotland: esScotland,
+    share: esShare,
   },
   en: {
     common: enCommon,
@@ -47,6 +50,7 @@ export const resources = {
     montenegro: enMontenegro,
     jamaica: enJamaica,
     scotland: enScotland,
+    share: enShare,
   },
 } as const;
 

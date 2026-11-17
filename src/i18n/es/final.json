@@ -6,5 +6,25 @@
   "clearance": "AUTORIZACIÓN: Pendiente — Amazon MGM Studios",
   "silhouetteLabel": "Silueta sin rostro de un hombre de traje entre humo",
   "moneypenny": "Este archivo no lo vamos a destruir. Lo vamos a esperar.",
-  "restart": "REINICIAR MISIÓN"
+  "restart": "REINICIAR MISIÓN",
+  "ctaTitle": "SIGA LA PISTA",
+  "newTab": "(se abre en otra pestaña)",
+  "ctas": {
+    "films": {
+      "kicker": "LAS PELÍCULAS",
+      "label": "Vea las 25 misiones completas"
+    },
+    "vehicles": {
+      "kicker": "LOS VEHÍCULOS",
+      "label": "Conozca el garaje de Q"
+    },
+    "experiences": {
+      "kicker": "EXPERIENCIAS",
+      "label": "Viva Bond fuera de la pantalla"
+    },
+    "store": {
+      "kicker": "STORE",
+      "label": "Equípese como agente"
+    }
+  }
 }

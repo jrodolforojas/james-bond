@@ -1,0 +1,29 @@
+{
+  "header": "MI6 · MISSION REPORT",
+  "titleTop": "File",
+  "titleBottom": "cleared",
+  "era": "ERA",
+  "vehicle": "VEHICLE",
+  "gadget": "GADGET",
+  "evidence": "EVIDENCE",
+  "evidenceValue": "{{n}}/{{total}} destroyed",
+  "time": "TIME",
+  "rank": "RANK",
+  "ranks": {
+    "analyst": "Analyst",
+    "fieldAgent": "Field agent",
+    "doubleO": "Double-O"
+  },
+  "approved": "APPROVED",
+  "footer": "Unofficial fan concept",
+  "none": "—",
+  "open": "SEE MY CARD",
+  "sheetTitle": "Your mission report",
+  "preview": "Preview of the share card",
+  "share": "SHARE",
+  "download": "DOWNLOAD",
+  "close": "Close",
+  "preparing": "Preparing the card…",
+  "fileName": "file-007",
+  "shareText": "I destroyed all 4 copies of the 007 file."
+}

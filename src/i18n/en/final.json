@@ -6,5 +6,25 @@
   "clearance": "CLEARANCE: Pending — Amazon MGM Studios",
   "silhouetteLabel": "Faceless silhouette of a man in a suit amid smoke",
   "moneypenny": "We're not destroying this file. We're going to wait for it.",
-  "restart": "RESTART MISSION"
+  "restart": "RESTART MISSION",
+  "ctaTitle": "FOLLOW THE TRAIL",
+  "newTab": "(opens in a new tab)",
+  "ctas": {
+    "films": {
+      "kicker": "THE FILMS",
+      "label": "See all 25 missions"
+    },
+    "vehicles": {
+      "kicker": "THE VEHICLES",
+      "label": "Visit Q's garage"
+    },
+    "experiences": {
+      "kicker": "EXPERIENCES",
+      "label": "Live Bond off the screen"
+    },
+    "store": {
+      "kicker": "STORE",
+      "label": "Gear up like an agent"
+    }
+  }
 }
