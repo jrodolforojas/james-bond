@@ -24,12 +24,14 @@ interface MissionState {
   startedAt: number | null;
   finishedAt: number | null;
   seenCards: CardId[];
+  ejectorUsed: boolean;
   setStep: (step: Step) => void;
   markCardSeen: (card: CardId) => void;
   acceptMission: () => void;
   chooseEra: (era: EraId) => void;
   chooseGadget: (gadget: GadgetId) => void;
   completeStop: (stop: StopId) => void;
+  spendEjectorSeat: () => void;
   finishMission: () => void;
   reset: () => void;
 }
@@ -42,6 +44,7 @@ const initialMission = {
   startedAt: null,
   finishedAt: null,
   seenCards: [] as CardId[],
+  ejectorUsed: false,
 };
 
 const memoryFallback = new Map<string, string>();
@@ -88,6 +91,7 @@ export const useMission = create<MissionState>()(
           if (state.completed.includes(stop)) return state;
           return { completed: [...state.completed, stop] };
         }),
+      spendEjectorSeat: () => set({ ejectorUsed: true }),
       finishMission: () => set((state) => ({ finishedAt: state.finishedAt ?? Date.now() })),
       reset: () => set({ ...initialMission }),
     }),
@@ -95,7 +99,7 @@ export const useMission = create<MissionState>()(
       name: 'exp007:v1',
       version: 1,
       storage: createJSONStorage(() => safeStorage),
-      partialize: ({ step, era, gadget, completed, startedAt, finishedAt, seenCards }) => ({
+      partialize: ({ step, era, gadget, completed, startedAt, finishedAt, seenCards, ejectorUsed }) => ({
         step,
         era,
         gadget,
@@ -103,6 +107,7 @@ export const useMission = create<MissionState>()(
         startedAt,
         finishedAt,
         seenCards,
+        ejectorUsed,
       }),
     },
   ),
