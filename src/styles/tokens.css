@@ -1,0 +1,52 @@
+:root {
+  --ink: #0b0b0c;
+  --graphite: #1c1c1e;
+  --graphite-line: #2e2e31;
+  --manila: #d9b97a;
+  --manila-dark: #cba865;
+  --paper: #f1e4c3;
+  --bone: #f4eee1;
+  --bone-muted: #b8b2a6;
+  --paper-ink: #2b2118;
+  --paper-ink-muted: #5a4b3a;
+  --stamp: #b3261e;
+  --stamp-bright: #e0534a;
+  --redaction: #000;
+
+  --london-steel: #5b6770;
+  --london-blue: #1f3a5f;
+  --montenegro-felt: #0f5b3a;
+  --montenegro-red: #b0172a;
+  --fortknox-gold: #d4a017;
+  --fortknox-old-gold: #5c430a;
+  --fortknox-dark: #120e04;
+  --scotland-night: #0b1a33;
+  --scotland-fire: #f2662a;
+  --jamaica-turquoise: #1fb5b0;
+  --jamaica-sand: #e8d3a2;
+  --final-black: #000;
+  --final-white: #f5f5f5;
+
+  --wire-red: #e0534a;
+  --wire-blue: #3e7be0;
+  --wire-yellow: #f2d24b;
+  --wire-green: #2fa866;
+  --wire-white: #f4eee1;
+
+  --font-display: "Bodoni Moda", "Didot", serif;
+  --font-report: "Courier Prime", "Courier New", monospace;
+  --font-stamp: "Special Elite", "Courier New", monospace;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --gutter: 20px;
+  --radius-card: 3px;
+  --touch: 48px;
+  --column: 430px;
+}
