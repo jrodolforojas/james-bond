@@ -14,8 +14,10 @@ import { gsap } from 'gsap';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
+import { loadAuditTools } from './dev/a11yAudit';
 
 gsap.registerPlugin(useGSAP);
+void loadAuditTools();
 
 const root = document.getElementById('root');
 if (root) {
