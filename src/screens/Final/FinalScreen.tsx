@@ -7,8 +7,16 @@ import { NEW_007_NAME } from '../../config';
 import { Dossier } from '../../dossier/Dossier';
 import { transition } from '../../flow/navigate';
 import { prefersReducedMotion } from '../../motion';
+import { ShareSheet, type ShareSheetHandle } from '../../share/ShareSheet';
 import { useMission } from '../../state/store';
 import './final.css';
+
+const CTAS = [
+  { id: 'films', href: 'https://www.007.com' },
+  { id: 'vehicles', href: 'https://www.007.com' },
+  { id: 'experiences', href: 'https://www.007.com' },
+  { id: 'store', href: 'https://www.007store.com' },
+] as const;
 
 const SMOKE_RIBBONS = [
   { d: 'M-20 300 C 60 240, 120 360, 200 290 S 340 220, 410 280', width: 22 },
@@ -17,10 +25,11 @@ const SMOKE_RIBBONS = [
 ];
 
 export function FinalScreen() {
-  const { t } = useTranslation('final');
+  const { t } = useTranslation(['final', 'share']);
   const finishMission = useMission((state) => state.finishMission);
   const reset = useMission((state) => state.reset);
   const scope = useRef<HTMLElement>(null);
+  const shareSheet = useRef<ShareSheetHandle>(null);
 
   useEffect(() => {
     finishMission();
@@ -100,13 +109,38 @@ export function FinalScreen() {
 
       <button
         type="button"
-        className="btn final__restart"
+        className="btn final__card"
+        data-final-reveal
+        onClick={() => shareSheet.current?.open()}
+      >
+        {t('share:open')}
+      </button>
+
+      <nav className="final__ctas" data-final-reveal aria-label={t('ctaTitle')}>
+        <p className="eyebrow final__ctas-title">{t('ctaTitle')}</p>
+        <ul>
+          {CTAS.map((cta) => (
+            <li key={cta.id}>
+              <a href={cta.href} target="_blank" rel="noopener noreferrer">
+                <span className="final__cta-kicker">{t(`ctas.${cta.id}.kicker`)}</span>
+                <span className="final__cta-label">{t(`ctas.${cta.id}.label`)}</span>
+                <span className="sr-only">{t('newTab')}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <button
+        type="button"
+        className="btn btn--outline final__restart"
         data-final-reveal
         onClick={() => transition(reset)}
       >
         {t('restart')}
       </button>
 
+      <ShareSheet ref={shareSheet} />
       <Dossier />
     </main>
   );
