@@ -1,0 +1,101 @@
+{
+  "tab": "DOSSIER",
+  "count": "{{unlocked}}/{{total}} CARDS",
+  "unread_one": "{{count}} new",
+  "unread_other": "{{count}} new",
+  "open": "Open the dossier",
+  "title": "File 007",
+  "subtitle": "What SPECTRE leaked. Read it before you destroy it.",
+  "close": "Close",
+  "back": "◂ INDEX",
+  "previous": "◂ PREVIOUS",
+  "next": "NEXT ▸",
+  "position": "{{n}} / {{total}}",
+  "cardNumber": "CARD {{n}}",
+  "classified": "CLASSIFIED",
+  "declassified": "DECLASSIFIED",
+  "lockedHint": "Unlocks in {{place}}.",
+  "lockedLabel": "Classified card. Unlocks in {{place}}.",
+  "new": "NEW",
+  "unlockedIn": "UNLOCKED IN {{place}}",
+  "places": {
+    "recruitment": "recruitment",
+    "london": "London",
+    "montenegro": "Montenegro",
+    "fortknox": "Fort Knox",
+    "scotland": "Scotland",
+    "jamaica": "Jamaica",
+    "final": "the finale"
+  },
+  "cards": {
+    "eras": {
+      "title": "Six actors, one licence",
+      "items": [
+        "Six actors, more than 60 years, 25 official films.",
+        "Sean Connery: the one who invented it all.",
+        "Roger Moore: the one with the humor and the raised eyebrow.",
+        "Timothy Dalton: the darkest one, the most faithful to the books.",
+        "Pierce Brosnan: the 90s one, gadgets and technology.",
+        "Daniel Craig: the one who broke him and made him human."
+      ],
+      "quote": ""
+    },
+    "who": {
+      "title": "Who is Bond?",
+      "items": [
+        "Commander in the British Royal Navy.",
+        "MI6 agent. The \"00\" means he has a licence to kill.",
+        "Lives in a flat in Chelsea, London.",
+        "Takes his martini shaken, not stirred."
+      ],
+      "quote": ""
+    },
+    "firstBook": {
+      "title": "The first book and the woman who changed him",
+      "items": [
+        "Ian Fleming published Casino Royale in 1953. That's where Bond was born.",
+        "In 2006 the same story was used to reboot the series with Daniel Craig.",
+        "Vesper Lynd, the love of Bond's life, betrayed him. That's why Bond trusts no one."
+      ],
+      "quote": ""
+    },
+    "villains": {
+      "title": "The rogues' gallery",
+      "items": [
+        "Goldfinger (Goldfinger): obsessed with gold.",
+        "Oddjob (Goldfinger): a lethal hat.",
+        "Blofeld (several films): head of SPECTRE, always with a white cat.",
+        "Jaws (The Spy Who Loved Me, Moonraker): a giant with steel teeth.",
+        "Le Chiffre (Casino Royale): weeps blood.",
+        "Raoul Silva (Skyfall): a former MI6 agent."
+      ],
+      "quote": ""
+    },
+    "origin": {
+      "title": "The origin",
+      "items": [
+        "Bond is Scottish on his father's side.",
+        "His parents died in a climbing accident when he was a child.",
+        "Skyfall was his childhood home. Bond never went back… until that night."
+      ],
+      "quote": "That's why he is who he is: someone who lost everything early and learned not to hold on to anything."
+    },
+    "birthplace": {
+      "title": "Where it all began",
+      "items": [
+        "Ian Fleming wrote every Bond novel at his home in Jamaica, called Goldeneye.",
+        "Dr. No (1962) was the first film, starring Sean Connery.",
+        "That film was the first to say \"Bond. James Bond.\"",
+        "Bond also ran as a newspaper comic strip from 1958."
+      ],
+      "quote": ""
+    },
+    "agent": {
+      "title": "007 #7",
+      "items": ["IDENTITY: {{identity}}", "STATUS: Recruiting", "CLEARANCE: Pending — Amazon MGM Studios"],
+      "quote": "We're not destroying this file. We're going to wait for it."
+    }
+  },
+  "countShort": "{{unlocked}}/{{total}}",
+  "pending": "ON HOLD"
+}

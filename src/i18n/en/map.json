@@ -7,10 +7,38 @@
   "go": "GO",
   "ocean": "ATLANTIC",
   "stops": {
-    "london": { "place": "LONDON", "name": "London", "subtitle": "The briefing" },
-    "montenegro": { "place": "MONTENEGRO", "name": "Montenegro", "subtitle": "The tell" },
-    "fortknox": { "place": "FORT KNOX", "name": "Fort Knox", "subtitle": "Stop the clock" },
-    "scotland": { "place": "SCOTLAND", "name": "Scotland", "subtitle": "Skyfall" },
-    "jamaica": { "place": "JAMAICA", "name": "Jamaica", "subtitle": "Where it all began" }
+    "london": {
+      "place": "LONDON",
+      "name": "London",
+      "subtitle": "The briefing"
+    },
+    "montenegro": {
+      "place": "MONTENEGRO",
+      "name": "Montenegro",
+      "subtitle": "The tell"
+    },
+    "fortknox": {
+      "place": "FORT KNOX",
+      "name": "Fort Knox",
+      "subtitle": "Stop the clock"
+    },
+    "scotland": {
+      "place": "SCOTLAND",
+      "name": "Scotland",
+      "subtitle": "Skyfall"
+    },
+    "jamaica": {
+      "place": "JAMAICA",
+      "name": "Jamaica",
+      "subtitle": "Where it all began"
+    }
+  },
+  "moneypenny": {
+    "london": "First stop: London. M wants to see you before you touch anything.",
+    "montenegro": "Montenegro. Put on the dinner jacket: nobody plays these cards in a T-shirt.",
+    "fortknox": "Fort Knox. Everything that glitters down there is gold. And a bomb.",
+    "scotland": "Scotland. Wrap up warm. And don't expect backup.",
+    "jamaica": "Jamaica. The last copy. Where it all began.",
+    "unread": "You have unread cards in the dossier. Read them: someone is going to ask."
   }
 }

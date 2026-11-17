@@ -45,7 +45,7 @@ void i18n.use(initReactI18next).init({
   defaultNS: 'common',
   ns: Object.keys(resources.es),
   interpolation: { escapeValue: false },
-  returnNull: false,
+  returnEmptyString: true,
 });
 
 syncDocument(initialLanguage);

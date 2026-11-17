@@ -1,11 +1,13 @@
 import enArrival from './en/arrival.json';
 import enCommon from './en/common.json';
+import enDossier from './en/dossier.json';
 import enFinal from './en/final.json';
 import enFortknox from './en/fortknox.json';
 import enMap from './en/map.json';
 import enRecruitment from './en/recruitment.json';
 import esArrival from './es/arrival.json';
 import esCommon from './es/common.json';
+import esDossier from './es/dossier.json';
 import esFinal from './es/final.json';
 import esFortknox from './es/fortknox.json';
 import esMap from './es/map.json';
@@ -19,6 +21,7 @@ export const resources = {
     map: esMap,
     fortknox: esFortknox,
     final: esFinal,
+    dossier: esDossier,
   },
   en: {
     common: enCommon,
@@ -27,6 +30,7 @@ export const resources = {
     map: enMap,
     fortknox: enFortknox,
     final: enFinal,
+    dossier: enDossier,
   },
 } as const;
 

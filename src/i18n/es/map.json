@@ -7,10 +7,38 @@
   "go": "IR",
   "ocean": "ATLÁNTICO",
   "stops": {
-    "london": { "place": "LONDRES", "name": "Londres", "subtitle": "El briefing" },
-    "montenegro": { "place": "MONTENEGRO", "name": "Montenegro", "subtitle": "El tell" },
-    "fortknox": { "place": "FORT KNOX", "name": "Fort Knox", "subtitle": "Detén el reloj" },
-    "scotland": { "place": "ESCOCIA", "name": "Escocia", "subtitle": "Skyfall" },
-    "jamaica": { "place": "JAMAICA", "name": "Jamaica", "subtitle": "Donde todo empezó" }
+    "london": {
+      "place": "LONDRES",
+      "name": "Londres",
+      "subtitle": "El briefing"
+    },
+    "montenegro": {
+      "place": "MONTENEGRO",
+      "name": "Montenegro",
+      "subtitle": "El tell"
+    },
+    "fortknox": {
+      "place": "FORT KNOX",
+      "name": "Fort Knox",
+      "subtitle": "Detén el reloj"
+    },
+    "scotland": {
+      "place": "ESCOCIA",
+      "name": "Escocia",
+      "subtitle": "Skyfall"
+    },
+    "jamaica": {
+      "place": "JAMAICA",
+      "name": "Jamaica",
+      "subtitle": "Donde todo empezó"
+    }
+  },
+  "moneypenny": {
+    "london": "Primera parada: Londres. M quiere verle antes de que toque nada.",
+    "montenegro": "Montenegro. Póngase el esmoquin: aquí las cartas no se juegan en camiseta.",
+    "fortknox": "Fort Knox. Todo lo que brilla ahí abajo es oro. Y una bomba.",
+    "scotland": "Escocia. Abríguese. Y no espere refuerzos.",
+    "jamaica": "Jamaica. La última copia. Donde empezó todo.",
+    "unread": "Tiene cartas sin leer en el expediente. Léalas: alguien le va a preguntar."
   }
 }
