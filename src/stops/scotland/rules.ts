@@ -17,8 +17,8 @@ export const LANE_X: Record<Lane, number> = {
   lowerRight: 0.7,
 };
 export const ENEMY_Y = 0.6;
-export const ENEMY_HALF_WIDTH = 0.06;
-export const ENEMY_HALF_HEIGHT = 0.14;
+export const ENEMY_HALF_WIDTH = 0.055;
+export const ENEMY_HALF_HEIGHT = 0.09;
 
 export type Random = () => number;
 

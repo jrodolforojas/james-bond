@@ -1,4 +1,4 @@
-import { ENEMY_HALF_HEIGHT, ENEMY_HALF_WIDTH, ENEMY_Y, type Enemy, type Gallery, LANE_X } from './rules';
+import { ENEMY_HALF_WIDTH, ENEMY_Y, type Enemy, type Gallery, LANE_X } from './rules';
 
 const COLORS = {
   night: '#0b1a33',
@@ -10,6 +10,7 @@ const COLORS = {
   warning: '#e0534a',
 };
 
+const ENEMY_ASPECT = 2.3;
 const RISE_S = 0.35;
 const FALL_S = 0.45;
 const BURST_S = 0.5;
@@ -98,7 +99,7 @@ function drawEnemy(frame: Frame, enemy: Enemy, waveTime: number) {
   const { ctx, width, height, still } = frame;
   const cx = LANE_X[enemy.lane] * width;
   const w = ENEMY_HALF_WIDTH * 2 * width;
-  const h = ENEMY_HALF_HEIGHT * 2 * height;
+  const h = w * ENEMY_ASPECT;
   const top = ENEMY_Y * height - h / 2;
   const since = waveTime - enemy.changedAt;
   ctx.fillStyle = COLORS.ink;
@@ -129,7 +130,7 @@ function drawEnemy(frame: Frame, enemy: Enemy, waveTime: number) {
     ctx.globalAlpha = 1 - since / BURST_S;
     ctx.fillStyle = COLORS.fire;
     ctx.beginPath();
-    ctx.arc(cx, top + h * 0.6, w * (0.4 + since * 2), 0, Math.PI * 2);
+    ctx.arc(cx, top + h * 0.6, w * (0.3 + since * 1.2), 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
     return;

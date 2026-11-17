@@ -215,6 +215,7 @@
 
 .sco-close .eyebrow {
   align-self: flex-start;
+  padding-right: 88px;
   color: #8592a6;
 }
 
@@ -286,4 +287,10 @@
   inset: 0;
   width: 100%;
   height: 100%;
+}
+
+.sco-close .sco-house {
+  width: auto;
+  max-width: 100%;
+  height: min(30dvh, 240px);
 }
