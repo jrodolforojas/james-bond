@@ -3,6 +3,8 @@ import { gsap } from 'gsap';
 import { type ReactNode, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Stamp } from '../components/Stamp';
+import type { CardId } from '../dossier/cards';
+import { Dossier, type DossierHandle } from '../dossier/Dossier';
 import { prefersReducedMotion } from '../motion';
 import './stops.css';
 
@@ -12,6 +14,7 @@ const LATE = ['[data-exit-stamp]', '[data-exit-card]', '[data-exit-continue]'];
 interface ExitSequenceProps {
   hero: ReactNode;
   evidenceNumber?: number;
+  cardId: CardId;
   cardTitle: string;
   continueLabel: string;
   accent: string;
@@ -48,6 +51,7 @@ function burnTimeline(scope: HTMLElement | null, timeline: gsap.core.Timeline) {
 export function ExitSequence({
   hero,
   evidenceNumber,
+  cardId,
   cardTitle,
   continueLabel,
   accent,
@@ -55,6 +59,7 @@ export function ExitSequence({
 }: ExitSequenceProps) {
   const { t } = useTranslation();
   const scope = useRef<HTMLElement>(null);
+  const dossier = useRef<DossierHandle>(null);
   const hasEvidence = evidenceNumber !== undefined;
 
   useGSAP(
@@ -107,10 +112,16 @@ export function ExitSequence({
         </>
       )}
 
-      <div className="exit__card" data-exit-card>
+      <button
+        type="button"
+        className="exit__card"
+        data-exit-card
+        onClick={() => dossier.current?.open(cardId)}
+      >
         <span className="exit__card-label">{t('cardUnlocked')}</span>
         <span className="display exit__card-title">{cardTitle}</span>
-      </div>
+        <span className="exit__card-read">{t('readCard')}</span>
+      </button>
 
       <button
         type="button"
@@ -121,6 +132,8 @@ export function ExitSequence({
       >
         {continueLabel}
       </button>
+
+      <Dossier ref={dossier} showTab={false} />
     </main>
   );
 }

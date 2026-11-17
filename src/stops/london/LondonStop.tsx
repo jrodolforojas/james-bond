@@ -37,6 +37,7 @@ export function LondonStop() {
   const [phase, setPhase] = useState<Phase>('title');
   const gadget = useMission((state) => state.gadget);
   const chooseGadget = useMission((state) => state.chooseGadget);
+  const completeStop = useMission((state) => state.completeStop);
 
   if (phase === 'title') return <StopTitleCard stop={STOP} onDone={() => setPhase('opening')} />;
   if (phase === 'opening') return <LondonOpening onContinue={() => setPhase('lab')} />;
@@ -45,6 +46,7 @@ export function LondonStop() {
     return (
       <ExitSequence
         hero={<AssignedGadget gadget={gadget} />}
+        cardId="who"
         cardTitle={t('card')}
         continueLabel={t('common:nextDestination')}
         accent="#c9d3de"
@@ -57,6 +59,7 @@ export function LondonStop() {
       initial={gadget}
       onSign={(picked) => {
         chooseGadget(picked);
+        completeStop(STOP);
         setPhase('closing');
       }}
     />

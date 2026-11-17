@@ -2,9 +2,11 @@ import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import {
   type CSSProperties,
+  forwardRef,
   type PointerEvent,
   type SyntheticEvent,
   useEffect,
+  useImperativeHandle,
   useRef,
   useState,
 } from 'react';
@@ -12,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { prefersReducedMotion } from '../motion';
 import { useMission } from '../state/store';
 import { CardView } from './CardView';
-import { CARDS, isUnlocked, type UnlockInputs, unreadCount } from './cards';
+import { CARDS, type CardId, isUnlocked, type UnlockInputs, unreadCount } from './cards';
 import './dossier.css';
 
 type View = { kind: 'index' } | { kind: 'card'; index: number };
@@ -39,7 +41,15 @@ function Grain() {
   );
 }
 
-export function Dossier() {
+export interface DossierHandle {
+  open: (card?: CardId) => void;
+}
+
+interface DossierProps {
+  showTab?: boolean;
+}
+
+export const Dossier = forwardRef<DossierHandle, DossierProps>(function Dossier({ showTab = true }, ref) {
   const { t } = useTranslation('dossier');
   const mission = useUnlockInputs();
   const seenCards = useMission((state) => state.seenCards);
@@ -61,14 +71,17 @@ export function Dossier() {
 
   const { contextSafe } = useGSAP({ scope: dialogRef });
 
-  const open = contextSafe(() => {
+  const open = contextSafe((card?: CardId) => {
     const dialog = dialogRef.current;
     if (!dialog) return;
-    setView({ kind: 'index' });
+    const index = CARDS.findIndex((entry) => entry.id === card);
+    setView(index >= 0 ? { kind: 'card', index } : { kind: 'index' });
     dialog.showModal();
     if (prefersReducedMotion()) return;
     gsap.fromTo(dialog, { yPercent: 100 }, { yPercent: 0, duration: 0.45, ease: 'power3.out' });
   });
+
+  useImperativeHandle(ref, () => ({ open }), [open]);
 
   const close = contextSafe(() => {
     const dialog = dialogRef.current;
@@ -116,14 +129,16 @@ export function Dossier() {
 
   return (
     <>
-      <button type="button" className="dossier-tab" onClick={open} aria-label={t('open')}>
-        <span>{t('tab')}</span>
-        <span className="dossier-tab__count">
-          · {t('countShort', { unlocked: unlockedTotal, total: CARDS.length })}
-        </span>
-        {unread > 0 && <span className="dossier-tab__badge">{t('unread', { count: unread })}</span>}
-        <span aria-hidden="true">▲</span>
-      </button>
+      {showTab && (
+        <button type="button" className="dossier-tab" onClick={() => open()} aria-label={t('open')}>
+          <span>{t('tab')}</span>
+          <span className="dossier-tab__count">
+            · {t('countShort', { unlocked: unlockedTotal, total: CARDS.length })}
+          </span>
+          {unread > 0 && <span className="dossier-tab__badge">{t('unread', { count: unread })}</span>}
+          <span aria-hidden="true">▲</span>
+        </button>
+      )}
 
       <dialog ref={dialogRef} className="dossier" aria-label={t('title')} onCancel={onCancel}>
         <div className="dossier__inner">
@@ -208,4 +223,4 @@ export function Dossier() {
       </dialog>
     </>
   );
-}
+});

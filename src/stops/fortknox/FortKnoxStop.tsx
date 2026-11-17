@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { MoneypennyRadio } from '../../components/MoneypennyRadio';
 import { Stamp } from '../../components/Stamp';
 import { prefersReducedMotion } from '../../motion';
+import { useMission } from '../../state/store';
 import { EVIDENCE_NUMBER } from '../catalog';
 import { ExitSequence } from '../ExitSequence';
 import { leaveStop } from '../leaveStop';
@@ -72,6 +73,7 @@ function WonHero({ frozenMs }: { frozenMs: number }) {
 export function FortKnoxStop() {
   const { t } = useTranslation('fortknox');
   const [phase, setPhase] = useState<Phase>({ name: 'title' });
+  const completeStop = useMission((state) => state.completeStop);
   const leave = () => leaveStop(STOP);
 
   if (phase.name === 'title')
@@ -87,6 +89,7 @@ export function FortKnoxStop() {
       <ExitSequence
         hero={<WonHero frozenMs={phase.frozenMs} />}
         evidenceNumber={EVIDENCE_NUMBER[STOP] ?? 0}
+        cardId="villains"
         cardTitle={t('card')}
         continueLabel={t('next')}
         accent="var(--fortknox-gold)"
@@ -98,7 +101,10 @@ export function FortKnoxStop() {
     <BombGame
       key={phase.attempt}
       previouslyCut={phase.cut}
-      onDefused={(frozenMs) => setPhase({ name: 'won', frozenMs })}
+      onDefused={(frozenMs) => {
+        completeStop(STOP);
+        setPhase({ name: 'won', frozenMs });
+      }}
       onExploded={(cut) => setPhase({ name: 'lost', attempt: phase.attempt, cut })}
     />
   );

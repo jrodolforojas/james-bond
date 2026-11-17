@@ -7,5 +7,6 @@
   "evidenceDestroyedLine2": "DESTRUIDA",
   "cardUnlocked": "CARTA DESBLOQUEADA",
   "stop": "PARADA {{n}}",
-  "nextDestination": "SIGUIENTE DESTINO"
+  "nextDestination": "SIGUIENTE DESTINO",
+  "readCard": "LEER CARTA ▸"
 }
