@@ -1,5 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import { trackEvent } from '../analytics/track';
 import { LANGUAGES, type Language, resources } from './resources';
 
 function isLanguage(value: string | undefined): value is Language {
@@ -28,6 +29,7 @@ function syncDocument(language: Language) {
 }
 
 export function setLanguage(language: Language) {
+  trackEvent('language_changed', { language });
   void i18n.changeLanguage(language);
 }
 

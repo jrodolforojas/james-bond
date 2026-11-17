@@ -1,6 +1,6 @@
 export const CARD_SIZE = { width: 1080, height: 1920 };
 
-const COLORS = {
+export const COLORS = {
   manila: '#d9b97a',
   paper: '#f1e4c3',
   ink: '#2b2118',
@@ -9,13 +9,13 @@ const COLORS = {
   stamp: '#b3261e',
 };
 
-const FONTS = {
+export const FONTS = {
   display: '"Bodoni Moda", "Didot", serif',
   report: '"Courier Prime", "Courier New", monospace',
   stamp: '"Special Elite", "Courier New", monospace',
 };
 
-const PAD = 84;
+export const PAD = 84;
 const GRAIN_DOTS = 9000;
 
 export interface CardContent {
@@ -49,7 +49,7 @@ function seededRandom(seed: number) {
   };
 }
 
-function drawGrain(ctx: CanvasRenderingContext2D) {
+export function drawGrain(ctx: CanvasRenderingContext2D) {
   const random = seededRandom(7);
   ctx.fillStyle = 'rgba(90, 64, 25, 0.12)';
   for (let i = 0; i < GRAIN_DOTS; i++) {

@@ -1,0 +1,130 @@
+.agent-sheet .share-sheet__inner {
+  overflow-y: auto;
+}
+
+.agent-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.agent-form__intro {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--bone-muted);
+}
+
+.agent-form__row {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.agent-form__field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bone-muted);
+}
+
+.agent-form__field--age {
+  flex: 0 0 96px;
+}
+
+.agent-form__field input {
+  min-height: 48px;
+  padding: 0 12px;
+  border: 1px solid #3a3a3d;
+  background: #111113;
+  color: var(--final-white);
+  font-family: var(--font-report);
+  font-size: 16px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.agent-form__field input[aria-invalid="true"] {
+  border-color: var(--stamp-bright);
+}
+
+.agent-form__photo {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.agent-form__polaroid {
+  flex: 0 0 96px;
+  width: 96px;
+  height: 112px;
+  padding: 6px 6px 22px;
+  background: #fffdf6;
+  transform: rotate(4deg);
+}
+
+.agent-form__polaroid img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #1a140e;
+}
+
+.agent-form__polaroid:empty::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #1a140e;
+}
+
+.agent-form__photo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.agent-form__hint {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--bone-muted);
+}
+
+.agent-form__pick {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--manila);
+  cursor: pointer;
+}
+
+.agent-form__pick:focus-within {
+  outline: 2px solid var(--stamp-bright);
+  outline-offset: 3px;
+}
+
+.agent-form__error {
+  margin: 0;
+  font-size: 13px;
+  color: var(--stamp-bright);
+}
+
+.agent-form__edit {
+  min-height: 44px;
+  border: none;
+  background: transparent;
+  color: var(--bone-muted);
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+}
