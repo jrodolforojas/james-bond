@@ -17,11 +17,13 @@
 
 .agent-form__row {
   display: flex;
+  align-items: flex-end;
   gap: var(--space-3);
 }
 
 .agent-form__field {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -36,6 +38,9 @@
 }
 
 .agent-form__field input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
   min-height: 48px;
   padding: 0 12px;
   border: 1px solid #3a3a3d;
