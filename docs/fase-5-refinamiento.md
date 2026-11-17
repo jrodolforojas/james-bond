@@ -49,7 +49,7 @@
 
 ### Footer legal
 
-- Visible en todas las pantallas y traducido: "Fan concept no oficial. No afiliado a Amazon MGM Studios ni a EON Productions."
+- Visible en todas las pantallas y traducido: "Fan concept no oficial." En el final se suma "Elaborado por Rodolfo con Claude Code" con enlaces a Instagram, GitHub y X.
 
 ## Pendientes
 

@@ -16,6 +16,7 @@ import { ageOn, countryName, formatDate, REVEAL } from '../../reveal';
 import { ShareSheet, type ShareSheetHandle } from '../../share/ShareSheet';
 import { useMission } from '../../state/store';
 import { DeclassifiedName } from './DeclassifiedName';
+import { FinalCredits } from './FinalCredits';
 import './final.css';
 
 const CTAS = [
@@ -213,6 +214,8 @@ export function FinalScreen() {
       >
         {t('restart')}
       </button>
+
+      <FinalCredits />
 
       <ShareSheet ref={shareSheet} />
       <AgentSheet ref={agentSheet} />

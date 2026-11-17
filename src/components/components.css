@@ -166,8 +166,25 @@
   height: 20px;
 }
 
-.legal a {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 2px;
+.socials {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin: 2px 0 6px;
+  padding: 0;
+  list-style: none;
+}
+
+.socials a {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  color: var(--bone-muted);
+  text-decoration: none;
+}
+
+.socials a:hover,
+.socials a:focus-visible {
+  color: var(--final-white);
 }

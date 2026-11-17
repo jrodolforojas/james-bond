@@ -1,5 +1,5 @@
 {
-  "legal": "Fan concept no oficial. No afiliado a Amazon MGM Studios ni a EON Productions.",
+  "legal": "Fan concept no oficial.",
   "language": "Idioma",
   "moneypenny": "MONEYPENNY · CANAL SEGURO",
   "continue": "CONTINUAR",
@@ -15,5 +15,7 @@
   "soundOn": "Sonido activado",
   "soundOff": "Sonido desactivado",
   "photoCredit": "Foto de {{name}}:",
-  "photoModified": "Recortada y entonada. Vía Wikimedia Commons."
+  "photoModified": "Recortada y entonada. Vía Wikimedia Commons.",
+  "madeBy": "Elaborado por Rodolfo con Claude Code",
+  "socialLabel": "Rodolfo en {{network}}"
 }
