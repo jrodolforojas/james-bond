@@ -3,7 +3,8 @@ const BEAT = 60 / BPM;
 const BAR = BEAT * 4;
 const SWING = 0.62;
 const MUSIC_LEVEL = 0.22;
-const LOOK_AHEAD_S = 0.15;
+const LOOK_AHEAD_S = 0.05;
+const FADE_IN_S = 0.25;
 
 const BASS = [
   [40, 43, 45, 47],
@@ -197,8 +198,8 @@ function scheduleLoop(bus: Bus, start: number) {
 
 export function startMotif(ctx: AudioContext, destination: AudioNode): () => void {
   const volume = ctx.createGain();
-  volume.gain.setValueAtTime(0.0001, ctx.currentTime);
-  volume.gain.exponentialRampToValueAtTime(MUSIC_LEVEL, ctx.currentTime + 1.5);
+  volume.gain.setValueAtTime(0, ctx.currentTime);
+  volume.gain.linearRampToValueAtTime(MUSIC_LEVEL, ctx.currentTime + FADE_IN_S);
   volume.connect(destination);
   const reverb = ctx.createConvolver();
   reverb.buffer = impulse(ctx, 2.2);
