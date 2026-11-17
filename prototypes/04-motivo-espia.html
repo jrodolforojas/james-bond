@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prototipo 4 — Motivo de espías original</title>
+<style>
+:root { --ink: #0b0b0c; --bone: #f4eee1; --manila: #d9b97a; --muted: #b8b2a6; --red: #e0534a; }
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body { background: var(--ink); color: var(--bone); font-family: 'Courier New', monospace; display: grid; place-items: center; padding: 24px; }
+main { width: min(100%, 430px); display: flex; flex-direction: column; gap: 20px; }
+h1 { margin: 0; font-family: Didot, 'Bodoni 72', serif; font-weight: 500; font-size: 36px; }
+p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--muted); }
+.take { display: flex; flex-direction: column; gap: 10px; padding: 16px; border: 1px solid #2e2e31; }
+.take h2 { margin: 0; font-size: 12px; letter-spacing: .25em; color: var(--manila); }
+button { min-height: 52px; border: 1px solid var(--manila); background: transparent; color: var(--manila); font-family: inherit; font-weight: 700; letter-spacing: .2em; cursor: pointer; }
+button[aria-pressed="true"] { background: var(--manila); color: var(--ink); }
+.note { font-size: 11px; color: #8e897f; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Motivo de espías</h1>
+  <p>Composición original, sintetizada en el navegador. Mi menor, progresión i – VI – iv – V7, swing a 116 bpm. Sin la línea cromática del tema de Bond.</p>
+
+  <section class="take">
+    <h2>TOMA 1 · GUITARRA SURF + BAJO</h2>
+    <p>Guitarra con trémolo y reverb de resorte, bajo caminante, escobillas y ride.</p>
+    <button type="button" data-take="1" aria-pressed="false">REPRODUCIR</button>
+  </section>
+
+  <section class="take">
+    <h2>TOMA 2 · METALES Y TENSIÓN JAZZ</h2>
+    <p>Mismo motivo con golpes de metales, acordes con novenas y un V7(#9) que resuelve en un acorde final.</p>
+    <button type="button" data-take="2" aria-pressed="false">REPRODUCIR</button>
+  </section>
+
+  <p class="note">Toca un botón para empezar (el navegador exige un gesto para el audio). Toca otra vez para detener.</p>
+</main>
+
+<script>
+const BPM = 116;
+const BEAT = 60 / BPM;
+const SWING = 0.62;
+const BAR = BEAT * 4;
+const BARS = 8;
+
+const BASS = [
+  [40, 43, 45, 47], [52, 50, 47, 45],
+  [36, 40, 43, 45], [48, 47, 45, 43],
+  [45, 48, 52, 48], [45, 43, 42, 40],
+  [47, 51, 54, 57], [47, 45, 43, 42],
+];
+
+const MELODY = [
+  [[71, 0, 1.5], [67, 1.5, 0.5], [69, 2, 1], [64, 3, 1]],
+  [[62, 0, 0.5], [64, 0.5, 0.5], [67, 1, 2.5]],
+  [[72, 0, 1.5], [71, 1.5, 0.5], [67, 2, 1], [64, 3, 1]],
+  [[66, 0, 0.5], [67, 0.5, 0.5], [71, 1, 2.5]],
+  [[72, 0, 1], [76, 1, 1], [74, 2, 0.5], [72, 2.5, 0.5], [69, 3, 1]],
+  [[67, 0, 1.5], [69, 1.5, 0.5], [64, 2, 2]],
+  [[71, 0, 1], [75, 1, 1], [78, 2, 1], [81, 3, 1]],
+  [[83, 0, 1.5], [81, 1.5, 0.5], [78, 2, 2]],
+];
+
+const CHORDS = [
+  [52, 55, 59, 62, 66], [52, 55, 59, 62, 66],
+  [48, 52, 55, 59, 66], [48, 52, 55, 59, 66],
+  [57, 60, 64, 67, 71], [57, 60, 64, 67, 71],
+  [47, 51, 57, 62, 66], [47, 51, 57, 62, 66],
+];
+const FINAL_CHORD = [40, 52, 55, 59, 62, 66];
+const STAB_BEATS = [0.5, 2];
+
+let ctx = null;
+let out = null;
+let reverb = null;
+let playing = null;
+
+const freq = (midi) => 440 * Math.pow(2, (midi - 69) / 12);
+const swung = (beat) => {
+  const whole = Math.floor(beat);
+  const frac = beat - whole;
+  if (Math.abs(frac - 0.5) < 0.01) return whole + SWING;
+  return beat;
+};
+
+function impulse(seconds) {
+  const length = ctx.sampleRate * seconds;
+  const buffer = ctx.createBuffer(2, length, ctx.sampleRate);
+  for (let channel = 0; channel < 2; channel++) {
+    const data = buffer.getChannelData(channel);
+    for (let i = 0; i < length; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 3);
+  }
+  return buffer;
+}
+
+function setup() {
+  if (ctx) return;
+  ctx = new (window.AudioContext || window.webkitAudioContext)();
+  out = ctx.createGain();
+  out.gain.value = 0.7;
+  const comp = ctx.createDynamicsCompressor();
+  out.connect(comp).connect(ctx.destination);
+  reverb = ctx.createConvolver();
+  reverb.buffer = impulse(2.2);
+  const wet = ctx.createGain();
+  wet.gain.value = 0.28;
+  reverb.connect(wet).connect(out);
+}
+
+function envGain(at, peak, attack, hold, release) {
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(0.0001, at);
+  gain.gain.exponentialRampToValueAtTime(peak, at + attack);
+  gain.gain.setValueAtTime(peak, at + attack + hold);
+  gain.gain.exponentialRampToValueAtTime(0.0001, at + attack + hold + release);
+  return gain;
+}
+
+function guitar(midi, at, length) {
+  const osc = ctx.createOscillator();
+  osc.type = 'sawtooth';
+  osc.frequency.value = freq(midi);
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(2600, at);
+  filter.frequency.exponentialRampToValueAtTime(900, at + length);
+  const tremolo = ctx.createGain();
+  const lfo = ctx.createOscillator();
+  const depth = ctx.createGain();
+  lfo.frequency.value = 7;
+  depth.gain.value = 0.35;
+  tremolo.gain.value = 0.65;
+  lfo.connect(depth).connect(tremolo.gain);
+  const env = envGain(at, 0.22, 0.008, length * 0.6, length * 0.6 + 0.2);
+  osc.connect(filter).connect(tremolo).connect(env);
+  env.connect(out);
+  env.connect(reverb);
+  osc.start(at);
+  lfo.start(at);
+  osc.stop(at + length * 1.3 + 0.4);
+  lfo.stop(at + length * 1.3 + 0.4);
+}
+
+function bass(midi, at) {
+  const osc = ctx.createOscillator();
+  osc.type = 'triangle';
+  osc.frequency.value = freq(midi);
+  const env = envGain(at, 0.5, 0.01, BEAT * 0.5, BEAT * 0.35);
+  osc.connect(env).connect(out);
+  osc.start(at);
+  osc.stop(at + BEAT * 1.1);
+}
+
+function brass(notes, at, length, peak) {
+  notes.forEach((midi) => {
+    [-6, 6].forEach((detune) => {
+      const osc = ctx.createOscillator();
+      osc.type = 'sawtooth';
+      osc.frequency.value = freq(midi);
+      osc.detune.value = detune;
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(500, at);
+      filter.frequency.exponentialRampToValueAtTime(3200, at + 0.06);
+      filter.frequency.exponentialRampToValueAtTime(900, at + length);
+      const env = envGain(at, peak / notes.length, 0.02, length * 0.5, length * 0.5 + 0.15);
+      osc.connect(filter).connect(env);
+      env.connect(out);
+      env.connect(reverb);
+      osc.start(at);
+      osc.stop(at + length + 0.4);
+    });
+  });
+}
+
+function noise(at, length, type, frequency, peak) {
+  const buffer = ctx.createBuffer(1, Math.ceil(ctx.sampleRate * (length + 0.05)), ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+  const source = ctx.createBufferSource();
+  source.buffer = buffer;
+  const filter = ctx.createBiquadFilter();
+  filter.type = type;
+  filter.frequency.value = frequency;
+  const env = envGain(at, peak, 0.003, 0, length);
+  source.connect(filter).connect(env).connect(out);
+  source.start(at);
+}
+
+function kick(at) {
+  const osc = ctx.createOscillator();
+  osc.frequency.setValueAtTime(110, at);
+  osc.frequency.exponentialRampToValueAtTime(45, at + 0.15);
+  const env = envGain(at, 0.5, 0.004, 0, 0.25);
+  osc.connect(env).connect(out);
+  osc.start(at);
+  osc.stop(at + 0.3);
+}
+
+function drums(barStart) {
+  [0, 1, 2, 3].forEach((beat) => noise(barStart + beat * BEAT, 0.18, 'highpass', 7000, 0.07));
+  [0, 1, 2, 3].forEach((beat) => noise(barStart + swung(beat + 0.5) * BEAT, 0.08, 'highpass', 8000, 0.04));
+  [1, 3].forEach((beat) => noise(barStart + beat * BEAT, 0.22, 'bandpass', 2200, 0.09));
+  kick(barStart);
+}
+
+function schedule(take) {
+  const start = ctx.currentTime + 0.15;
+  const nodesEnd = start + BARS * BAR + BEAT * 4;
+  for (let bar = 0; bar < BARS; bar++) {
+    const barStart = start + bar * BAR;
+    BASS[bar].forEach((midi, beat) => bass(midi, barStart + beat * BEAT));
+    MELODY[bar].forEach(([midi, beat, length]) => guitar(midi, barStart + swung(beat) * BEAT, length * BEAT));
+    drums(barStart);
+    if (take === 2) STAB_BEATS.forEach((beat) => brass(CHORDS[bar], barStart + swung(beat) * BEAT, BEAT * 0.45, 0.5));
+  }
+  const end = start + BARS * BAR;
+  bass(28, end);
+  if (take === 2) {
+    brass(FINAL_CHORD, end, BEAT * 3.5, 0.75);
+    noise(end, 1.6, 'highpass', 6000, 0.08);
+  }
+  guitar(76, end, BEAT * 3);
+  return nodesEnd;
+}
+
+function stop() {
+  if (!ctx) return;
+  void ctx.close();
+  ctx = null;
+  playing = null;
+  document.querySelectorAll('[data-take]').forEach((b) => {
+    b.setAttribute('aria-pressed', 'false');
+    b.textContent = 'REPRODUCIR';
+  });
+}
+
+document.querySelectorAll('[data-take]').forEach((button) => {
+  button.addEventListener('click', () => {
+    const take = Number(button.dataset.take);
+    if (playing === take) return stop();
+    stop();
+    setup();
+    playing = take;
+    button.setAttribute('aria-pressed', 'true');
+    button.textContent = 'DETENER';
+    const end = schedule(take);
+    const session = ctx;
+    setTimeout(() => {
+      if (ctx === session) stop();
+    }, (end - ctx.currentTime) * 1000);
+  });
+});
+</script>
+</body>
+</html>
