@@ -1,0 +1,114 @@
+import { useGSAP } from '@gsap/react';
+import { gsap } from 'gsap';
+import { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { MoneypennyRadio } from '../../components/MoneypennyRadio';
+import { Stamp } from '../../components/Stamp';
+import { navigate } from '../../flow/navigate';
+import { prefersReducedMotion } from '../../motion';
+import { useMission } from '../../state/store';
+import { EVIDENCE_NUMBER, nextStop } from '../catalog';
+import { ExitSequence } from '../ExitSequence';
+import { StopTitleCard } from '../StopTitleCard';
+import { BombGame } from './BombGame';
+import { FortKnoxOpening } from './FortKnoxOpening';
+import { formatClock, isLateDefuse, type Wire } from './rules';
+import './fortknox.css';
+
+type Phase =
+  | { name: 'title' }
+  | { name: 'opening' }
+  | { name: 'game'; attempt: number; cut: Wire[] }
+  | { name: 'won'; frozenMs: number }
+  | { name: 'lost'; attempt: number; cut: Wire[] };
+
+const STOP = 'fortknox';
+
+function FailScreen({ onRetry }: { onRetry: () => void }) {
+  const { t } = useTranslation('fortknox');
+  const scope = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      if (prefersReducedMotion()) {
+        gsap.set('[data-flash]', { opacity: 0 });
+        return;
+      }
+      gsap
+        .timeline()
+        .to('[data-flash]', { opacity: 0, duration: 0.6, delay: 0.12, ease: 'power2.out' })
+        .from('[data-fail-reveal]', { opacity: 0, y: 10, duration: 0.4, stagger: 0.25 });
+    },
+    { scope },
+  );
+
+  return (
+    <main className="screen fk-lost" ref={scope}>
+      <div className="fk-lost__flash" data-flash aria-hidden="true" />
+      <div data-fail-reveal>
+        <Stamp color="#8e897f">{t('failStamp')}</Stamp>
+      </div>
+      <div data-fail-reveal style={{ width: '100%' }}>
+        <MoneypennyRadio>{`"${t('fail')}"`}</MoneypennyRadio>
+      </div>
+      <button type="button" className="btn fk-lost__retry" data-fail-reveal onClick={onRetry}>
+        {t('retry')}
+      </button>
+    </main>
+  );
+}
+
+function WonHero({ frozenMs }: { frozenMs: number }) {
+  const { t } = useTranslation('fortknox');
+  const late = isLateDefuse(frozenMs);
+  return (
+    <div className="fk-won">
+      <p className="eyebrow">{t('stopped')}</p>
+      <span className="fk-won__digits">{formatClock(frozenMs)}</span>
+      <MoneypennyRadio>{`"${late ? t('successLate') : t('success')}"`}</MoneypennyRadio>
+    </div>
+  );
+}
+
+export function FortKnoxStop() {
+  const { t } = useTranslation('fortknox');
+  const [phase, setPhase] = useState<Phase>({ name: 'title' });
+  const completeStop = useMission((state) => state.completeStop);
+  const completed = useMission((state) => state.completed);
+
+  const leave = () => {
+    completeStop(STOP);
+    const upcoming = nextStop([...completed, STOP]);
+    if (upcoming) return navigate({ screen: 'map' });
+    navigate({ screen: 'final' });
+  };
+
+  if (phase.name === 'title')
+    return <StopTitleCard stop={STOP} onDone={() => setPhase({ name: 'opening' })} />;
+  if (phase.name === 'opening')
+    return <FortKnoxOpening onEnter={() => setPhase({ name: 'game', attempt: 1, cut: [] })} />;
+  if (phase.name === 'lost')
+    return (
+      <FailScreen onRetry={() => setPhase({ name: 'game', attempt: phase.attempt + 1, cut: phase.cut })} />
+    );
+  if (phase.name === 'won') {
+    return (
+      <ExitSequence
+        hero={<WonHero frozenMs={phase.frozenMs} />}
+        evidenceNumber={EVIDENCE_NUMBER[STOP] ?? 0}
+        cardTitle={t('card')}
+        continueLabel={t('next')}
+        accent="var(--fortknox-gold)"
+        onContinue={leave}
+      />
+    );
+  }
+  return (
+    <BombGame
+      key={phase.attempt}
+      previouslyCut={phase.cut}
+      onDefused={(frozenMs) => setPhase({ name: 'won', frozenMs })}
+      onExploded={(cut) => setPhase({ name: 'lost', attempt: phase.attempt, cut })}
+    />
+  );
+}

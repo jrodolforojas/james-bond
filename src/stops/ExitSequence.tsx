@@ -1,0 +1,116 @@
+import { useGSAP } from '@gsap/react';
+import { gsap } from 'gsap';
+import { type ReactNode, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Stamp } from '../components/Stamp';
+import { prefersReducedMotion } from '../motion';
+import './stops.css';
+
+const EMBERS = [18, 46, 80, 120, 150, 176];
+
+interface ExitSequenceProps {
+  hero: ReactNode;
+  evidenceNumber: number;
+  cardTitle: string;
+  continueLabel: string;
+  accent: string;
+  onContinue: () => void;
+}
+
+export function ExitSequence({
+  hero,
+  evidenceNumber,
+  cardTitle,
+  continueLabel,
+  accent,
+  onContinue,
+}: ExitSequenceProps) {
+  const { t } = useTranslation();
+  const scope = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const late = ['[data-exit-stamp]', '[data-exit-card]', '[data-exit-continue]'];
+      if (prefersReducedMotion()) {
+        gsap.set('[data-exit-paper]', { opacity: 0 });
+        gsap.to(late, { opacity: 1, duration: 0.3, stagger: 0.2, delay: 0.8 });
+        return;
+      }
+      const burn = { value: 0 };
+      const paper = scope.current?.querySelector<HTMLElement>('[data-exit-burn]');
+      gsap
+        .timeline({ delay: 1.6 })
+        .from('[data-exit-paper]', { opacity: 0, y: 20, duration: 0.4 })
+        .to('[data-exit-edge]', { opacity: 1, duration: 0.15 })
+        .to(burn, {
+          value: 100,
+          duration: 1.2,
+          ease: 'power1.in',
+          onUpdate: () => paper?.style.setProperty('--burn', String(burn.value)),
+        })
+        .fromTo(
+          '[data-exit-ember]',
+          { opacity: 1, y: 0 },
+          { opacity: 0, y: -120, x: 'random(-20, 20)', duration: 1.4, stagger: 0.1, ease: 'power1.out' },
+          '<',
+        )
+        .to('[data-exit-edge]', { opacity: 0, duration: 0.2 })
+        .fromTo(
+          '[data-exit-stamp]',
+          { opacity: 0, scale: 1.6 },
+          { opacity: 1, scale: 1, duration: 0.16, ease: 'power4.in' },
+        )
+        .to(scope.current, { x: 4, duration: 0.04, yoyo: true, repeat: 3 })
+        .fromTo(
+          '[data-exit-card]',
+          { opacity: 0, y: 30, rotation: -4 },
+          { opacity: 1, y: 0, rotation: 0, duration: 0.5, ease: 'back.out(1.6)' },
+          '+=0.3',
+        )
+        .to('[data-exit-continue]', { opacity: 1, duration: 0.4 }, '+=0.2');
+    },
+    { scope },
+  );
+
+  return (
+    <main className="screen exit" ref={scope}>
+      <div className="exit__hero">{hero}</div>
+
+      <div className="exit__burn" data-exit-burn aria-hidden="true">
+        <div className="exit__paper" data-exit-paper>
+          <span style={{ width: '40%' }} />
+          <span style={{ width: '90%' }} />
+          <span style={{ width: '70%' }} />
+          <span style={{ width: '82%' }} />
+        </div>
+        <div className="exit__edge" data-exit-edge />
+        {EMBERS.map((left) => (
+          <span key={left} className="exit__ember" style={{ left }} data-exit-ember />
+        ))}
+      </div>
+
+      <div className="exit__stamp" data-exit-stamp>
+        <Stamp>
+          {t('evidenceDestroyed', { n: evidenceNumber })}
+          <br />
+          {t('evidenceDestroyedLine2')}
+        </Stamp>
+      </div>
+
+      <div className="exit__card" data-exit-card>
+        <span className="exit__card-label">{t('cardUnlocked')}</span>
+        <span className="display exit__card-title">{cardTitle}</span>
+      </div>
+
+      <button
+        type="button"
+        className="btn exit__continue"
+        data-exit-continue
+        onClick={onContinue}
+        style={{ background: accent, color: 'var(--ink)' }}
+      >
+        {continueLabel}
+      </button>
+    </main>
+  );
+}
