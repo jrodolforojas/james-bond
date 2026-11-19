@@ -23,7 +23,7 @@ import {
 
 type Phase = 'watching' | 'choosing' | 'feedback';
 
-const SEAT_POSITIONS = [
+export const SEAT_POSITIONS = [
   { left: 14, top: 44 },
   { left: 29, top: 14 },
   { left: 50, top: 3 },

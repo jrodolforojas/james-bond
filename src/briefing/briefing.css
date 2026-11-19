@@ -1,0 +1,588 @@
+html:has(.bf),
+html:has(.bf) body,
+html:has(.bf) #root {
+  height: auto;
+  min-height: 100%;
+}
+
+.bf {
+  position: relative;
+  background: #000;
+  color: var(--bone);
+}
+
+.bf p {
+  margin: 0;
+}
+
+.bf-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  height: 4px;
+  background: var(--stamp-bright);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.bf-panel {
+  --pad-x: max(64px, calc((100vw - 1280px) / 2));
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 80px;
+  padding: 104px var(--pad-x);
+  overflow: hidden;
+}
+
+.bf-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.bf-eyebrow {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.bf-title {
+  font-size: clamp(64px, 7vw, 112px);
+  line-height: 0.95;
+}
+
+.bf-title--stage {
+  font-size: clamp(40px, 4vw, 60px);
+}
+
+.bf-theme {
+  font-size: 15px;
+  letter-spacing: 0.25em;
+  opacity: 0.85;
+}
+
+.bf-voice {
+  max-width: 560px;
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.bf .radio__text {
+  font-size: 18px;
+}
+
+.bf .radio__header {
+  font-size: 12px;
+}
+
+.bf-hint {
+  font-size: 16px;
+  line-height: 1.55;
+  opacity: 0.85;
+}
+
+.bf-visual {
+  display: flex;
+  justify-content: center;
+}
+
+.bf-visual > svg {
+  width: 100%;
+  max-width: 520px;
+  margin: 0;
+}
+
+.bf-opening--london {
+  background: var(--london-blue);
+}
+
+.bf-opening--london .bf-theme {
+  color: #c9d3de;
+}
+
+.bf .ldn-call {
+  padding: var(--space-4);
+}
+
+.bf .ldn-call__screen {
+  flex-basis: 96px;
+  height: 112px;
+}
+
+.bf .ldn-m {
+  width: 96px;
+  height: 104px;
+}
+
+.bf .ldn-call__caller {
+  font-size: 12px;
+}
+
+.bf .ldn-call__text {
+  font-size: 18px;
+}
+
+.bf-opening--montenegro {
+  background: var(--montenegro-felt);
+}
+
+.bf-opening--montenegro .bf-theme {
+  color: #cfe5d8;
+}
+
+.bf-opening--fortknox {
+  background: var(--fortknox-gold);
+  color: var(--ink);
+}
+
+.bf-opening--jamaica {
+  background: var(--jamaica-turquoise);
+  color: var(--ink);
+}
+
+.bf-opening--montenegro .radio,
+.bf-opening--fortknox .radio,
+.bf-opening--jamaica .radio {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.bf-opening--scotland {
+  background: var(--scotland-night);
+}
+
+.bf-opening--scotland .bf-eyebrow,
+.bf-opening--scotland .bf-hint {
+  color: #c9d3de;
+}
+
+.bf-opening--scotland .radio {
+  background: #071022;
+  border-color: #1a2638;
+}
+
+.bf-game {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+}
+
+.bf-stage {
+  width: 100%;
+  max-width: 640px;
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.bf-hud {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-right: 0;
+  font-size: 12px;
+  letter-spacing: 0.25em;
+}
+
+.bf-side {
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bf-label {
+  opacity: 0.7;
+}
+
+.bf-game__name {
+  font-size: 48px;
+}
+
+.bf .bf-game__text {
+  margin-bottom: var(--space-5);
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.bf-card {
+  margin-top: 22px;
+}
+
+.bf-card .card {
+  flex: none;
+  color: var(--paper-ink);
+}
+
+.bf-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bf-game--recruitment {
+  background: var(--ink);
+}
+
+.bf-eras {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.bf-era {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 14px;
+  background: #141416;
+  border: 1px solid var(--era, var(--graphite-line));
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.bf-era > span {
+  padding: 0 12px;
+}
+
+.bf-era__stage {
+  height: 92px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 10px 8px;
+  background: #000;
+  overflow: hidden;
+}
+
+.bf-era__stage .vehicle {
+  position: static;
+  width: 100%;
+}
+
+.bf-era__n {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--era);
+}
+
+.bf-era__actor {
+  font-size: 21px;
+}
+
+.bf-era__meta {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--bone-muted);
+}
+
+.bf-era--locked {
+  --era: var(--stamp-bright);
+  border-style: dashed;
+}
+
+.bf-era--locked .bf-era__stage {
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-display);
+  font-size: 48px;
+  color: var(--stamp-bright);
+}
+
+.bf-game--london {
+  background: #14181d;
+}
+
+.bf-game--london .bf-hud {
+  color: #c9d3de;
+}
+
+.bf .gadget {
+  cursor: default;
+  min-height: 104px;
+}
+
+.bf .gadget__name {
+  font-size: 22px;
+}
+
+.bf .gadget__place,
+.bf .gadget__perk {
+  font-size: 13px;
+}
+
+.bf-game--montenegro {
+  background: #0a2e1f;
+}
+
+.bf-game--montenegro .bf-hud,
+.bf-game--montenegro .bf-hint {
+  color: #cfe5d8;
+}
+
+.bf-game--montenegro .bf-stage,
+.bf-game--fortknox .bf-stage {
+  max-width: 500px;
+}
+
+.bf-poker {
+  width: 100%;
+}
+
+.bf .seat {
+  cursor: default;
+}
+
+.bf .seat__bubble {
+  font-size: 12px;
+}
+
+.bf .seat__label {
+  font-size: 10px;
+}
+
+.bf .poker__cards span {
+  width: 34px;
+  height: 48px;
+}
+
+.bf-game--fortknox {
+  background: var(--fortknox-dark);
+}
+
+.bf-game--fortknox .bf-hud {
+  color: var(--fortknox-gold);
+}
+
+.bf-bomb {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.bf .bomb__timer {
+  height: 120px;
+  font-size: 88px;
+}
+
+.bf .bomb__manual {
+  font-size: 14px;
+}
+
+.bf-stopped {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  translate: -50% 0;
+  padding: 6px 12px;
+  background: var(--fortknox-gold);
+  color: var(--ink);
+  font-weight: 700;
+  opacity: 0;
+}
+
+.bf-game--scotland {
+  background: #071022;
+}
+
+.bf-game--scotland .bf-hud {
+  color: var(--scotland-fire);
+}
+
+.bf-traps {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  align-self: center;
+}
+
+.bf-traps .sco-house {
+  display: block;
+  width: 100%;
+  max-width: none;
+}
+
+.bf-trap {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--bone);
+  background: var(--scotland-fire);
+  color: var(--ink);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.bf-game--jamaica {
+  background: #0e3b3a;
+}
+
+.bf .trivia__speaker p {
+  font-size: 16px;
+}
+
+.bf .jam-bust {
+  flex-basis: 56px;
+  width: 56px;
+  height: 66px;
+}
+
+.bf-prompt {
+  font-size: 44px;
+}
+
+.bf .trivia__option {
+  cursor: default;
+  font-size: 19px;
+}
+
+.bf-arrival {
+  grid-template-columns: minmax(0, 1fr);
+  background: #000;
+}
+
+.bf-arrival__inner {
+  position: relative;
+  width: min(860px, 100%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.bf-arrival .arrival__channel {
+  padding-right: 0;
+  font-size: 13px;
+}
+
+.bf-arrival .arrival__terminal {
+  margin-top: 0;
+  min-height: 0;
+  gap: 18px;
+  font-size: 28px;
+}
+
+.bf-arrival .arrival__cursor {
+  width: 14px;
+  height: 30px;
+}
+
+.bf-scroll {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 40px;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-align: center;
+  color: var(--bone-muted);
+}
+
+.bf-final {
+  background: var(--final-black);
+  color: var(--final-white);
+}
+
+.bf-final__visual {
+  position: relative;
+  justify-self: center;
+  width: 390px;
+  height: 460px;
+}
+
+.bf-final .final__silhouette {
+  top: 0;
+  height: 440px;
+}
+
+.bf-final__copy {
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.bf-final .final__page {
+  margin-top: 0;
+  gap: 12px;
+  padding: 28px;
+  font-size: 16px;
+}
+
+.bf-final .final__agent {
+  font-size: 40px;
+}
+
+.bf-final .final__stamp {
+  font-size: 22px;
+}
+
+.bf-redact {
+  position: relative;
+  display: inline-block;
+  font-weight: 700;
+}
+
+.bf-redact__bar {
+  position: absolute;
+  inset: -3px -4px;
+  background: #000;
+  transform-origin: right center;
+}
+
+.bf-final__footer {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.bf-end {
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-align: center;
+  color: var(--bone-muted);
+}
+
+.bf-final.is-static [data-final-stamp],
+.bf-final.is-static [data-final-name],
+.bf-final.is-static [data-final-photo],
+.bf-final.is-static [data-fact] {
+  opacity: 1;
+}
+
+.bf-final.is-static.has-photo [data-figure] {
+  opacity: 0;
+}
+
+.bf-final.is-static [data-redaction] {
+  transform: scaleX(0);
+}
+
+@media (max-width: 900px) {
+  .bf-panel,
+  .bf-game {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 48px;
+    padding: 80px var(--gutter);
+  }
+
+  .bf-eras {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bf-final__visual {
+    width: 100%;
+    max-width: 390px;
+  }
+}

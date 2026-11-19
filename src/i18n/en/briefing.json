@@ -1,0 +1,33 @@
+{
+  "pageTitle": "File 007 · The full mission",
+  "scroll": "SCROLL TO OPEN THE FILE",
+  "game": "THE TEST",
+  "dossier": "WHAT GETS DECLASSIFIED",
+  "games": {
+    "recruitment": {
+      "name": "Recruitment",
+      "text": "Five eras, five vehicles. Each one brings an edge to the mission. The seventh stays locked until the end."
+    },
+    "london": {
+      "name": "Q's lab",
+      "text": "Q offers three gadgets and you can only take one. Each one helps at a different stop."
+    },
+    "montenegro": {
+      "name": "The poker table",
+      "text": "Five players, one briefcase. The carrier reacts when the case moves. Read the tell."
+    },
+    "fortknox": {
+      "name": "The bomb",
+      "text": "Thirty seconds, five wires and a hat in the air. Only one wire stops the clock."
+    },
+    "scotland": {
+      "name": "Defending Skyfall",
+      "text": "Two traps in the house and three waves of attackers in the mist."
+    },
+    "jamaica": {
+      "name": "The interrogation",
+      "text": "Five questions taken from the file. Two mistakes and you are an impostor."
+    }
+  },
+  "end": "END OF FILE"
+}

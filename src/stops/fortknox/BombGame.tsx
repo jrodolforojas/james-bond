@@ -27,14 +27,14 @@ import {
 
 type Direction = 'up' | 'down';
 
-const VIEW = { width: 350, height: 330 };
+export const BOMB_VIEW = { width: 350, height: 330 };
 const ROW_HEIGHT = 60;
 const SWIPE_THRESHOLD_PX = 30;
 const CRITICAL_MS = 5_000;
 const HAT_WARNING_S = 0.8;
 const HAT_FLIGHT_S = 0.7;
 
-const ROWS = [
+export const WIRE_ROWS = [
   { y: 40, left: 'M20 40 Q80 40 120 130', right: 'M230 130 Q290 60 330 40' },
   { y: 100, left: 'M20 100 Q70 110 120 155', right: 'M230 155 Q290 120 330 100' },
   { y: 170, left: 'M20 170 Q70 170 120 175', right: 'M230 175 Q290 175 330 170' },
@@ -42,7 +42,7 @@ const ROWS = [
   { y: 300, left: 'M20 300 Q90 300 120 212', right: 'M230 212 Q290 290 330 300' },
 ] as const;
 
-const WIRE_COLORS: Record<Wire, string> = {
+export const WIRE_COLORS: Record<Wire, string> = {
   red: 'var(--wire-red)',
   blue: 'var(--wire-blue)',
   yellow: 'var(--wire-yellow)',
@@ -241,7 +241,7 @@ export function BombGame({
     if (!running || !selected || lasers <= 0) return;
     const wire = selected;
     const row = order.indexOf(wire);
-    const geometry = ROWS[row] ?? ROWS[0];
+    const geometry = WIRE_ROWS[row] ?? WIRE_ROWS[0];
     setSelected(null);
     setLasers((count) => count - 1);
     gsap.fromTo(
@@ -313,7 +313,7 @@ export function BombGame({
         onPointerUp={onPointerUp}
         aria-label={t('bombLabel')}
       >
-        <svg viewBox={`0 0 ${VIEW.width} ${VIEW.height}`} aria-hidden="true">
+        <svg viewBox={`0 0 ${BOMB_VIEW.width} ${BOMB_VIEW.height}`} aria-hidden="true">
           <rect
             x="120"
             y="110"
@@ -331,7 +331,7 @@ export function BombGame({
             <rect x="148" y="176" width="34" height="5" />
           </g>
           {order.map((wire, row) => {
-            const geometry = ROWS[row] ?? ROWS[0];
+            const geometry = WIRE_ROWS[row] ?? WIRE_ROWS[0];
             const isCut = bomb.cut.includes(wire);
             return (
               <g key={wire} fill="none" strokeWidth="7" strokeLinecap="round" stroke={WIRE_COLORS[wire]}>
@@ -347,9 +347,9 @@ export function BombGame({
         </svg>
 
         {order.map((wire, row) => {
-          const geometry = ROWS[row] ?? ROWS[0];
-          const top = ((geometry.y - ROW_HEIGHT / 2) / VIEW.height) * 100;
-          const height = (ROW_HEIGHT / VIEW.height) * 100;
+          const geometry = WIRE_ROWS[row] ?? WIRE_ROWS[0];
+          const top = ((geometry.y - ROW_HEIGHT / 2) / BOMB_VIEW.height) * 100;
+          const height = (ROW_HEIGHT / BOMB_VIEW.height) * 100;
           return (
             <button
               key={wire}

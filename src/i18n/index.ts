@@ -18,9 +18,17 @@ function languageFromBrowser(): Language {
   return 'en';
 }
 
+function pathWithLanguage(language: Language): string {
+  const [first = '', ...rest] = window.location.pathname.split('/').filter(Boolean);
+  const tail = isLanguage(first) ? rest : [first, ...rest];
+  const suffix = tail.filter(Boolean).join('/');
+  if (!suffix) return `/${language}`;
+  return `/${language}/${suffix}`;
+}
+
 function writeLanguageToPath(language: Language) {
   const { search, hash } = window.location;
-  window.history.replaceState(null, '', `/${language}${search}${hash}`);
+  window.history.replaceState(null, '', `${pathWithLanguage(language)}${search}${hash}`);
 }
 
 function syncDocument(language: Language) {

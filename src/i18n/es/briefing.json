@@ -1,0 +1,33 @@
+{
+  "pageTitle": "Expediente 007 · La misión completa",
+  "scroll": "DESLICE PARA ABRIR EL EXPEDIENTE",
+  "game": "LA PRUEBA",
+  "dossier": "LO QUE SE DESCLASIFICA",
+  "games": {
+    "recruitment": {
+      "name": "El reclutamiento",
+      "text": "Cinco eras, cinco vehículos. Cada una trae una ventaja para la misión. La séptima sigue bloqueada hasta el final."
+    },
+    "london": {
+      "name": "El laboratorio de Q",
+      "text": "Q ofrece tres gadgets y solo se puede llevar uno. Cada uno sirve en una parada distinta."
+    },
+    "montenegro": {
+      "name": "La mesa de póker",
+      "text": "Cinco jugadores, un maletín. El portador reacciona cuando su maletín se mueve. Hay que leer el tell."
+    },
+    "fortknox": {
+      "name": "La bomba",
+      "text": "Treinta segundos, cinco cables y un sombrero en el aire. Un solo cable detiene el reloj."
+    },
+    "scotland": {
+      "name": "La defensa de Skyfall",
+      "text": "Dos trampas en la casa y tres oleadas de atacantes entre la niebla."
+    },
+    "jamaica": {
+      "name": "El interrogatorio",
+      "text": "Cinco preguntas sacadas del expediente. Con dos errores, es un impostor."
+    }
+  },
+  "end": "FIN DEL EXPEDIENTE"
+}

@@ -11,7 +11,7 @@ import './components/components.css';
 import './i18n';
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
-import { StrictMode } from 'react';
+import { lazy, StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
 import { loadAuditTools } from './dev/a11yAudit';
@@ -19,11 +19,26 @@ import { loadAuditTools } from './dev/a11yAudit';
 gsap.registerPlugin(useGSAP);
 void loadAuditTools();
 
+const BriefingPage = lazy(() => import('./briefing/BriefingPage').then((m) => ({ default: m.BriefingPage })));
+
+function isBriefingPath(): boolean {
+  return window.location.pathname.split('/').includes('briefing');
+}
+
+function Root() {
+  if (!isBriefingPath()) return <App />;
+  return (
+    <Suspense fallback={null}>
+      <BriefingPage />
+    </Suspense>
+  );
+}
+
 const root = document.getElementById('root');
 if (root) {
   createRoot(root).render(
     <StrictMode>
-      <App />
+      <Root />
     </StrictMode>,
   );
 }

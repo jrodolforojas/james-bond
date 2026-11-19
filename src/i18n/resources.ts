@@ -1,5 +1,6 @@
 import enAgent from './en/agent.json';
 import enArrival from './en/arrival.json';
+import enBriefing from './en/briefing.json';
 import enCommon from './en/common.json';
 import enDossier from './en/dossier.json';
 import enFinal from './en/final.json';
@@ -13,6 +14,7 @@ import enScotland from './en/scotland.json';
 import enShare from './en/share.json';
 import esAgent from './es/agent.json';
 import esArrival from './es/arrival.json';
+import esBriefing from './es/briefing.json';
 import esCommon from './es/common.json';
 import esDossier from './es/dossier.json';
 import esFinal from './es/final.json';
@@ -40,6 +42,7 @@ export const resources = {
     scotland: esScotland,
     share: esShare,
     agent: esAgent,
+    briefing: esBriefing,
   },
   en: {
     common: enCommon,
@@ -55,6 +58,7 @@ export const resources = {
     scotland: enScotland,
     share: enShare,
     agent: enAgent,
+    briefing: enBriefing,
   },
 } as const;
 
